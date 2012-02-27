@@ -25,7 +25,8 @@ class River
   field :source,            type: Point,    spatial: true
 
   # set return_array to true if you do not want a hash returned all the time
-  field :mouth,             type: Array,    spatial: {lat: :latitude, lng: :longitude, return_array: true }
+  field :mouth,             type: Point,    spatial: {lat: :latitude, lng: :longitude, return_array: true }
+  field :course,            type: Polygon
 
   # simplified spatial indexing
   # you can only index one point in mongodb version below 1.9
