@@ -9,12 +9,12 @@ module Mongoid #:nodoc:
     #   { :field => { "$nearSphere" => => [20,30]}, '$maxDistance' => 5 }
     #   becomes:
     #   { :field.near(:sphere) => {:point => [20,30], :max => 5, :unit => :km} }
-    class NearSpacial < Complex
+    class NearSpatial < Complex
 
       # Coninputert input to query for near or nearSphere
       #
       # @example
-      #   near = NearSpacial.new(:key => :field, :operator => "near")
+      #   near = NearSpatial.new(:key => :field, :operator => "near")
       #   near.to_mongo_query({:point => [:50,50], :max => 5, :unit => :km}) => { '$near : [50,50]' , '$maxDistance' : 5 }
       #
       # @param [Hash,Array] input input to coninputer to query
@@ -26,8 +26,8 @@ module Mongoid #:nodoc:
           if input[:max]
             query['$maxDistance'] = input[:max].to_f
 
-            if unit = Mongoid::Spacial.earth_radius[input[:unit]]
-              unit *= Mongoid::Spacial::RAD_PER_DEG unless operator =~ /sphere/i
+            if unit = Mongoid::Spatial.earth_radius[input[:unit]]
+              unit *= Mongoid::Spatial::RAD_PER_DEG unless operator =~ /sphere/i
               input[:unit] = unit
             end
 

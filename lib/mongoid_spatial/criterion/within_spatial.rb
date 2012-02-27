@@ -9,12 +9,12 @@ module Mongoid #:nodoc:
     #   { :field => { "$within" => {'$center' => [20,30]} } }
     #   becomes:
     #   { :field.within(:center) => [20,30] }
-    class WithinSpacial < Complex
+    class WithinSpatial < Complex
 
       # Convert input to query for box, polygon, center, and centerSphere
       #
       # @example
-      #   within = WithinSpacial.new(opts[:key] => 'point', :operator => 'center')
+      #   within = WithinSpatial.new(opts[:key] => 'point', :operator => 'center')
       #   within.to_mongo_query({:point => [20,30], :max => 5, :unit => :km}) #=>
       #
       # @param [Hash,Array] input Variable to conver to query
@@ -34,10 +34,10 @@ module Mongoid #:nodoc:
             if input[:max]
               input[:max] = input[:max].to_f
 
-              if unit = Mongoid::Spacial.earth_radius[input[:unit]]
-                unit *= Mongoid::Spacial::RAD_PER_DEG unless operator =~ /sphere/i
-                input[:unit] = unit
-              end
+              # if unit = Mongoid::Spatial.earth_radius[input[:unit]]
+              #   unit *= Mongoid::Spatial::RAD_PER_DEG unless operator =~ /sphere/i
+              #   input[:unit] = unit
+              # end
 
               input[:max] = input[:max]/input[:unit].to_f if input[:unit]
 

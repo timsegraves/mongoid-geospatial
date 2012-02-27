@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Mongoid::Spacial::GeoNearResults do
+describe Mongoid::Spatial::GeoNearResults do
   before(:all) do
     Bar.delete_all
     Bar.create_indexes

@@ -236,7 +236,7 @@ describe Mongoid::Criterion::Inclusion do
 
     end
 
-    context "Geo Spacial Complex Where" do
+    context "Geo Spatial Complex Where" do
 
       let!(:home) do
         [-73.98,40.77]
@@ -320,16 +320,16 @@ describe Mongoid::Criterion::Inclusion do
             Bar.create(:name => 'mile1', :location => [-73.997345, 40.759382])
           end
 
-          let!(:mile3) do 
-            Bar.create(:name => 'mile2', :location => [-73.927088, 40.752151])            
+          let!(:mile3) do
+            Bar.create(:name => 'mile2', :location => [-73.927088, 40.752151])
           end
 
-          let!(:mile7) do 
-            Bar.create(:name => 'mile3', :location => [-74.0954913, 40.7161472])            
+          let!(:mile7) do
+            Bar.create(:name => 'mile3', :location => [-74.0954913, 40.7161472])
           end
 
-          let!(:mile11) do 
-            Bar.create(:name => 'mile4', :location => [-74.0604951, 40.9178011])            
+          let!(:mile11) do
+            Bar.create(:name => 'mile4', :location => [-74.0604951, 40.9178011])
           end
 
           it "returns the documents within a center_sphere" do
@@ -337,15 +337,15 @@ describe Mongoid::Criterion::Inclusion do
           end
 
           it "returns the documents within a center_sphere" do
-            Bar.where(:location.within(:center_sphere) => {:point => home,:max => 4, :unit => :mi}).should include(mile3) 
+            Bar.where(:location.within(:center_sphere) => {:point => home,:max => 4, :unit => :mi}).should include(mile3)
           end
 
           it "returns the documents within a center_sphere" do
-            Bar.where(:location.within(:center_sphere) => {:point => home,:max => 8, :unit => :mi}).should include(mile7) 
+            Bar.where(:location.within(:center_sphere) => {:point => home,:max => 8, :unit => :mi}).should include(mile7)
           end
 
           it "returns the documents within a center_sphere" do
-            Bar.where(:location.within(:center_sphere) => {:point => home,:max => 12, :unit => :mi}).should include(mile11) 
+            Bar.where(:location.within(:center_sphere) => {:point => home,:max => 12, :unit => :mi}).should include(mile11)
           end
         end
       end

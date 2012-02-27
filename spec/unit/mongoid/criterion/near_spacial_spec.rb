@@ -1,11 +1,11 @@
 require "spec_helper"
 
-describe Mongoid::Criterion::NearSpacial do
+describe Mongoid::Criterion::NearSpatial do
 
   let(:within) do
     {
-      :flat => Mongoid::Criterion::WithinSpacial.new(:key => :field, :operator => "near"),
-      :sphere => Mongoid::Criterion::WithinSpacial.new(:key => :field, :operator => "nearSphere"),
+      :flat => Mongoid::Criterion::WithinSpatial.new(:key => :field, :operator => "near"),
+      :sphere => Mongoid::Criterion::WithinSpatial.new(:key => :field, :operator => "nearSphere"),
     }
   end
   NEAR = {

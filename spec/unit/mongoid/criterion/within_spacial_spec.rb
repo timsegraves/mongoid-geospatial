@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe Mongoid::Criterion::WithinSpacial do
+describe Mongoid::Criterion::WithinSpatial do
 
   let(:within) do
     {
-      :box => Mongoid::Criterion::WithinSpacial.new(:key => :field, :operator => "box"),
-      :polygon => Mongoid::Criterion::WithinSpacial.new(:key => :field, :operator => "polygon"),
-      :center => Mongoid::Criterion::WithinSpacial.new(:key => :field, :operator => "center"),
-      :center_sphere => Mongoid::Criterion::WithinSpacial.new(:key => :field, :operator => "box"),
+      :box => Mongoid::Criterion::WithinSpatial.new(:key => :field, :operator => "box"),
+      :polygon => Mongoid::Criterion::WithinSpatial.new(:key => :field, :operator => "polygon"),
+      :center => Mongoid::Criterion::WithinSpatial.new(:key => :field, :operator => "center"),
+      :center_sphere => Mongoid::Criterion::WithinSpatial.new(:key => :field, :operator => "box"),
     }
   end
   WITHIN = {

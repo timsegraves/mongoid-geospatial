@@ -1,3 +1,4 @@
+require 'pry'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
@@ -9,7 +10,7 @@ $LOAD_PATH.unshift(SUPPORT)
 require "mongoid"
 require "mocha"
 require "rspec"
-require "mongoid_spacial"
+require "mongoid_spatial"
 
 LOGGER = Logger.new($stdout)
 
@@ -18,7 +19,7 @@ if RUBY_VERSION >= '1.9.2'
 end
 
 Mongoid.configure do |config|
-  name = "mongoid_spacial_test"
+  name = "mongoid_spatial_test"
   config.master = Mongo::Connection.new.db(name)
   config.logger = nil
   config.allow_dynamic_fields = true
@@ -31,6 +32,13 @@ RSpec.configure do |config|
   config.mock_with(:mocha)
 
   config.after(:suite) { Mongoid.purge! }
+  config.after(:each) do
+    Mongoid.database.collections.each do |collection|
+      unless collection.name =~ /^system\./
+        collection.remove
+      end
+    end
+  end
 
   # We filter out the specs that require authentication if the database has not
   # had the mongoid user set up properly.

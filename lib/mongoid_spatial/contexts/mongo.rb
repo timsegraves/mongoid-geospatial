@@ -27,7 +27,7 @@ module Mongoid #:nodoc:
       # @options opts [Numeric] :max_distance The max distance of a row that should be returned in :unit(s)
       # @options opts [Numeric, :km, :k, :mi, :ft] :unit automatically sets :distance_multiplier and converts :max_distance
       # @options opts [true,false] :spherical Will determine the distance either by spherical calculation or flat calculation
-      # @options opts [TrueClass,Array<Symbol>] :calculate Which extra fields to calculate distance for in ruby, if set to TrueClass it will calculate all spacial fields
+      # @options opts [TrueClass,Array<Symbol>] :calculate Which extra fields to calculate distance for in ruby, if set to TrueClass it will calculate all spatial fields
       #
       # @return [ Array ] Sorted Rows
       def geo_near(center, opts = {})
@@ -38,20 +38,20 @@ module Mongoid #:nodoc:
         # set default opts
         opts[:skip] ||= 0
 
-        if unit = Mongoid::Spacial.earth_radius[opts[:unit]]
-          opts[:unit] = (opts[:spherical]) ? unit : unit * Mongoid::Spacial::RAD_PER_DEG
-        end
+        # if unit = Mongoid::Spatial.earth_radius[opts[:unit]]
+        #   opts[:unit] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
+        # end
 
-        if unit = Mongoid::Spacial.earth_radius[opts[:distance_multiplier]]
-          opts[:distance_multiplier] = (opts[:spherical]) ? unit : unit * Mongoid::Spacial::RAD_PER_DEG
-        end
+        # if unit = Mongoid::Spatial.earth_radius[opts[:distance_multiplier]]
+        #   opts[:distance_multiplier] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
+        # end
 
         opts[:distance_multiplier] = opts[:unit] if opts[:unit].kind_of?(Numeric)
 
         # setup paging.
         if opts.has_key?(:page)
           opts[:page] ||= 1
-          opts[:paginator] ||= Mongoid::Spacial.paginator()
+          opts[:paginator] ||= Mongoid::Spatial.paginator()
 
            if opts[:per_page].blank?
              opts[:per_page] = case opts[:paginator]
@@ -60,7 +60,7 @@ module Mongoid #:nodoc:
                               when :kaminari
                                 Kaminari.config.default_per_page
                               else
-                                Mongoid::Spacial.default_per_page
+                                Mongoid::Spatial.default_per_page
                               end
              opts[:per_page] = opts[:per_page].to_i
            end
@@ -68,7 +68,7 @@ module Mongoid #:nodoc:
         end
         opts[:query] = create_geo_near_query(center,opts)
         results = klass.db.command(opts[:query])
-        Mongoid::Spacial::GeoNearResults.new(klass,results,opts)
+        Mongoid::Spatial::GeoNearResults.new(klass,results,opts)
       end
 
       private

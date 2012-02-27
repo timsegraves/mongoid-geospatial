@@ -1,11 +1,11 @@
 module Mongoid
-  module Spacial
+  module Spatial
     class GeoNearResults < Array
       attr_reader :stats, :document, :_original_array, :_original_opts
       attr_accessor :opts
 
       def initialize(document,results,opts = {})
-        raise "#{document.name} class must include Mongoid::Spacial::Document" unless document.respond_to?(:spacial_fields_indexed)
+        raise "#{document.name} class must include Mongoid::Spatial::Document" unless document.respond_to?(:spatial_fields_indexed)
         @document = document
         @opts = opts
         @_original_opts = opts.clone
@@ -23,12 +23,12 @@ module Mongoid
             res.geo[key.snakecase.to_sym] = value
           end
           # dist_options[:formula] = opts[:formula] if opts[:formula]
-          @opts[:calculate] = @document.spacial_fields_indexed if @document.spacial_fields_indexed.kind_of?(Array) && @opts[:calculate] == true
+          @opts[:calculate] = @document.spatial_fields_indexed if @document.spatial_fields_indexed.kind_of?(Array) && @opts[:calculate] == true
           if @opts[:calculate]
             @opts[:calculate] = [@opts[:calculate]] unless @opts[:calculate].kind_of? Array
             @opts[:calculate] = @opts[:calculate].map(&:to_sym) & geo_fields
-            if @document.spacial_fields_indexed.kind_of?(Array) && @document.spacial_fields_indexed.size == 1
-              primary = @document.spacial_fields_indexed.first
+            if @document.spatial_fields_indexed.kind_of?(Array) && @document.spatial_fields_indexed.size == 1
+              primary = @document.spatial_fields_indexed.first
             end
             @opts[:calculate].each do |key|
               res.geo[(key.to_s+'_distance').to_sym] = res.distance_from(key,center,{:unit =>@opts[:unit] || @opts[:distance_multiplier], :spherical => @opts[:spherical]} )
@@ -55,7 +55,7 @@ module Mongoid
       def page!(page, options = {})
         original = options.delete(:original)
         self.opts.merge!(options)
-        self.opts[:paginator] ||= Mongoid::Spacial.paginator
+        self.opts[:paginator] ||= Mongoid::Spatial.paginator
         self.opts[:page] = page
         start = (self.current_page-1)*self.limit_value # assuming current_page is 1 based.
 
@@ -106,7 +106,7 @@ module Mongoid
                              when :kaminari
                                Kaminari.config.default_per_page
                              else
-                               Mongoid::Spacial.default_per_page
+                               Mongoid::Spatial.default_per_page
                              end
         end
       end

@@ -5,7 +5,7 @@ module Support #:nodoc:
 
     def configured?
       begin
-        master_uri = "mongodb://mongoid:test@localhost:27017/mongoid_spacial_test"
+        master_uri = "mongodb://mongoid:test@localhost:27017/mongoid_spatial_test"
         Mongo::Connection.from_uri(master_uri)
         true
       rescue Mongo::AuthenticationError => e
@@ -20,7 +20,7 @@ module Support #:nodoc:
       configuration specs will not get run. You may set it up from the
       mongo console:
 
-        $ use mongoid_spacial_test;
+        $ use mongoid_spatial_test;
         $ db.addUser("mongoid", "test");
       ---------------------------------------------------------------------
       }

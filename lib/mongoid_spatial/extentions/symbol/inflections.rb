@@ -8,25 +8,25 @@ module Mongoid #:nodoc:
         #
         # @param [Symbol] calc This accepts :sphere
         #
-        # @return [Criterion::NearSpacial]
+        # @return [Criterion::NearSpatial]
 
         def near(calc = :flat)
-          Criterion::NearSpacial.new(:operator => get_op('near',calc), :key => self)          
+          Criterion::NearSpatial.new(:operator => get_op('near',calc), :key => self)
         end
 
         # alias for self.near(:sphere)
         #
-        # @return [Criterion::NearSpacial]
+        # @return [Criterion::NearSpatial]
         def near_sphere
           self.near(:sphere)
         end
-        
+
         # @param [Symbol] shape :box,:polygon,:center,:center_sphere
         #
-        # @return [Criterion::WithinSpacial]
+        # @return [Criterion::WithinSpatial]
         def within(shape)
           shape = get_op(:center,:sphere) if shape == :center_sphere
-          Criterion::WithinSpacial.new(:operator => shape.to_s , :key => self)
+          Criterion::WithinSpatial.new(:operator => shape.to_s , :key => self)
         end
 
         private
