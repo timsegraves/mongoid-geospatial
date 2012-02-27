@@ -1,14 +1,15 @@
-Mongoid Spacial
-============
+Mongoid Spatial
+===============
 
-A Mongoid Extention that simplifies and adds support for MongoDB Geo Spacial Calculations.
+A Mongoid Extention that simplifies and adds support for MongoDB and
+RGeo Spatial Calculations.
 
 Quick Start
 -----------
-Add mongoid_spacial to your Gemfile:
+Add mongoid_spatial to your Gemfile:
 
 ```ruby
-gem 'mongoid_spacial'
+gem 'mongoid_spatial'
 ```
 
 Set up some slugs:
@@ -16,23 +17,30 @@ Set up some slugs:
 ```ruby
 class River
   include Mongoid::Document
-  include Mongoid::Spacial::Document
+  include Mongoid::Spatial
 
   field :name,              type: String
   field :length,            type: Integer
   field :average_discharge, type: Integer
-  field :source,            type: Array,    spacial: true
+  field :source,            type: Point,    spatial: true
 
   # set return_array to true if you do not want a hash returned all the time
-  field :mouth,             type: Array,    spacial: {lat: :latitude, lng: :longitude, return_array: true }
+  field :mouth,             type: Array,    spatial: {lat: :latitude, lng: :longitude, return_array: true }
 
-  # simplified spacial indexing
+  # simplified spatial indexing
   # you can only index one point in mongodb version below 1.9
   # if you want something besides the defaults {bit: 24, min: -180, max: 180} just set index to the options on the index
-  spacial_index :source
+  spatial_index :source
 
 end
 ```
+
+Avaiable data types:
+
+* Point
+* LineString
+* Polygon
+
 
 Generate indexes on MongoDB:
 
@@ -41,7 +49,7 @@ rake db:mongoid:create_indexes
 ```
 
 
-Before we manipulate the data mongoid_spacial handles is what we call points.
+Before we manipulate the data mongoid_spatial handles is what we call points.
 
 Points can be:
 
@@ -67,15 +75,15 @@ hudson = River.create(
   mouth: {:latitude => 40.703056, :longitude => -74.026667}
 )
 
-# now to access this spacial information we can now do this
+# now to access this spatial information we can now do this
 hudson.source #=> {:lng => -73.935833, :lat => 44.106667}
 hudson.mouth  #=> [-74.026667, 40.703056] # notice how this returned as a lng,lat array because return_array was true
-# notice how the order of lng and lat were switched. it will always come out like this when using spacial.
+# notice how the order of lng and lat were switched. it will always come out like this when using spatial.
 # Also adds a handy distance function
 hudson.distance_from(:source, [-74,40], {:unit=>:mi})
 
 ```
-Mongoid Geo has extended all built in spacial symbol extentions
+Mongoid Geo has extended all built in spatial symbol extentions
 
 * near
   * River.where(:source.near => [-73.98, 40.77])
@@ -123,7 +131,7 @@ Post-Result has some advantages that are listed below.
 # :page - pagination will be enabled if set to any variable including nil, pagination will not be enabled if either :per\_page or :paginator is set
 #   :per\_page
 #   :paginator - Choose which paginator to use. [default :arrary]
-#     Prefered method to set is Mongoid::Spacial.paginator=:array
+#     Prefered method to set is Mongoid::Spatial.paginator=:array
 #     Available Paginators [:kaminari, :will\_paginate, :array]
 #     The only thing this does really is configure default per\_page so it is only kind of useful
 River.geo_near([-73.99756,40.73083], :page => 1)
@@ -150,6 +158,33 @@ rivers = rivers.per(25).page(1)
 rivers.reset! # resets the object to it is original state right after query.
 ```
 
+
+This Fork
+---------
+
+This forks delegates all the calculation to the nice RGeo.
+This gives all the GEOS/Proj features in Ruby/Mongoid.
+
+Change in your models:
+
+    include Mongoid::Spacial::Document
+
+to
+
+    include Mongoid::Spatial
+
+
+And for the fields:
+
+
+    field :source,  type: Array,    spacial: true
+
+to
+
+    field :source,  type: Point,    spatial: true
+
+
+
 Troubleshooting
 -------------
 
@@ -163,7 +198,7 @@ Thanks
 * Thanks to Kristian Mandrup for creating the base of the gem and a few of the tests
 * Thanks to CarZen LLC. for letting me release the code we are using
 
-Contributing to mongoid_spacial
+Contributing to mongoid_spatial
 -----------
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
