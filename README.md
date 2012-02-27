@@ -17,7 +17,7 @@ Set up some slugs:
 ```ruby
 class River
   include Mongoid::Document
-  include Mongoid::Spatial
+  include Mongoid::Geospatial
 
   field :name,              type: String
   field :length,            type: Integer
@@ -172,7 +172,7 @@ Change in your models:
 
 to
 
-    include Mongoid::Spatial
+    include Mongoid::Geospatial
 
 
 And for the fields:
