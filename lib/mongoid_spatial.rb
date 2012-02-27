@@ -13,4 +13,5 @@ require 'mongoid_spatial/fields/polygon'
 require 'mongoid_spatial/fields/line_string'
 require 'mongoid_spatial/finders'
 require 'mongoid_spatial/spatial'
+require 'mongoid_spatial/geospatial'
 

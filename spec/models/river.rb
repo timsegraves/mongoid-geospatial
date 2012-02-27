@@ -1,6 +1,6 @@
 class River
   include Mongoid::Document
-  include Mongoid::Spatial
+  include Mongoid::Geospatial
 
   field :name,              type: String
   field :length,            type: Integer

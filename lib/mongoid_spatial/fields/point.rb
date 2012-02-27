@@ -1,11 +1,12 @@
 module Mongoid
-  module Spatial
+  module Geospatial
     class Point
 
       include Mongoid::Fields::Serializable
 
       def deserialize(object)
-        RGeo::Geographic.spherical_factory.point *object #["x"], object["y"]
+        RGeo::Geographic.spherical_factory.point *object
+        #["x"], object["y"]
       end
 
       def serialize(object)

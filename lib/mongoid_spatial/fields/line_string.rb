@@ -1,5 +1,5 @@
 module Mongoid
-  module Spatial
+  module Geospatial
     class LineString
 
       include Mongoid::Fields::Serializable

@@ -32,6 +32,12 @@ describe Mongoid::Spatial do
     bar.location.distance(bar2.location).should be_within(1).of(1561283.8)
   end
 
+  it "should calculate 3d distances by default" do
+    bar = Bar.create! location: [-73.77694444, 40.63861111 ]
+    bar2 = Bar.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
+    bar.location.distance(bar2.location).to_i.should be_within(1).of(2469)
+  end
+
   it "should have a nice simple way to ovewrite geo factory" do
     pending
     bar = Bar.create!(location: [5,5])

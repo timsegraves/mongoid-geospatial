@@ -1,5 +1,5 @@
 module Mongoid
-  module Spatial
+  module Geospatial
     class Polygon
 
       include Mongoid::Fields::Serializable
