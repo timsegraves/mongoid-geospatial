@@ -34,17 +34,18 @@ module Mongoid #:nodoc:
         opts = self.options.merge(opts)
         # convert point
         center = center.to_lng_lat if center.respond_to?(:to_lng_lat)
+        center = [center.x, center.y] if center.respond_to?(:x)
 
         # set default opts
         opts[:skip] ||= 0
 
-        # if unit = Mongoid::Spatial.earth_radius[opts[:unit]]
-        #   opts[:unit] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
-        # end
+        if unit = Mongoid::Spatial.earth_radius[opts[:unit]]
+          opts[:unit] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
+        end
 
-        # if unit = Mongoid::Spatial.earth_radius[opts[:distance_multiplier]]
-        #   opts[:distance_multiplier] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
-        # end
+        if unit = Mongoid::Spatial.earth_radius[opts[:distance_multiplier]]
+          opts[:distance_multiplier] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
+        end
 
         opts[:distance_multiplier] = opts[:unit] if opts[:unit].kind_of?(Numeric)
 

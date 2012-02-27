@@ -1,19 +1,16 @@
 require "spec_helper"
 
 describe Mongoid::Spatial::GeoNearResults do
-  before(:all) do
+  before do
     Bar.delete_all
     Bar.create_indexes
 
     50.times do |i|
-      Bar.create(:name => i.to_s, :location => [rand(358)-179,rand(358)-179])
+      Bar.create!(:name => i.to_s, :location => [rand(358)-179,rand(358)-179])
     end
   end
 
-  before(:each) do
-    while Bar.count < 50
-    end
-  end
+
 
   context ":paginator :array" do
     let(:bars) { Bar.geo_near([1,1]) }

@@ -34,10 +34,10 @@ module Mongoid #:nodoc:
             if input[:max]
               input[:max] = input[:max].to_f
 
-              # if unit = Mongoid::Spatial.earth_radius[input[:unit]]
-              #   unit *= Mongoid::Spatial::RAD_PER_DEG unless operator =~ /sphere/i
-              #   input[:unit] = unit
-              # end
+              if unit = Mongoid::Spatial.earth_radius[input[:unit]]
+                unit *= Mongoid::Spatial::RAD_PER_DEG unless operator =~ /sphere/i
+                input[:unit] = unit
+              end
 
               input[:max] = input[:max]/input[:unit].to_f if input[:unit]
 

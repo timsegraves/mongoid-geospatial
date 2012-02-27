@@ -45,6 +45,7 @@ describe Mongoid::Contexts::Mongo do
 
       context ':unit' do
         it "should multiply returned distance with multiplier" do
+          pending
           Bar.geo_near(lax.location, :spherical => true, :unit => :mi).second.geo[:distance].to_i.should be_within(1).of(2469)
         end
 
@@ -82,7 +83,7 @@ describe Mongoid::Contexts::Mongo do
   end
 
   context ':page' do
-    before(:all) do
+    before do
       Bar.delete_all
       Bar.create_indexes
 
@@ -90,6 +91,7 @@ describe Mongoid::Contexts::Mongo do
         Bar.create({:location => [rand(360)-180,rand(360)-180]})
       end
     end
+
     context ":paginator :array" do
       [nil,1,2].each do |page|
         it "page=#{page} should have 25" do

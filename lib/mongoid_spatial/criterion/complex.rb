@@ -10,7 +10,7 @@ module Mongoid #:nodoc:
     # becomes:
     # <tt> { :field.lt => "value }</tt>
     class Complex
-      
+
       def to_mongo_query v
         {"$#{operator}" => v}
       end
