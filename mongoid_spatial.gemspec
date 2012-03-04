@@ -2,8 +2,8 @@
 require File.expand_path('../lib/mongoid_spatial/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Ryan Ong"]
-  gem.email         = ["ryanong@gmail.com"]
+  gem.authors       = ["Ryan Ong", "Marcos Piccinini"]
+  gem.email         = ["use@git.hub.com"]
   gem.description   = %q{mongoid_spatial simplifies spatial calculations. Adds integration into mongoid so pagination and other function continue to work. It adds symbol extentions to simplify query creation.}
   gem.summary       = %q{A Mongoid Extention that simplifies and adds support for MongoDB Geo Spatial Calculations.}
   gem.homepage      = "https://github.com/ryanong/mongoid_spatial"
@@ -15,7 +15,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Mongoid::Spatial::VERSION
 
-  gem.add_dependency("mongoid", ['>= 2.1.0'])
+
+  gem.add_dependency('rgeo', ['>= 0.3.5'])
+  gem.add_dependency('mongoid', ['>= 2.1.0'])
   gem.add_dependency('activesupport', ["~> 3.0"])
   gem.add_development_dependency('yard', ["~>0.6.0"])
   gem.add_development_dependency('rspec', ['~>2.3'])
@@ -23,5 +25,4 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency('mocha', ['>= 0'])
   gem.add_development_dependency('will_paginate', ['>= 0'])
   gem.add_development_dependency('kaminari', ['>= 0'])
-
 end
