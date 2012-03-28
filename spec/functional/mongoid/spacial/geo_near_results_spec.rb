@@ -70,4 +70,11 @@ describe Mongoid::Spacial::GeoNearResults do
       near.limit_value.should == 25
     end
   end
+  
+  context ":paginator :num_pages" do
+    it "when total=55 per=10 ,num_pages should be 6" do
+      5.times { |i| Bar.create(:name => i.to_s, :location => [rand(358)-179,rand(358)-179]) }
+      Bar.geo_near([1,1]).per(10).num_pages.should    == 6
+    end
+  end
 end
