@@ -10,6 +10,7 @@ module Mongoid
       :m  => EARTH_RADIUS_KM*1000,
       :mi => EARTH_RADIUS_KM*0.621371192, # taken directly from mongodb
       :ft => EARTH_RADIUS_KM*5280*0.621371192,
+      :sm => EARTH_RADIUS_KM*0.53995680345572 # sea mile
     }
 
     RAD_PER_DEG = Math::PI/180
