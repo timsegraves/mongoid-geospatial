@@ -1,15 +1,15 @@
-Mongoid Spatial
-===============
+Mongoid Geospatial
+==================
 
 A Mongoid Extention that simplifies and adds support for MongoDB and
 RGeo Spatial Calculations.
 
 Quick Start
 -----------
-Add mongoid_spatial to your Gemfile:
+Add mongoid_geospatial to your Gemfile:
 
 ```ruby
-gem 'mongoid_spatial'
+gem 'mongoid_geospatial'
 ```
 
 Set up some slugs:
@@ -178,7 +178,7 @@ Multiple locations may also be specified in a single field:
 > db.places.ensureIndex({ "lastSeenAt" : "2d" })
 ```
 
-By default, when performing geoNear or $near-type queries on collections containing multi-location documents, the same document may be returned multiple times, since $near queries return ordered results by distance. Queries using the $within operator by default do not return duplicate documents. 
+By default, when performing geoNear or $near-type queries on collections containing multi-location documents, the same document may be returned multiple times, since $near queries return ordered results by distance. Queries using the $within operator by default do not return duplicate documents.
 
   v2.0
 In v2.0, this default can be overridden by the use of a $uniqueDocs parameter for geoNear and $within queries, like so:
@@ -276,8 +276,9 @@ The plan is to include this functionality in a future release. Please help out ;
 This Fork
 ---------
 
-This forks delegates all the calculation to the nice RGeo.
-This gives all the GEOS/Proj features in Ruby/Mongoid.
+This fork is not backwards compatible with 'mongoid_spatial'.
+This fork delegates all the calculation to the nice RGeo.
+As a result, all the GEOS/Proj features are available in Ruby/Mongoid.
 
 Change in your models:
 
@@ -300,7 +301,7 @@ to
 
 
 Troubleshooting
--------------
+---------------
 
 **Mongo::OperationFailure: can't find special index: 2d**
 
