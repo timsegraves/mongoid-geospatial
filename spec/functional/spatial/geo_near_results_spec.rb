@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Mongoid::Spatial::GeoNearResults do
+describe Mongoid::Geospatial::GeoNearResults do
   before do
     Bar.delete_all
     Bar.create_indexes
@@ -74,5 +74,5 @@ describe Mongoid::Spatial::GeoNearResults do
       5.times { |i| Bar.create(:name => i.to_s, :location => [rand(358)-179,rand(358)-179]) }
       Bar.geo_near([1,1]).per(10).num_pages.should    == 6
     end
-  end  
+  end
 end

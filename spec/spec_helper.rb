@@ -10,7 +10,7 @@ $LOAD_PATH.unshift(SUPPORT)
 require "mongoid"
 require "mocha"
 require "rspec"
-require "mongoid_spatial"
+require "mongoid_geospatial"
 
 LOGGER = Logger.new($stdout)
 
@@ -19,7 +19,7 @@ if RUBY_VERSION >= '1.9.2'
 end
 
 Mongoid.configure do |config|
-  name = "mongoid_spatial_test"
+  name = "mongoid_geospatial_test"
   config.master = Mongo::Connection.new.db(name)
   config.logger = nil
   config.allow_dynamic_fields = true

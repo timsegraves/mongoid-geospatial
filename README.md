@@ -132,7 +132,7 @@ Post-Result has some advantages that are listed below.
 # :page - pagination will be enabled if set to any variable including nil, pagination will not be enabled if either :per\_page or :paginator is set
 #   :per\_page
 #   :paginator - Choose which paginator to use. [default :arrary]
-#     Prefered method to set is Mongoid::Spatial.paginator=:array
+#     Prefered method to set is Mongoid::Geospatial.paginator=:array
 #     Available Paginators [:kaminari, :will\_paginate, :array]
 #     The only thing this does really is configure default per\_page so it is only kind of useful
 River.geo_near([-73.99756,40.73083], :page => 1)

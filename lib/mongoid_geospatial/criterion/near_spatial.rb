@@ -26,8 +26,8 @@ module Mongoid #:nodoc:
           if input[:max]
             query['$maxDistance'] = input[:max].to_f
 
-            if unit = Mongoid::Spatial.earth_radius[input[:unit]]
-              unit *= Mongoid::Spatial::RAD_PER_DEG unless operator =~ /sphere/i
+            if unit = Mongoid::Geospatial.earth_radius[input[:unit]]
+              unit *= Mongoid::Geospatial::RAD_PER_DEG unless operator =~ /sphere/i
               input[:unit] = unit
             end
 

@@ -1,11 +1,11 @@
 module Mongoid
-  module Spatial
+  module Geospatial
     class GeoNearResults < Array
       attr_reader :stats, :document, :_original_array, :_original_opts
       attr_accessor :opts
 
       def initialize(document,results,opts = {})
-        raise "#{document.name} class must include Mongoid::Spatial::Document" unless document.respond_to?(:spatial_fields_indexed)
+        raise "#{document.name} class must include Mongoid::Geospatial::Document" unless document.respond_to?(:spatial_fields_indexed)
         @document = document
         @opts = opts
         @_original_opts = opts.clone
@@ -55,7 +55,7 @@ module Mongoid
       def page!(page, options = {})
         original = options.delete(:original)
         self.opts.merge!(options)
-        self.opts[:paginator] ||= Mongoid::Spatial.paginator
+        self.opts[:paginator] ||= Mongoid::Geospatial.paginator
         self.opts[:page] = page
         start = (self.current_page-1)*self.limit_value # assuming current_page is 1 based.
 
@@ -106,7 +106,7 @@ module Mongoid
                              when :kaminari
                                Kaminari.config.default_per_page
                              else
-                               Mongoid::Spatial.default_per_page
+                               Mongoid::Geospatial.default_per_page
                              end
         end
       end

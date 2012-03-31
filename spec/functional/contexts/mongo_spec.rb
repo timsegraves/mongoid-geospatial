@@ -29,17 +29,17 @@ describe Mongoid::Contexts::Mongo do
 
       context ':maxDistance' do
         it "should get 1 item" do
-          Bar.geo_near(lax.location, :spherical => true, :max_distance => 2465/Mongoid::Spatial.earth_radius[:mi]).size.should == 1
+          Bar.geo_near(lax.location, :spherical => true, :max_distance => 2465/Mongoid::Geospatial.earth_radius[:mi]).size.should == 1
         end
         it "should get 2 items" do
-          Bar.geo_near(lax.location, :spherical => true, :max_distance => 2480/Mongoid::Spatial.earth_radius[:mi]).size.should == 2
+          Bar.geo_near(lax.location, :spherical => true, :max_distance => 2480/Mongoid::Geospatial.earth_radius[:mi]).size.should == 2
         end
 
       end
 
       context ':distance_multiplier' do
         it "should multiply returned distance with multiplier" do
-          Bar.geo_near(lax.location, :spherical => true, :distance_multiplier=> Mongoid::Spatial.earth_radius[:mi]).second.geo[:distance].to_i.should be_within(1).of(2469)
+          Bar.geo_near(lax.location, :spherical => true, :distance_multiplier=> Mongoid::Geospatial.earth_radius[:mi]).second.geo[:distance].to_i.should be_within(1).of(2469)
         end
       end
 

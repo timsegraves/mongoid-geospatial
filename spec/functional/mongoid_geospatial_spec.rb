@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Mongoid::Spatial do
+describe Mongoid::Geospatial do
 
   it "should instantiate with no problems" do
     Bar.create!(name: "Moe's")

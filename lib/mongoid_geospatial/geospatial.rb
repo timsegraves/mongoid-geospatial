@@ -1,6 +1,3 @@
-require 'mongoid_geospatial/spatial/core_ext'
-require 'mongoid_geospatial/spatial/geo_near_results'
-
 module Mongoid
   module Geospatial
     extend ActiveSupport::Concern
@@ -28,7 +25,7 @@ module Mongoid
 
     # def distance(p2, opts = {})
     #   p1 = self.send(key)
-      #   Mongoid::Spatial.distance(p1, p2, opts)
+      #   Mongoid::Geospatial.distance(p1, p2, opts)
       # end
 
 

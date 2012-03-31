@@ -39,12 +39,12 @@ module Mongoid #:nodoc:
         # set default opts
         opts[:skip] ||= 0
 
-        if unit = Mongoid::Spatial.earth_radius[opts[:unit]]
-          opts[:unit] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
+        if unit = Mongoid::Geospatial.earth_radius[opts[:unit]]
+          opts[:unit] = (opts[:spherical]) ? unit : unit * Mongoid::Geospatial::RAD_PER_DEG
         end
 
-        if unit = Mongoid::Spatial.earth_radius[opts[:distance_multiplier]]
-          opts[:distance_multiplier] = (opts[:spherical]) ? unit : unit * Mongoid::Spatial::RAD_PER_DEG
+        if unit = Mongoid::Geospatial.earth_radius[opts[:distance_multiplier]]
+          opts[:distance_multiplier] = (opts[:spherical]) ? unit : unit * Mongoid::Geospatial::RAD_PER_DEG
         end
 
         opts[:distance_multiplier] = opts[:unit] if opts[:unit].kind_of?(Numeric)
@@ -52,7 +52,7 @@ module Mongoid #:nodoc:
         # setup paging.
         if opts.has_key?(:page)
           opts[:page] ||= 1
-          opts[:paginator] ||= Mongoid::Spatial.paginator()
+          opts[:paginator] ||= Mongoid::Geospatial.paginator()
 
            if opts[:per_page].blank?
              opts[:per_page] = case opts[:paginator]
@@ -61,7 +61,7 @@ module Mongoid #:nodoc:
                               when :kaminari
                                 Kaminari.config.default_per_page
                               else
-                                Mongoid::Spatial.default_per_page
+                                Mongoid::Geospatial.default_per_page
                               end
              opts[:per_page] = opts[:per_page].to_i
            end
@@ -69,7 +69,7 @@ module Mongoid #:nodoc:
         end
         opts[:query] = create_geo_near_query(center,opts)
         results = klass.db.command(opts[:query])
-        Mongoid::Spatial::GeoNearResults.new(klass,results,opts)
+        Mongoid::Geospatial::GeoNearResults.new(klass,results,opts)
       end
 
       private

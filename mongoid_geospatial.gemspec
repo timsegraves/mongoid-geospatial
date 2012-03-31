@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.name          = "mongoid_geospatial"
   gem.require_paths = ["lib"]
-  gem.version       = Mongoid::Spatial::VERSION
+  gem.version       = Mongoid::Geospatial::VERSION
 
 
   gem.add_dependency('rgeo', ['>= 0.3.5'])

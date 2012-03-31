@@ -1,5 +1,8 @@
+require 'mongoid_geospatial/geospatial/core_ext'
+require 'mongoid_geospatial/geospatial/geo_near_results'
+
 module Mongoid
-  module Spatial
+  module Geospatial
     LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude]
     LAT_SYMBOLS = [:y, :lat, :latitude]
 
