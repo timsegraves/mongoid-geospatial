@@ -101,13 +101,11 @@ module Mongoid #:nodoc:
           query['maxDistance'] = query['maxDistance']/opts[:unit].to_f if opts[:unit]
         end
 
-        if klass.db.connection.server_version >= '1.7'
-          query['spherical']  = true if opts[:spherical]
+        query['spherical']  = true if opts[:spherical]
 
-          # mongodb < 1.7 returns degrees but with earth flat. in Mongodb 1.7 you can set sphere and let mongodb calculate the distance in Miles or KM
-          # for mongodb < 1.7 we need to run Haversine first before calculating degrees to Km or Miles. See below.
-          query['distanceMultiplier'] = opts[:distance_multiplier].to_f if opts[:distance_multiplier]
-        end
+        # mongodb < 1.7 returns degrees but with earth flat. in Mongodb 1.7 you can set sphere and let mongodb calculate the distance in Miles or KM
+        # for mongodb < 1.7 we need to run Haversine first before calculating degrees to Km or Miles. See below.
+        query['distanceMultiplier'] = opts[:distance_multiplier].to_f if opts[:distance_multiplier]
         query
       end
     end

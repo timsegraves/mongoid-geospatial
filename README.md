@@ -4,6 +4,9 @@ Mongoid Geospatial
 A Mongoid Extension that simplifies and adds support for MongoDB and
 RGeo Spatial Calculations.
 
+*WARNING* There are no plans to support MongoDB < 2.0.
+
+
 Quick Start
 -----------
 Add mongoid_geospatial to your Gemfile:
