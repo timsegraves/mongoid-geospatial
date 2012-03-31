@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-# Specify your gem's dependencies in mongoid_spacial.gemspec
+# Specify  gem's dependencies in mongoid_geospatial.gemspec
 gemspec
 
 gem 'rgeo'

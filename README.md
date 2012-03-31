@@ -1,7 +1,7 @@
 Mongoid Geospatial
 ==================
 
-A Mongoid Extention that simplifies and adds support for MongoDB and
+A Mongoid Extension that simplifies and adds support for MongoDB and
 RGeo Spatial Calculations.
 
 Quick Start
@@ -84,7 +84,7 @@ hudson.mouth  #=> [-74.026667, 40.703056] # notice how this returned as a lng,la
 hudson.distance_from(:source, [-74,40], {:unit=>:mi})
 
 ```
-Mongoid Geo has extended all built in spatial symbol extentions
+Mongoid Geo has extended all built in spatial symbol extensions
 
 * near
   * River.where(:source.near => [-73.98, 40.77])
@@ -297,6 +297,9 @@ And for the fields:
 to
 
     field :source,  type: Point,    spatial: true
+
+
+Beware the 't' and 'c' issue. It's spaTial.
 
 
 
