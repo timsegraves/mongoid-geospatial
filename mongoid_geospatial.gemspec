@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/mongoid_spatial/version', __FILE__)
+require File.expand_path('../lib/mongoid_geospatial/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Ryan Ong", "Marcos Piccinini"]
   gem.email         = ["use@git.hub.com"]
-  gem.description   = %q{mongoid_spatial simplifies spatial calculations. Adds integration into mongoid so pagination and other function continue to work. It adds symbol extentions to simplify query creation.}
+  gem.description   = %q{mongoid_geospatial simplifies spatial calculations. Adds integration into mongoid so pagination and other function continue to work. It adds symbol extentions to simplify query creation.}
   gem.summary       = %q{A Mongoid Extention that simplifies and adds support for MongoDB Geo Spatial Calculations.}
-  gem.homepage      = "https://github.com/ryanong/mongoid_spatial"
+  gem.homepage      = "https://github.com/nofxx/mongoid_geospatial"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.name          = "mongoid_spatial"
+  gem.name          = "mongoid_geospatial"
   gem.require_paths = ["lib"]
   gem.version       = Mongoid::Spatial::VERSION
 

@@ -1,5 +1,5 @@
-require 'mongoid_spatial/spatial/core_ext'
-require 'mongoid_spatial/spatial/geo_near_results'
+require 'mongoid_geospatial/spatial/core_ext'
+require 'mongoid_geospatial/spatial/geo_near_results'
 
 module Mongoid
   module Geospatial
