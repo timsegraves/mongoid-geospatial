@@ -19,18 +19,20 @@ module Mongoid #:nodoc:
       #
       # @param [Hash,Array] input Variable to conver to query
       def to_mongo_query(input)
-        if ['box','polygon'].index(@operator)
+        if ['box','polygon'].include?(@operator)
           input = input.values if input.kind_of?(Hash)
           if input.respond_to?(:map)
-            input.map!{ |v| (v.respond_to?(:to_lng_lat)) ? v.to_lng_lat : v }
+            input.map! do |v|
+              v.respond_to?(:to_xy) ? v.to_xy : v
+            end
           else
             input
           end
-        elsif ['center','centerSphere'].index(@operator)
+        elsif ['center','centerSphere'].include?(@operator)
 
           if input.kind_of?(Hash) || input.kind_of?(ActiveSupport::OrderedHash)
             raise ':point required to make valid query' unless input[:point]
-            input[:point] = input[:point].to_lng_lat if input[:point].respond_to?(:to_lng_lat)
+            input[:point] = input[:point].to_xy if input[:point].respond_to?(:to_xy)
             if input[:max]
               input[:max] = input[:max].to_f
 
@@ -48,7 +50,7 @@ module Mongoid #:nodoc:
           end
 
           if input.kind_of? Array
-            input[0] = input[0].to_lng_lat if input[0].respond_to?(:to_lng_lat)
+            input[0] = input[0].to_xy if input[0].respond_to?(:to_xy)
           end
 
         end

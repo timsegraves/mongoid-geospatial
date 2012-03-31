@@ -19,7 +19,7 @@ module Mongoid #:nodoc:
       #
       #   Address.geo_near([70,40], :max_distance => 5, :unit => 5)
       #
-      # @param [ Array, Hash, #to_lng_lat ] center The center of where to calculate distance from
+      # @param [ Array, Hash, #to_xy ] center The center of where to calculate distance from
       # @param [ Hash ] opts the options to query with
       # @options opts [Integer] :num The number of rows to fetch
       # @options opts [Hash] :query The query to filter the rows by, accepts
@@ -33,7 +33,7 @@ module Mongoid #:nodoc:
       def geo_near(center, opts = {})
         opts = self.options.merge(opts)
         # convert point
-        center = center.to_lng_lat if center.respond_to?(:to_lng_lat)
+        center = center.to_xy if center.respond_to?(:to_xy)
         center = [center.x, center.y] if center.respond_to?(:x)
 
         # set default opts

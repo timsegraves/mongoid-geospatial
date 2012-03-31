@@ -19,6 +19,26 @@ module Mongoid
     }
 
     GEO_FACTORY = RGeo::Geographic.spherical_factory
+    RAD_PER_DEG = Math::PI/180
+    mattr_accessor :lng_symbols
+    @@lng_symbols = LNG_SYMBOLS.dup
+
+    mattr_accessor :lat_symbols
+    @@lat_symbols = LAT_SYMBOLS.dup
+
+    mattr_accessor :earth_radius
+    @@earth_radius = EARTH_RADIUS.dup
+
+    mattr_accessor :paginator
+    @@paginator = :array
+
+    mattr_accessor :default_per_page
+    @@default_per_page = 25
+
+    # mattr_accessor :spherical_distance_formula
+    # @@spherical_distance_formula = :n_vector
+    mattr_accessor :geo_factory
+    @@geo_factory = GEO_FACTORY.dup
 
     included do
       attr_accessor :geo
@@ -60,26 +80,6 @@ module Mongoid
     #   rads
 
     # end
-    RAD_PER_DEG = Math::PI/180
-    mattr_accessor :lng_symbols
-    @@lng_symbols = LNG_SYMBOLS.dup
-
-    mattr_accessor :lat_symbols
-    @@lat_symbols = LAT_SYMBOLS.dup
-
-    mattr_accessor :earth_radius
-    @@earth_radius = EARTH_RADIUS.dup
-
-    mattr_accessor :paginator
-    @@paginator = :array
-
-    mattr_accessor :default_per_page
-    @@default_per_page = 25
-
-    # mattr_accessor :spherical_distance_formula
-    # @@spherical_distance_formula = :n_vector
-    mattr_accessor :geo_factory
-    @@lng_symbols = GEO_FACTORY.dup
 
 
   end

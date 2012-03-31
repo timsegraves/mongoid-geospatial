@@ -21,7 +21,7 @@ module Mongoid #:nodoc:
       def to_mongo_query(input)
         if input.kind_of?(Hash)
           raise ':point required to make valid query' unless input[:point]
-          input[:point] = input[:point].to_lng_lat if input[:point].respond_to?(:to_lng_lat)
+          input[:point] = input[:point].to_xy if input[:point].respond_to?(:to_xy)
           query = {"$#{operator}" => input[:point] }
           if input[:max]
             query['$maxDistance'] = input[:max].to_f
@@ -38,7 +38,7 @@ module Mongoid #:nodoc:
           if input.first.kind_of? Numeric
             {"$#{operator}" => input }
           else
-            input[0] = input[0].to_lng_lat if input[0].respond_to?(:to_lng_lat)
+            input[0] = input[0].to_xy if input[0].respond_to?(:to_xy)
             {"$#{operator}" => input[0], '$maxDistance' => input[1] }
           end
         end

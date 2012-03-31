@@ -36,8 +36,8 @@ module Mongoid
 # -    define_method "#{field.name}=" do |arg|
 # -      if arg.kind_of?(Hash) && arg[lng_meth] && arg[lat_meth]
 # -        arg = [arg[lng_meth].to_f, arg[lat_meth].to_f]
-# -      elsif arg.respond_to?(:to_lng_lat)
-# -        arg = arg.to_lng_lat
+# -      elsif arg.respond_to?(:to_xy)
+# -        arg = arg.to_xy
 # -      end
 # -      self[field.name]=arg
 # -      arg = [nil,nil] if arg.nil?
