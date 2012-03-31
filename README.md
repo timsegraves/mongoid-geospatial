@@ -159,6 +159,119 @@ rivers = rivers.per(25).page(1)
 rivers.reset! # resets the object to it is original state right after query.
 ```
 
+Mongo DB 1.9+ New Geo features
+---------
+
+Multi-location Documents v.1.9+
+
+MongoDB now also supports indexing documents by multiple locations. These locations can be specified in arrays of sub-objects, for example:
+
+```
+> db.places.insert({ addresses : [ { name : "Home", loc : [55.5, 42.3] }, { name : "Work", loc : [32.3, 44.2] } ] })
+> db.places.ensureIndex({ "addresses.loc" : "2d" })
+```
+
+Multiple locations may also be specified in a single field:
+
+```
+> db.places.insert({ lastSeenAt : [ { x : 45.3, y : 32.2 }, [54.2, 32.3], { lon : 44.2, lat : 38.2 } ] })
+> db.places.ensureIndex({ "lastSeenAt" : "2d" })
+```
+
+By default, when performing geoNear or $near-type queries on collections containing multi-location documents, the same document may be returned multiple times, since $near queries return ordered results by distance. Queries using the $within operator by default do not return duplicate documents. 
+
+  v2.0
+In v2.0, this default can be overridden by the use of a $uniqueDocs parameter for geoNear and $within queries, like so:
+
+```
+> db.runCommand( { geoNear : "places" , near : [50,50], num : 10, uniqueDocs : false } )
+> db.places.find( { loc : { $within : { $center : [[0.5, 0.5], 20], $uniqueDocs : true } } } )
+```
+
+  Currently it is not possible to specify $uniqueDocs for $near queries
+Whether or not uniqueDocs is true, when using a limit the limit is applied (as is normally the case) to the number of results returned (and not to the docs or locations).  If running a geoNear query with uniqueDocs : true, the closest location in a document to the center of the search region will always be returned - this is not true for $within queries.
+
+In addition, when using geoNear queries and multi-location documents, often it is useful to return not only distances, but also the location in the document which was used to generate the distance.  In v2.0, to return the location alongside the distance in the geoNear results (in the field loc), specify includeLocs : true in the geoNear query. The location returned will be a copy of the location in the document used.
+
+  If the location was an array, the location returned will be an object with "0" and "1" fields in v2.0.0 and v2.0.1.
+
+```
+> db.runCommand({ geoNear : "places", near : [ 0, 0 ], maxDistance : 20, includeLocs : true })
+{
+  "ns" : "test.places",
+  "near" : "1100000000000000000000000000000000000000000000000000",
+  "results" : [
+    {
+      "dis" : 5.830951894845301,
+      "loc" : {
+        "x" : 3,
+        "y" : 5
+      },
+      "obj" : {
+        "_id" : ObjectId("4e52672c15f59224bdb2544d"),
+        "name" : "Final Place",
+        "loc" : {
+          "x" : 3,
+          "y" : 5
+        }
+      }
+    },
+    {
+      "dis" : 14.142135623730951,
+      "loc" : {
+        "0" : 10,
+        "1" : 10
+      },
+      "obj" : {
+        "_id" : ObjectId("4e5266a915f59224bdb2544b"),
+        "name" : "Some Place",
+        "loc" : [
+          [
+            10,
+            10
+          ],
+          [
+            50,
+            50
+          ]
+        ]
+      }
+    },
+    {
+      "dis" : 14.142135623730951,
+      "loc" : {
+        "0" : -10,
+        "1" : -10
+      },
+      "obj" : {
+        "_id" : ObjectId("4e5266ba15f59224bdb2544c"),
+        "name" : "Another Place",
+        "loc" : [
+          [
+            -10,
+            -10
+          ],
+          [
+            -50,
+            -50
+          ]
+        ]
+      }
+    }
+  ],
+  "stats" : {
+    "time" : 0,
+    "btreelocs" : 0,
+    "nscanned" : 5,
+    "objectsLoaded" : 3,
+    "avgDistance" : 11.371741047435734,
+    "maxDistance" : 14.142157540259815
+  },
+  "ok" : 1
+}
+```
+
+The plan is to include this functionality in a future release. Please help out ;)
 
 This Fork
 ---------

@@ -76,10 +76,9 @@ module Mongoid #:nodoc:
 
       def create_geo_near_query(center,opts)
         # minimum query
-        query = {
-          :geoNear  => klass.collection_name,
-          :near     => center,
-        }
+        query = BSON::OrderedHash.new
+        query[:geoNear] = klass.collection_name
+        query[:near] = center
 
         # create limit and use skip
         if opts[:num]
