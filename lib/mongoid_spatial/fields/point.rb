@@ -5,6 +5,7 @@ module Mongoid
       include Mongoid::Fields::Serializable
 
       def deserialize(object)
+        return unless object && !object.empty?
         RGeo::Geographic.spherical_factory.point *object
         #["x"], object["y"]
       end
