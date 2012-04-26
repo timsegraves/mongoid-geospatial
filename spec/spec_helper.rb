@@ -19,8 +19,11 @@ if RUBY_VERSION >= '1.9.2'
 end
 
 Mongoid.configure do |config|
-  name = "mongoid_geospatial_test"
-  config.master = Mongo::Connection.new.db(name)
+  opts = YAML.load(File.read(File.dirname(__FILE__) + '/support/mongoid.yml'))["test"]
+  name = opts.delete("database")
+  host = opts.delete("host")
+  port = opts.delete("port")
+  config.master = Mongo::Connection.new(host, port, opts).db(name)
   config.logger = nil
   config.allow_dynamic_fields = true
 end
