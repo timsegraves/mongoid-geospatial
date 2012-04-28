@@ -52,9 +52,9 @@ module Mongoid
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
 
-      def spatial_index name, *options
+      def spatial_index name, options = {}
         self.spatial_fields_indexed << name
-        index [[ name, Mongo::GEO2D ]], *options
+        index name => '2d', :options => options
       end
     end
 
