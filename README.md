@@ -5,7 +5,8 @@ A Mongoid Extension that simplifies and adds support for MongoDB and
 RGeo Spatial Calculations.
 
 *WARNING* There are no plans to support MongoDB < 2.0.
-*WARNING* There are no plans to support Mongoid < 3.0. (git for now)
+
+*WARNING* Experimental Mongoid 3.0 support.
 
 
 Quick Start
