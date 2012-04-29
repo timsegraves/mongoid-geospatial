@@ -6,9 +6,9 @@ module Mongoid #:nodoc:
     # get a shorthand syntax for where clauses.
     #
     # @example Coninputersion of a simple to complex criterion.
-    #   { :field => { "$nearSphere" => => [20,30]}, '$maxDistance' => 5 }
+    #   { :field => { "$nearSphere" => [20,30]}, '$maxDistance' => 5 }
     #   becomes:
-    #   { :field.near(:sphere) => {:point => [20,30], :max => 5, :unit => :km} }
+    #   { :field.near_sphere => {:point => [20,30], :max => 5, :unit => :km} }
     class NearSpatial < Complex
 
       # Coninputert input to query for near or nearSphere
@@ -19,7 +19,9 @@ module Mongoid #:nodoc:
       #
       # @param [Hash,Array] input input to coninputer to query
       def to_mongo_query(input)
-        if input.kind_of?(Hash)
+        if input.respond_to?(:x)
+          {"$#{operator}" => [input.x, input.y]} #, '$maxDistance' => input[1] }
+        elsif input.kind_of?(Hash)
           raise ':point required to make valid query' unless input[:point]
           input[:point] = input[:point].to_xy if input[:point].respond_to?(:to_xy)
           query = {"$#{operator}" => input[:point] }

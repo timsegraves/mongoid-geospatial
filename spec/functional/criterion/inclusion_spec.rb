@@ -249,15 +249,15 @@ describe Mongoid::Criterion::Inclusion do
         end
 
         let!(:berlin) do
-          Bar.create(:location => [ 52.30, 13.25 ])
+          Bar.create(:name => :berlin, :location => [ 52.30, 13.25 ])
         end
 
         let!(:prague) do
-          Bar.create(:location => [ 50.5, 14.26 ])
+          Bar.create(:name => :prague, :location => [ 50.5, 14.26 ])
         end
 
         let!(:paris) do
-          Bar.create(:location => [ 48.48, 2.20 ])
+          Bar.create(:name => :paris, :location => [ 48.48, 2.20 ])
         end
 
         it "returns the documents sorted closest to furthest" do
@@ -270,6 +270,10 @@ describe Mongoid::Criterion::Inclusion do
 
         it "returns the documents sorted closest to furthest" do
           Bar.where(:location.near_sphere => [ 41.23, 2.9 ]).should == [ paris, prague, berlin ]
+        end
+
+        it "should find closest using rgeo point" do
+          Bar.where(:location.near => paris.location).should == [ paris, prague, berlin ]
         end
 
       end
