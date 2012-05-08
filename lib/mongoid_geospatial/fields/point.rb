@@ -2,15 +2,13 @@ module Mongoid
   module Geospatial
     class Point
 
-      include Mongoid::Fields::Serializable
-
-      def deserialize(object)
+      def mongoize(object)
         return unless object && !object.empty?
         RGeo::Geographic.spherical_factory.point *object
         #["x"], object["y"]
       end
 
-      def serialize(object)
+      def demongoize(object)
         object.respond_to?(:x) ? [object.x, object.y] : object
         # if object.respond_to? :x
         #   { "x" => object.x, "y" => object.y }
