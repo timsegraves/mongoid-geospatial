@@ -2,13 +2,11 @@ module Mongoid
   module Geospatial
     class LineString
 
-      include Mongoid::Fields::Serializable
-
-      def deserialize(object)
+      def mongoize(object)
         RGeo::Geographic.spherical_factory.line_string *object
       end
 
-      def serialize(object)
+      def demongoize(object)
         object.to_a
       end
 
