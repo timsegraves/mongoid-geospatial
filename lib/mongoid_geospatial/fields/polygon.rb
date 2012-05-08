@@ -2,9 +2,7 @@ module Mongoid
   module Geospatial
     class Polygon
 
-      include Mongoid::Fields::Serializable
-
-      def deserialize(object)
+      def mongoize(object)
         points = object.map do |pair|
           RGeo::Geographic.spherical_factory.point *pair
         end
@@ -12,7 +10,7 @@ module Mongoid
         RGeo::Geographic.spherical_factory.polygon ring
       end
 
-      def serialize(object)
+      def demongoize(object)
         object #.flatten
       end
 
