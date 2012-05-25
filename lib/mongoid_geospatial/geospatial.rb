@@ -55,7 +55,7 @@ module Mongoid
       def spatial_index name, options = {}
         self.spatial_fields_indexed << name
         if Mongoid::VERSION =~ /3.0/
-          index name => '2d', :options => options
+          index {name => '2d'}, options
         else
           index [[name, '2d']], options
         end

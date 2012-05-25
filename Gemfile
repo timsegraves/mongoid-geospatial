@@ -4,8 +4,10 @@ source 'http://rubygems.org'
 gemspec
 
 gem 'rgeo'
+gem 'mongoid', :git => 'git://github.com/mongoid/mongoid'
 
 group :development do
   gem 'rspec'
-  gem 'fuubar'
+  gem 'pry'
+#  gem 'fuubar'
 end
