@@ -12,6 +12,11 @@ describe Mongoid::Geospatial do
     bar.location.should be_a RGeo::Geographic::SphericalPointImpl
   end
 
+  it "should have a field mapped as point" do
+    bar = Bar.create!(location: [3,2])
+    bar.location.to_a[0..1].should == [3.0, 2.0]
+  end
+
   it "should accept an RGeo object" do
     point = RGeo::Geographic.spherical_factory.point 1, 2
     bar = Bar.create!(location: point)
