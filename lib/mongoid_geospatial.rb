@@ -6,9 +6,13 @@ require 'mongoid_geospatial/contexts/mongo'
 require 'mongoid_geospatial/criteria'
 require 'mongoid_geospatial/extensions/symbol'
 require 'mongoid_geospatial/field_option'
-require 'mongoid_geospatial/fields/point'
-require 'mongoid_geospatial/fields/polygon'
-require 'mongoid_geospatial/fields/line_string'
+
+fields_path = 'mongoid_geospatial/fields' + (Mongoid::VERSION > '3' ? '' : '/mongoid2')
+
+%w{point polygon line_string}.each do |type|
+  require "#{fields_path}/#{type}"
+end
+
 require 'mongoid_geospatial/finders'
 require 'mongoid_geospatial/geospatial'
 

@@ -4,6 +4,8 @@ source 'http://rubygems.org'
 gemspec
 
 gem 'rgeo'
+
+# gem 'mongoid', '~> 2.4' # all specs pass on 2.4.10 :) 
 gem 'mongoid', :git => 'git://github.com/mongoid/mongoid'
 
 group :development do

@@ -2,6 +2,12 @@ module Mongoid
   module Geospatial
     class Polygon
 
+      if Mongoid::VERSION > '2.2' && Mongoid::VERSION < '3'
+        define_method :instantiate do |name, options|
+          super
+        end
+      end
+
       def mongoize(object)
         points = object.map do |pair|
           RGeo::Geographic.spherical_factory.point *pair

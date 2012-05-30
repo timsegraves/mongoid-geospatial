@@ -1,7 +1,6 @@
 module Mongoid
   module Geospatial
     class Point
-
       def mongoize(object)
         return unless object && !object.empty?
         RGeo::Geographic.spherical_factory.point *object

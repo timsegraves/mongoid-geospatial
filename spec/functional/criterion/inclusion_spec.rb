@@ -273,7 +273,7 @@ describe Mongoid::Criterion::Inclusion do
         end
 
         it "should find closest using rgeo point" do
-          Bar.where(:location.near => paris.location).should == [ paris, prague, berlin ]
+          Bar.where(:location.near => paris.location).to_a.should == [paris, berlin, prague]
         end
 
       end

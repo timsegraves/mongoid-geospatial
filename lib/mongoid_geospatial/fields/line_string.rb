@@ -10,7 +10,6 @@ module Mongoid
         object.to_a
       end
 
-
     end
   end
 end
