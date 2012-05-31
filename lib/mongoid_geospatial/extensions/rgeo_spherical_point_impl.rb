@@ -4,6 +4,10 @@ module RGeo
       def to_a
         [x, y, z]
       end
+
+      def [] index
+        to_a[index]
+      end
     end
   end
 end

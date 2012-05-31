@@ -10,8 +10,6 @@ require 'mongoid_geospatial/field_option'
 
 fields_path = 'mongoid_geospatial/fields' + (Mongoid::VERSION > '3' ? '' : '/mongoid2')
 
-puts "fields_path: #{fields_path}"
-
 %w{point polygon line_string}.each do |type|
   require "#{fields_path}/#{type}"
 end
