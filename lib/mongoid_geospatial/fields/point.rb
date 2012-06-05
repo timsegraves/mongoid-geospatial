@@ -1,18 +1,27 @@
 module Mongoid
   module Geospatial
     class Point
-      def mongoize(object)
-        return unless object && !object.empty?
-        RGeo::Geographic.spherical_factory.point *object
-        #["x"], object["y"]
-      end
+      # See http://mongoid.org/en/mongoid/docs/upgrading.html
 
-      def demongoize(object)
+      def mongoize(object)
         object.respond_to?(:x) ? [object.x, object.y] : object
         # if object.respond_to? :x
         #   { "x" => object.x, "y" => object.y }
         # else
         #   { "x" => object[0], "y" => object[1] }
+        # end
+      end
+
+      class << self
+
+        def demongoize(object)
+          return unless object && !object.empty?
+          RGeo::Geographic.spherical_factory.point *object
+          #["x"], object["y"]
+        end
+
+        # def evolve(object)
+        #   { "$gte" => object.first, "$lte" => object.last }
         # end
       end
 
