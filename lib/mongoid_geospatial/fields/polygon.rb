@@ -3,8 +3,8 @@ module Mongoid
     class Polygon
       # See http://mongoid.org/en/mongoid/docs/upgrading.html
 
-      def mongoize(object)
-        object #.flatten
+      def mongoize
+        self #.flatten
       end
 
       class << self

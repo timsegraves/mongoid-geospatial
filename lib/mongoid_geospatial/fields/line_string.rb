@@ -3,8 +3,8 @@ module Mongoid
     class LineString
       # See http://mongoid.org/en/mongoid/docs/upgrading.html
 
-      def mongoize(object)
-        object.to_a
+      def mongoize
+        to_a
       end
 
       class << self

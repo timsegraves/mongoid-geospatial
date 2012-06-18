@@ -16,7 +16,7 @@ module Mongoid
           RGeo::Geographic.spherical_factory.point *pair
         end
         ring = RGeo::Geographic.spherical_factory.linear_ring points
-        polygon = RGeo::Geographic.spherical_factory.polygon ring
+        RGeo::Geographic.spherical_factory.polygon ring
       end
     end
   end

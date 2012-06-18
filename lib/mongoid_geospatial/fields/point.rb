@@ -3,8 +3,8 @@ module Mongoid
     class Point
       # See http://mongoid.org/en/mongoid/docs/upgrading.html
 
-      def mongoize(object)
-        object.respond_to?(:x) ? [object.x, object.y] : object
+      def mongoize
+        self.respond_to?(:x) ? [x, y] : self
         # if object.respond_to? :x
         #   { "x" => object.x, "y" => object.y }
         # else

@@ -13,7 +13,7 @@ module Mongoid
 
       def deserialize(object)
         return unless object && !object.empty?
-        line_string = RGeo::Geographic.spherical_factory.line_string(*object)
+        RGeo::Geographic.spherical_factory.line_string(*object)
       end
     end
   end
