@@ -1,9 +1,11 @@
 class Bar
   include Mongoid::Document
-  include Mongoid::Spacial::Document
-  
+  include Mongoid::Geospatial
+
   field :name, :type => String
-  field :location, :type => Array, :spacial => true
-  references_one :rating, :as => :ratable
-  spacial_index :location
+  field :location, :type => Point, :spatial => true
+  
+  has_one :rating, :as => :ratable 
+
+  spatial_index :location
 end
