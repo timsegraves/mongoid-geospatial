@@ -20,9 +20,15 @@ module Mongoid
           #["x"], object["y"]
         end
 
-        # def evolve(object)
-        #   { "$gte" => object.first, "$lte" => object.last }
-        # end
+        def mongoize(object)
+          object.respond_to?(:x) ? [object.x, object.y] : object
+        end
+
+        # Converts the object that was supplied to a criteria and converts it
+        # into a database friendly form.
+        def evolve(object)
+          object.respond_to?(:x) ? [object.x, object.y] : object
+        end
       end
 
 #       -    self.spacial_fields ||= []
