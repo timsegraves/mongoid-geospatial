@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Mongoid::Contexts::Mongo do
+describe (Mongoid::VERSION > '3' ? Mongoid::Contextual::Mongo :  Mongoid::Contexts::Mongo) do
   describe "#geo_near" do
 
     before do

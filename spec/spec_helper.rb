@@ -43,6 +43,10 @@ end
 
 Dir[ File.join(SUPPORT, "*.rb") ].each { |file| require File.basename(file) }
 
+def bson_object_id_class
+  Mongoid::VERSION > '3' ? Moped::BSON:: ObjectId : BSON::ObjectId
+end
+
 RSpec.configure do |config|
   config.mock_with(:mocha)
 
