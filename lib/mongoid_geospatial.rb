@@ -8,7 +8,7 @@ require 'mongoid_geospatial/extensions/symbol'
 require 'mongoid_geospatial/extensions/rgeo_spherical_point_impl'
 require 'mongoid_geospatial/field_option'
 
-fields_path = 'mongoid_geospatial/fields' + (Mongoid::VERSION > '3' ? '' : '/mongoid2')
+fields_path = 'mongoid_geospatial/fields'
 
 %w{point polygon line_string}.each do |type|
   require "#{fields_path}/#{type}"
