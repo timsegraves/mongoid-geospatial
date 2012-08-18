@@ -1,6 +1,7 @@
 require "spec_helper"
 
-describe "Mongoid::Criterion::Inclusion" do
+# describe "Mongoid::Criterion::Inclusion" do
+describe Mongoid::Criteria do
 
   before do
     Person.delete_all
