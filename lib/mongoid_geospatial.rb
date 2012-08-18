@@ -2,11 +2,6 @@ require 'rgeo'
 require 'mongoid'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/concern'
-if Mongoid::VERSION > '3'
-  require 'mongoid_geospatial/contextual/mongo'
-else
-  require 'mongoid_geospatial/contexts/mongo'
-end
 require 'mongoid_geospatial/contextual/mongo'
 require 'mongoid_geospatial/criteria'
 require 'mongoid_geospatial/extensions/symbol'
@@ -21,4 +16,3 @@ end
 
 require 'mongoid_geospatial/finders'
 require 'mongoid_geospatial/geospatial'
-

@@ -69,7 +69,7 @@ module Mongoid #:nodoc:
         end
         opts[:query] = create_geo_near_query(center,opts)
         results = klass.mongo_session.command(opts[:query])
-        
+
         Mongoid::Geospatial::GeoNearResults.new(klass,results,opts)
       end
 
