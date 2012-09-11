@@ -4,9 +4,16 @@ Mongoid Geospatial
 A Mongoid Extension that simplifies and adds support for MongoDB and
 RGeo Spatial Calculations.
 
-*WARNING* There are no plans to support MongoDB < 2.0.
+** On beta again **
 
-*WARNING* Experimental Mongoid 3.0 support.
+Removing some trash, improving and adding support for RGeo and GeoRuby.
+Version 2+ is going to be beta testing, when it's ready I'll release v3,
+So the major version stays the same as mongoid.
+
+
+There are no plans to support MongoDB < 2.0
+There are no plans to support Mongoid <= 2.0
+
 
 
 Quick Start
@@ -335,4 +342,3 @@ Copyright
 -----------
 Copyright (c) 2011 Ryan Ong. See LICENSE.txt for
 further details.
-
