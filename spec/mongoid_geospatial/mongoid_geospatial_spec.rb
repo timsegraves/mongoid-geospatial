@@ -56,7 +56,7 @@ describe Mongoid::Geospatial do
     bar.location.distance(bar2.location).should be_within(1).of(1561283.8)
   end
 
-  it "should have a field mapped as polygon" do
+  it "should support a field mapped as polygon" do
     farm = Farm.create!(area: [[5,5],[6,5],[6,6],[5,6]])
     farm.area.should be_a RGeo::Geographic::SphericalPolygonImpl
   end

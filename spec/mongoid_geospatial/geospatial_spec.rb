@@ -18,6 +18,8 @@ describe Mongoid::Geospatial do
 
 
   context "Included" do
+
+    # HO
   end
 
 
