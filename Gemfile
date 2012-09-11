@@ -6,6 +6,7 @@ gem 'mongoid', '~> 3.0'
 
 group :development do
   gem 'rspec'
+  gem 'guard-rspec'
   gem 'pry'
   # gem 'fuubar'
 end
