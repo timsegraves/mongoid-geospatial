@@ -1,7 +1,6 @@
 module Mongoid
   module Geospatial
     class Polygon
-      # See http://mongoid.org/en/mongoid/docs/upgrading.html
 
       def mongoize
         self #.flatten

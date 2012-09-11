@@ -1,15 +1,9 @@
 module Mongoid
   module Geospatial
     class Point
-      # See http://mongoid.org/en/mongoid/docs/upgrading.html
 
       def mongoize
-        self.respond_to?(:x) ? [x, y] : self
-        # if object.respond_to? :x
-        #   { "x" => object.x, "y" => object.y }
-        # else
-        #   { "x" => object[0], "y" => object[1] }
-        # end
+        [x, y]
       end
 
       class << self
@@ -21,13 +15,18 @@ module Mongoid
         end
 
         def mongoize(object)
-          object.respond_to?(:x) ? [object.x, object.y] : object
+          #return new.mongoize if object.respond_to?(:x)
+          case object
+          when Point then object.mongoize
+          when Hash then [object[:x], object[:y]]
+          else object
+          end
         end
 
         # Converts the object that was supplied to a criteria and converts it
         # into a database friendly form.
         def evolve(object)
-          object.respond_to?(:x) ? [object.x, object.y] : object
+          object.respond_to?(:x) ? object.mongoize : object
         end
       end
 
