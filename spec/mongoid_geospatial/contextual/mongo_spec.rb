@@ -1,6 +1,7 @@
 require "spec_helper"
 
-describe (Mongoid::VERSION > '3' ? Mongoid::Contextual::Mongo :  Mongoid::Contexts::Mongo) do
+describe Mongoid::Contextual::Mongo do
+
   describe "#geo_near" do
 
     before do
@@ -118,7 +119,7 @@ describe (Mongoid::VERSION > '3' ? Mongoid::Contextual::Mongo :  Mongoid::Contex
       end
 
       # check results['results'] in GeoNearResults
-      it 'should find 25 items' do 
+      it 'should find 25 items' do
         near.size.should == 25
       end
 

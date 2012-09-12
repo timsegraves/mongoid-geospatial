@@ -95,7 +95,6 @@ describe Mongoid::Criteria do
     context "with untyped criteria" do
 
       it "typecasts integers" do
-        pending "seems typecasts not work fo mongoid 3.0" if Mongoid::VERSION > '3'
         Person.where(:age => "33").should == [ person ]
       end
 
@@ -240,11 +239,7 @@ describe Mongoid::Criteria do
       context "#match" do
 
         it "returns those matching a partial element in a list" do
-          if Mongoid::VERSION > '3'
-            Person.where({'things.phone' => "HTC Incredible" }).should == [person]
-          else
-            Person.where(:things.matches => { :phone => "HTC Incredible" }).should == [person]
-          end
+          Person.where({'things.phone' => "HTC Incredible" }).should == [person]
         end
       end
 
@@ -279,7 +274,6 @@ describe Mongoid::Criteria do
         end
 
         it "returns the documents sorted closest to furthest" do
-          pending "NearSpatial#to_mongo_query seems not work for mongoid 3 " if Mongoid::VERSION > '3'
           Bar.where(:location.near => {:point=>[ 41.23, 2.9 ],:max => 20}).should == [ paris, prague, berlin ]
         end
 
@@ -297,7 +291,6 @@ describe Mongoid::Criteria do
 
         context ":box, :polygon" do
           before do
-            Bar.delete_all
             Bar.create_indexes
           end
 
@@ -314,7 +307,7 @@ describe Mongoid::Criteria do
           end
 
           it "returns the documents within a box" do
-            Bar.where(:location.within(:box) => [[ 47, 1 ],[ 49, 3 ]]).should == [ paris ]
+            Bar.where(:location.within(:box) => [[ 47, 1 ],[ 49, 3 ]]).to_a.should == [ paris ]
           end
 
           it "returns the documents within a polygon" do
@@ -330,9 +323,9 @@ describe Mongoid::Criteria do
           end
 
         end
+
         context ":circle :center_sphere" do
           before do
-            Bar.delete_all
             Bar.create_indexes
           end
           let!(:mile1) do

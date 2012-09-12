@@ -19,16 +19,16 @@ module Mongoid
       :sm => EARTH_RADIUS_KM*0.53995680345572 # sea mile
     }
 
-    mattr_accessor :lng_symbol
-    mattr_accessor :lat_symbol
+    mattr_accessor :lng_symbols
+    mattr_accessor :lat_symbols
     mattr_accessor :earth_radius
     mattr_accessor :geo_factory
 
     mattr_accessor :paginator
     mattr_accessor :default_per_page
 
-    @@lng_symbol = LNG_SYMBOLS[0]
-    @@lat_symbol = LAT_SYMBOLS[0]
+    @@lng_symbols  = LNG_SYMBOLS.dup
+    @@lat_symbols  = LAT_SYMBOLS.dup
     @@earth_radius = EARTH_RADIUS.dup
     @@paginator = :array
     @@default_per_page = 25

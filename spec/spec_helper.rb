@@ -42,7 +42,7 @@ end
 Dir[ File.join(SUPPORT, "*.rb") ].each { |file| require File.basename(file) }
 
 def bson_object_id_class
-  Mongoid::VERSION > '3' ? Moped::BSON:: ObjectId : BSON::ObjectId
+  Moped::BSON::ObjectId
 end
 
 RSpec.configure do |config|
@@ -50,19 +50,5 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Mongoid.purge!
-    # Mongoid.database.collections.each do |collection|
-    #   unless collection.name =~ /^system\./
-    #     collection.remove
-    #   end
-    # end
   end
-
-  # We filter out the specs that require authentication if the database has not
-  # had the mongoid user set up properly.
-  # user_configured = Support::Authentication.configured?
-  # warn(Support::Authentication.message) unless user_configured
-
-  # config.filter_run_excluding(:config => lambda { |value|
-  #   return true if value == :user && !user_configured
-  # })
 end

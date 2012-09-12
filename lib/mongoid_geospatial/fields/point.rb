@@ -11,6 +11,8 @@ module Mongoid
       def mongoize
         [x, y]
       end
+      alias :to_a  :mongoize
+      alias :to_xy :mongoize
 
       def [](args)
         mongoize[args]
@@ -27,7 +29,8 @@ module Mongoid
         def mongoize(object)
           case object
           when Point then object.mongoize
-          when Hash then [object[:x], object[:y]]
+          when Array then object.to_xy
+          when Hash then object.to_xy
           else object
           end
         end
