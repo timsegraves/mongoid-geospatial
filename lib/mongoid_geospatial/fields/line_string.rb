@@ -1,11 +1,6 @@
 module Mongoid
   module Geospatial
     class LineString < Array
-      attr_accessor :geom
-
-      def initialize(geom)
-        @geom = geom
-      end
 
       class << self
 

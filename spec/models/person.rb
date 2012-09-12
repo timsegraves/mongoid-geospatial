@@ -3,6 +3,7 @@ class Person
   include Mongoid::MultiParameterAttributes
   include Mongoid::Timestamps
   include Mongoid::Versioning
+  include Mongoid::Geospatial
 
   attr_accessor :mode
 
@@ -27,6 +28,9 @@ class Person
   field :reading, :type => Object
   field :bson_id, :type => bson_object_id_class
 
+  # Geo
+  field :location, :type => Point
+
   index age: 1
   index addresses: 1
   index dob: 1
@@ -49,21 +53,7 @@ class Person
     end
   end
 
-  # embeds_many :services
-
-
-  # has_many \
-  #   :posts,
-  #   :dependent => :delete,
-  #   :order => :rating.desc do
-  #   def extension
-  #     "Testing"
-  #   end
-  # end
-
   accepts_nested_attributes_for :addresses
-  accepts_nested_attributes_for :name, :update_only => true
-
 
   scope :minor, where(:age.lt => 18)
   scope :without_ssn, without(:ssn)
