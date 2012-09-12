@@ -8,7 +8,7 @@ $LOAD_PATH.unshift(MODELS)
 $LOAD_PATH.unshift(SUPPORT)
 
 require "mongoid"
-require "mocha"
+# require "mocha"
 require "rspec"
 require "mongoid_geospatial"
 
@@ -27,7 +27,7 @@ if RUBY_VERSION >= '1.9.2'
   YAML::ENGINE.yamler = 'syck'
 end
 
-puts "version: #{Mongoid::VERSION}"
+puts "Running with Mongoid v#{Mongoid::VERSION}"
 
 Mongoid.configure do |config|
   config.connect_to('mongoid_geo_test')
@@ -46,7 +46,7 @@ def bson_object_id_class
 end
 
 RSpec.configure do |config|
-  config.mock_with(:mocha)
+  # config.mock_with(:mocha)
 
   config.before(:each) do
     Mongoid.purge!

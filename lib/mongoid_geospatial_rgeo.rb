@@ -1,3 +1,4 @@
+require 'rgeo'
 require 'mongoid_geospatial'
 module Mongoid
   module Geospatial
