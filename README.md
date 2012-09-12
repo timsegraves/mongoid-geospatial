@@ -1,8 +1,8 @@
 Mongoid Geospatial
 ==================
 
-A Mongoid Extension that simplifies and adds support for MongoDB and
-RGeo Spatial Calculations.
+A Mongoid Extension that simplifies the use of MongoDB spatial features.
+
 
 ** On beta again **
 
@@ -18,13 +18,54 @@ There are no plans to support Mongoid <= 2.0
 
 Quick Start
 -----------
-Add mongoid_geospatial to your Gemfile:
+
+This gem focus on (making helpers for) spatial features MongoDB has.
+You can also use an external Geometric/Spatial alongside.
+We currently support GeoRuby and RGeo.
+If you require one of those, a #to_geo method will be available to all
+spatial fields, returning the external library corresponding object.
+To illustrate:
 
 ```ruby
-gem 'mongoid_geospatial'
+point = Mongoid::Geospatial::Point.new(1,1)
+# Example with GeoRuby
+point.class # Mongoid::Geospatial::Point
+point.to_geo.class # GeoRuby::SimpleFeatures::Point
+# Example with RGeo
+point.class # Mongoid::Geospatial::Point
+point.to_geo.class # RGeo::Geographic::SphericalPointImpl
 ```
 
-Set up some slugs:
+Require it as you need:
+
+```ruby
+# No External Support
+gem 'mongoid_geospatial'
+
+# Require with GeoRuby
+gem 'mongoid_geospatial', :require => 'mongoid_geospatial_georuby'
+
+# Require with RGeo
+gem 'mongoid_geospatial', :require => 'mongoid_geospatial_rgeo'
+
+```
+
+Options (change if you know what you're doing)
+
+```ruby
+# Mongoid::Geospatial.lng_symbol = :x
+# Mongoid::Geospatial.lat_symbol = :y
+# Mongoid::Geospatial.earth_radius = EARTH_RADIUS
+# Only for RGeo:
+# Mongoid::Geospatial.geo_factory = RGeo::Geographic.spherical_factory
+
+```
+
+Model Setup
+-----------
+
+You can create Point, LineString and Polygon on your models:
+
 
 ```ruby
 class River

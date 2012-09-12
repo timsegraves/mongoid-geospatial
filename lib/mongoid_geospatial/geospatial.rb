@@ -9,6 +9,7 @@ module Mongoid
     LAT_SYMBOLS = [:y, :lat, :latitude]
 
     EARTH_RADIUS_KM = 6371 # taken directly from mongodb
+    RAD_PER_DEG = Math::PI/180
 
     EARTH_RADIUS = {
       :km => EARTH_RADIUS_KM,
@@ -18,27 +19,19 @@ module Mongoid
       :sm => EARTH_RADIUS_KM*0.53995680345572 # sea mile
     }
 
-    GEO_FACTORY = RGeo::Geographic.spherical_factory
-    RAD_PER_DEG = Math::PI/180
-    mattr_accessor :lng_symbols
-    @@lng_symbols = LNG_SYMBOLS.dup
-
-    mattr_accessor :lat_symbols
-    @@lat_symbols = LAT_SYMBOLS.dup
-
+    mattr_accessor :lng_symbol
+    mattr_accessor :lat_symbol
     mattr_accessor :earth_radius
-    @@earth_radius = EARTH_RADIUS.dup
+    mattr_accessor :geo_factory
 
     mattr_accessor :paginator
-    @@paginator = :array
-
     mattr_accessor :default_per_page
-    @@default_per_page = 25
 
-    # mattr_accessor :spherical_distance_formula
-    # @@spherical_distance_formula = :n_vector
-    mattr_accessor :geo_factory
-    @@geo_factory = GEO_FACTORY.dup
+    @@lng_symbol = LNG_SYMBOLS[0]
+    @@lat_symbol = LAT_SYMBOLS[0]
+    @@earth_radius = EARTH_RADIUS.dup
+    @@paginator = :array
+    @@default_per_page = 25
 
     included do
       attr_accessor :geo
@@ -48,14 +41,16 @@ module Mongoid
     end
 
     module ClassMethods #:nodoc:
+
       # create spatial index for given field
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
-
+      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
       def spatial_index name, options = {}
         self.spatial_fields_indexed << name
         index({name => '2d'}, options)
       end
+
     end
 
   end

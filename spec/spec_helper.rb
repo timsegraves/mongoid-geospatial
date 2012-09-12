@@ -29,10 +29,8 @@ end
 
 puts "version: #{Mongoid::VERSION}"
 
-require 'mongoid_setup'
-
 Mongoid.configure do |config|
-  Mongoid::VersionSetup.configure config
+  config.connect_to('mongoid_geo_test')
 end
 
 # Autoload every model for the test suite that sits in spec/app/models.

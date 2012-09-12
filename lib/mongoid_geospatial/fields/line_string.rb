@@ -1,14 +1,17 @@
 module Mongoid
   module Geospatial
-    class LineString
+    class LineString < Array
+      attr_accessor :geom
 
-      def mongoize
-        to_a
+      def initialize(geom)
+        @geom = geom
       end
 
       class << self
-        def demongoize(object)
-          RGeo::Geographic.spherical_factory.line_string object
+
+        # Database -> Object
+        def demongoize(o)
+          LineString.new(o)
         end
 
       end

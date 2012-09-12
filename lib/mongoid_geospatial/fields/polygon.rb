@@ -1,24 +1,21 @@
 module Mongoid
   module Geospatial
-    class Polygon
+    class Polygon < Array
+      attr_accessor :geom
 
-      def mongoize
-        self #.flatten
+      def initialize(geom)
+        @geom = geom
       end
 
       class << self
-        def demongoize(object)
-          points = object.map do |pair|
-            RGeo::Geographic.spherical_factory.point *pair
-          end
-          ring = RGeo::Geographic.spherical_factory.linear_ring points
-          RGeo::Geographic.spherical_factory.polygon ring
+
+        # Database -> Object
+        def demongoize(o)
+          Polygon.new(o)
         end
 
-        # def evolve(object)
-        #   { "$gte" => object.first, "$lte" => object.last }
-        # end
       end
+
     end
   end
 end
