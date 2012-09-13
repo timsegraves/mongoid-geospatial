@@ -9,7 +9,7 @@ describe Mongoid::Geospatial::Point do
 
   it "should not fail if point is nil" do
     bar = Bar.create!(name: "Moe's")
-    bar.location.x.should be_nil
+    bar.location.should be_nil
   end
 
   describe "methods" do

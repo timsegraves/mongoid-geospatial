@@ -58,7 +58,7 @@ module Mongoid
 
         # Database -> Object
         def demongoize(object)
-          # return unless object && !object.empty?
+          return unless object
           Point.new(*object)
         end
 
