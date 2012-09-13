@@ -7,7 +7,7 @@ require 'mongoid_geospatial/field_option'
 
 require 'mongoid_geospatial/fields/geometry_field'
 
-%w{point polygon line_string}.each do |type|
+%w{point circle box line polygon}.each do |type|
   require "mongoid_geospatial/fields/#{type}"
 end
 

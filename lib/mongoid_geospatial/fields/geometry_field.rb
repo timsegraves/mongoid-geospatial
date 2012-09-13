@@ -29,6 +29,16 @@ module Mongoid
         [center, r.to_f/Mongoid::Geospatial.earth_radius[:km]]
       end
 
+
+      class << self
+
+        # Database -> Object
+        def demongoize(o)
+          self.new(o)
+        end
+
+      end
+
     end
   end
 end

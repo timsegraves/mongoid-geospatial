@@ -5,7 +5,7 @@ class River
   field :name,              type: String
   field :length,            type: Integer
   field :average_discharge, type: Integer
-  field :source,            type: LineString,    spatial: true
+  field :source,            type: Line,     spatial: true
   # set return_array to true if you do not want a hash returned all the time
   field :mouth,             type: Point,    spatial: {lat: 'latitude', lng: 'longitude'}
   field :mouth_array,       type: Array,    spatial: {return_array: true}

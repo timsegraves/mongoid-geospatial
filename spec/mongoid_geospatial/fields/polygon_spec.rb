@@ -6,8 +6,8 @@ describe Mongoid::Geospatial::Polygon do
 
     it "should support a field mapped as polygon" do
       farm = Farm.new(area: [[5,5],[6,5],[6,6],[5,6]])
-      farm.area.should eq([[5,5],[6,5],[6,6],[5,6]])
       farm.area.should be_a Mongoid::Geospatial::Polygon
+      farm.area.should eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
     it "should store as array on mongo" do

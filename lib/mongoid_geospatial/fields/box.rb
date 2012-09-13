@@ -1,6 +1,6 @@
 module Mongoid
   module Geospatial
-    class Polygon < GeometryField
+    class Box < GeometryField
 
     end
   end

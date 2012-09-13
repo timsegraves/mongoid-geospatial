@@ -11,7 +11,7 @@ module Mongoid
     end
 
 
-    class LineString < Array
+    class Line < Array
       def to_geo
         GeoRuby::SimpleFeatures::LineString.from_array(self)
       end

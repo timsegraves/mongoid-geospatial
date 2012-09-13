@@ -120,18 +120,9 @@ describe Mongoid::Geospatial::Point do
         bar[:location].should == [3,2]
       end
 
-      it "should calculate distance between points" do
-        pending
+      it "should not calculate distance between points w/o external" do
         bar = Bar.create!(location: [5,5])
-        bar2 = Bar.create!(location: [15,15])
-        bar.location.distance(bar2.location).should be_within(1).of(1561283.8)
-      end
-
-      it "should calculate 3d distances by default" do
-        pending
-        bar = Bar.create! location: [-73.77694444, 40.63861111 ]
-        bar2 = Bar.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
-        bar.location.distance(bar2.location).to_i.should be_within(1).of(2469)
+        bar.location.should_not respond_to(:distance)
       end
 
     end

@@ -26,7 +26,7 @@ You can also use an external Geometric/Spatial alongside.
     gem 'mongoid_geospatial'
 
 
-    # A place to illustrate Point, LineString and Polygon
+    # A place to illustrate Point, Line and Polygon
     class Place
       include Mongoid::Document
       include Mongoid::Geospatial
@@ -90,7 +90,7 @@ Defaults (change if you know what you're doing)
 Model Setup
 -----------
 
-You can create Point, LineString and Polygon on your models:
+You can create Point, Line and Polygon on your models:
 
 
 ```ruby
@@ -115,6 +115,8 @@ class River
 end
 ```
 
+Use
+---
 
 Generate indexes on MongoDB:
 

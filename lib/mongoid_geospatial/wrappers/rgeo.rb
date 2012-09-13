@@ -11,7 +11,7 @@ module Mongoid
     end
 
 
-    class LineString < GeometryField
+    class Line < GeometryField
       def to_geo
         RGeo::Geographic.spherical_factory.line_string self
       end
