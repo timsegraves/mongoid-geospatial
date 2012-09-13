@@ -7,6 +7,37 @@ describe Mongoid::Geospatial::Point do
     Bar.count.should eql(1)
   end
 
+  it "should not fail if point is nil" do
+    bar = Bar.create!(name: "Moe's")
+    bar.location.x.should be_nil
+  end
+
+  describe "methods" do
+
+    let(:bar) { Bar.create!(location: [3,2]) }
+
+    it "should have a .to_a" do
+      bar.location.to_a[0..1].should == [3.0, 2.0]
+    end
+
+    it "should have an array [] accessor" do
+      bar.location[0].should == 3.0
+    end
+
+    it "should have an ActiveModel symbol accessor" do
+      bar[:location].should == [3,2]
+    end
+
+    it "should have a radius helper" do
+      bar.location.radius.should eql([[3.0, 2.0], 1])
+    end
+
+    it "should have a radius sphere helper" do
+      bar.location.radius_sphere[1].should be_within(0.0001).of(0.00015)
+    end
+
+  end
+
   describe "queryable" do
 
     before do
@@ -103,24 +134,6 @@ describe Mongoid::Geospatial::Point do
     end
 
 
-    describe "methods" do
-
-      it "should have a .to_a" do
-        bar = Bar.create!(location: [3,2])
-        bar.location.to_a[0..1].should == [3.0, 2.0]
-      end
-
-      it "should have an array [] accessor" do
-        bar = Bar.create!(location: [3,2])
-        bar.location[0].should == 3.0
-      end
-
-      it "should have an ActiveModel symbol accessor" do
-        bar = Bar.create!(location: [3,2])
-        bar[:location].should == [3,2]
-      end
-
-    end
 
     # should raise
     # geom.to_geo
