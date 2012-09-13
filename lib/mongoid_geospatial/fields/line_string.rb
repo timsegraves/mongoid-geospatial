@@ -1,6 +1,6 @@
 module Mongoid
   module Geospatial
-    class LineString < Array
+    class LineString < GeometryField
 
       class << self
 

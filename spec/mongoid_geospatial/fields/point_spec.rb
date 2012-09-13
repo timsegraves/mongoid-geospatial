@@ -142,7 +142,7 @@ describe Mongoid::Geospatial::Point do
     describe "with rgeo" do
 
       before do
-        require 'mongoid_geospatial_rgeo'
+        require 'mongoid_geospatial/wrappers/rgeo'
       end
 
       it "should mongoize array" do

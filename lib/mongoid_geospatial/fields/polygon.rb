@@ -1,6 +1,6 @@
 module Mongoid
   module Geospatial
-    class Polygon < Array
+    class Polygon < GeometryField
 
       class << self
 

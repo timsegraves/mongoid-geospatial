@@ -1,5 +1,6 @@
 require 'rgeo'
-require 'mongoid_geospatial'
+require 'mongoid_geospatial/extensions/rgeo_spherical_point_impl'
+
 module Mongoid
   module Geospatial
 
@@ -10,14 +11,14 @@ module Mongoid
     end
 
 
-    class LineString < Array
+    class LineString < GeometryField
       def to_geo
         RGeo::Geographic.spherical_factory.line_string self
       end
 
     end
 
-    class Polygon < Array
+    class Polygon < GeometryField
       def to_geo
         points = self.map do |pair|
           RGeo::Geographic.spherical_factory.point *pair

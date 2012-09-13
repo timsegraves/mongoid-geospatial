@@ -15,11 +15,31 @@ describe Mongoid::Geospatial::Polygon do
       Farm.first.area.should eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
+    it "should have a bounding box" do
+      geom = Mongoid::Geospatial::Polygon.new [[1,5],[6,5],[6,6],[5,6]]
+      geom.bbox.should eq([[1,5], [6,6]])
+    end
+
+    it "should have a center point" do
+      geom = Mongoid::Geospatial::Polygon.new [[1,1],[1,1],[9,9],[9,9]]
+      geom.center.should eq([5.5,5.5])
+    end
+
+    it "should have a radius helper" do
+      geom = Mongoid::Geospatial::Polygon.new [[1,1],[1,1],[9,9],[9,9]]
+      geom.radius(10).should eq([[5.5,5.5], 10])
+    end
+
     describe "with rgeo" do
       # farm.area.should be_a RGeo::Geographic::SphericalPolygonImpl
     end
 
-    context ":box, :polygon" do
+  end
+
+  describe "query" do
+
+      context ":box, :polygon" do
+
       before do
         Farm.create_indexes
       end
