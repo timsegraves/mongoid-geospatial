@@ -21,45 +21,71 @@ Quick Start
 
 This gem focus on (making helpers for) spatial features MongoDB has.
 You can also use an external Geometric/Spatial alongside.
+
+    # Gemfile
+    gem 'mongoid_geospatial'
+
+
+    # A place to illustrate Point, LineString and Polygon
+    class Place
+      include Mongoid::Document
+      include Mongoid::Geospatial
+
+      field :name,     type: String
+      field :location, type: Point, :spatial => true
+      field :route,    type: Linestring
+      field :area,     type: Polygon
+    end
+
+
+Geometry Helpers
+----------------
+
 We currently support GeoRuby and RGeo.
 If you require one of those, a #to_geo method will be available to all
 spatial fields, returning the external library corresponding object.
 To illustrate:
 
-```ruby
-point = Mongoid::Geospatial::Point.new(1,1)
-# Example with GeoRuby
-point.class # Mongoid::Geospatial::Point
-point.to_geo.class # GeoRuby::SimpleFeatures::Point
-# Example with RGeo
-point.class # Mongoid::Geospatial::Point
-point.to_geo.class # RGeo::Geographic::SphericalPointImpl
-```
+    class Person
+      include Mongoid::Document
+      include Mongoid::Geospatial
 
-Require it as you need:
+      field :location, type: Point
+    end
 
-```ruby
-# No External Support
-gem 'mongoid_geospatial'
+    me = Person.new(location: [8, 8])
 
-# Require with GeoRuby
-gem 'mongoid_geospatial', :require => 'mongoid_geospatial_georuby'
+    # Example with GeoRuby
+    point.class # Mongoid::Geospatial::Point
+    point.to_geo.class # GeoRuby::SimpleFeatures::Point
 
-# Require with RGeo
-gem 'mongoid_geospatial', :require => 'mongoid_geospatial_rgeo'
+    # Example with RGeo
+    point.class # Mongoid::Geospatial::Point
+    point.to_geo.class # RGeo::Geographic::SphericalPointImpl
 
-```
 
-Options (change if you know what you're doing)
+Configure
+----------------
 
-```ruby
-# Mongoid::Geospatial.lng_symbol = :x
-# Mongoid::Geospatial.lat_symbol = :y
-# Mongoid::Geospatial.earth_radius = EARTH_RADIUS
-# Only for RGeo:
-# Mongoid::Geospatial.geo_factory = RGeo::Geographic.spherical_factory
+Assemble it as you need:
 
-```
+With RGeo
+
+    Mongoid::Geospatial.use_rgeo
+    # Optional
+    # Mongoid::Geospatial.factory = RGeo::Geographic.spherical_factory
+
+With GeoRuby
+
+    Mongoid::Geospatial.use_georuby
+
+Defaults (change if you know what you're doing)
+
+    Mongoid::Geospatial.lng_symbol = :x
+    Mongoid::Geospatial.lat_symbol = :y
+    Mongoid::Geospatial.earth_radius = EARTH_RADIUS
+
+
 
 Model Setup
 -----------
@@ -88,12 +114,6 @@ class River
 
 end
 ```
-
-Avaiable data types:
-
-* Point
-* LineString
-* Polygon
 
 
 Generate indexes on MongoDB:
@@ -170,47 +190,6 @@ River.where(:name=>'hudson').geo_near({:lat => 40.73083, :lng => -73.99756})
 River.geo_near([-73.99756,40.73083], :max_distance => 4, :unit => :mi, :spherical => true)
 ```
 
-There are two types of pagination!
-
-* MongoDB Pagination - Stores start of rows to page limit in memory
-* Post Query Pagination - Stores all rows in memory
-
-Post-Result is only minutely slower than MongoDB because MongoDB has to calculate distance for all of the rows anyway. The slow up is in the transfer of data from the database to ruby.
-
-Post-Result has some advantages that are listed below.
-
-```ruby
-# MongoDB pagination
-# overwrites #skip chain method
-# :page - pagination will be enabled if set to any variable including nil, pagination will not be enabled if either :per\_page or :paginator is set
-#   :per\_page
-#   :paginator - Choose which paginator to use. [default :arrary]
-#     Prefered method to set is Mongoid::Geospatial.paginator=:array
-#     Available Paginators [:kaminari, :will\_paginate, :array]
-#     The only thing this does really is configure default per\_page so it is only kind of useful
-River.geo_near([-73.99756,40.73083], :page => 1)
-```
-
-```ruby
-# Post Query Pagination
-# At carzen we use Post Query Pagination because we need to re-sort our rows after fetching. Pagination is not friendly with re-sorting.
-# You can jump pages continously without querying the database again.
-# listens to #limit/:num & #skip before geo\_near
-# #page(page\_number, opts = {})
-#  opts:
-#   :per\_page
-#   :paginator
-# #per(per\_page\_number, opts = {})
-#  opts:
-#   :page
-#   :paginator
-#
-# both return a GeoNearResults, which is really just a modified Array
-# #per really just #page but just moves the options around
-rivers = River.geo_near([-73.99756,40.73083]).sort_by!{|r| r.geo[:distance] * r.multiplier }
-rivers = rivers.per(25).page(1)
-rivers.reset! # resets the object to it is original state right after query.
-```
 
 Mongo DB 1.9+ New Geo features
 ---------
@@ -330,8 +309,7 @@ This Fork
 ---------
 
 This fork is not backwards compatible with 'mongoid_spatial'.
-This fork delegates all the calculation to the nice RGeo.
-As a result, all the GEOS/Proj features are available in Ruby/Mongoid.
+This fork delegates calculations to the external libs and use Moped.
 
 Change in your models:
 
@@ -361,16 +339,20 @@ Troubleshooting
 
 **Mongo::OperationFailure: can't find special index: 2d**
 
-Indexes need to be created. Execute command: <code>rake db:mongoid:create_indexes</code>
+Indexes need to be created. Execute command:
+
+    rake db:mongoid:create_indexes
 
 
 Thanks
------------
+------
+
 * Thanks to Kristian Mandrup for creating the base of the gem and a few of the tests
 * Thanks to CarZen LLC. for letting me release the code we are using
 
-Contributing to mongoid_spatial
------------
+Contributing
+------------
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
@@ -381,5 +363,6 @@ Contributing to mongoid_spatial
 
 Copyright
 -----------
+
 Copyright (c) 2011 Ryan Ong. See LICENSE.txt for
 further details.

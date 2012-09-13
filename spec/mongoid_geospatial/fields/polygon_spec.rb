@@ -30,6 +30,12 @@ describe Mongoid::Geospatial::Polygon do
       geom.radius(10).should eq([[5.5,5.5], 10])
     end
 
+    it "should have a radius sphere" do
+      geom = Mongoid::Geospatial::Polygon.new [[1,1],[1,1],[9,9],[9,9]]
+      geom.radius_sphere(10)[1].should be_within(0.001).of(0.001569)
+    end
+
+
     describe "with rgeo" do
       # farm.area.should be_a RGeo::Geographic::SphericalPolygonImpl
     end

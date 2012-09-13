@@ -1,6 +1,3 @@
-require 'mongoid_geospatial/geospatial/core_ext'
-require 'mongoid_geospatial/geospatial/geo_near_results'
-
 module Mongoid
   module Geospatial
     extend ActiveSupport::Concern
@@ -9,29 +6,24 @@ module Mongoid
     LAT_SYMBOLS = [:y, :lat, :latitude]
 
     EARTH_RADIUS_KM = 6371 # taken directly from mongodb
-    RAD_PER_DEG = Math::PI/180
+    RAD_PER_DEG = Math::PI / 180
 
     EARTH_RADIUS = {
       :km => EARTH_RADIUS_KM,
-      :m  => EARTH_RADIUS_KM*1000,
-      :mi => EARTH_RADIUS_KM*0.621371192, # taken directly from mongodb
-      :ft => EARTH_RADIUS_KM*5280*0.621371192,
-      :sm => EARTH_RADIUS_KM*0.53995680345572 # sea mile
+      :m  => EARTH_RADIUS_KM * 1000,
+      :mi => EARTH_RADIUS_KM * 0.621371192, # taken directly from mongodb
+      :ft => EARTH_RADIUS_KM * 5280*0.621371192,
+      :sm => EARTH_RADIUS_KM * 0.53995680345572 # sea mile
     }
 
     mattr_accessor :lng_symbols
     mattr_accessor :lat_symbols
     mattr_accessor :earth_radius
-    mattr_accessor :geo_factory
-
-    mattr_accessor :paginator
-    mattr_accessor :default_per_page
+    mattr_accessor :factory
 
     @@lng_symbols  = LNG_SYMBOLS.dup
     @@lat_symbols  = LAT_SYMBOLS.dup
     @@earth_radius = EARTH_RADIUS.dup
-    @@paginator = :array
-    @@default_per_page = 25
 
     included do
       attr_accessor :geo

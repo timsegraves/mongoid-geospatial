@@ -15,8 +15,24 @@ describe Mongoid::Geospatial::LineString do
       River.first.source.should eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
-    describe "with rgeo" do
-      # farm.area.should be_a RGeo::Geographic::SphericalPolygonImpl
+    it "should have a bounding box" do
+      geom = Mongoid::Geospatial::LineString.new [[1,5],[6,5],[6,6],[5,6]]
+      geom.bbox.should eq([[1,5], [6,6]])
+    end
+
+    it "should have a center point" do
+      geom = Mongoid::Geospatial::LineString.new [[1,1],[1,1],[9,9],[9,9]]
+      geom.center.should eq([5.5,5.5])
+    end
+
+    it "should have a radius helper" do
+      geom = Mongoid::Geospatial::LineString.new [[1,1],[1,1],[9,9],[9,9]]
+      geom.radius(10).should eq([[5.5,5.5], 10])
+    end
+
+    it "should have a radius sphere" do
+      geom = Mongoid::Geospatial::LineString.new [[1,1],[1,1],[9,9],[9,9]]
+      geom.radius_sphere(10)[1].should be_within(0.001).of(0.001569)
     end
 
   end
