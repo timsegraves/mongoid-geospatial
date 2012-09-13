@@ -67,7 +67,7 @@ To illustrate:
 Configure
 ----------------
 
-Assemble it as you need:
+Assemble it as you need (use a initializer file):
 
 With RGeo
 
@@ -90,7 +90,7 @@ Defaults (change if you know what you're doing)
 Model Setup
 -----------
 
-You can create Point, Line and Polygon on your models:
+You can create Point, Line, Circle, Box and Polygon on your models:
 
 
 ```ruby
@@ -100,17 +100,18 @@ class River
 
   field :name,              type: String
   field :length,            type: Integer
-  field :average_discharge, type: Integer
+  field :discharge,         type: Integer
+
   field :source,            type: Point,    spatial: true
+  field :mouth,             type: Point,    spatial: true
+  field :course,            type: Line
+  field :boundings,         type: Box
 
-  # set return_array to true if you do not want a hash returned all the time
-  field :mouth,             type: Point,    spatial: {lat: :latitude, lng: :longitude, return_array: true }
-  field :course,            type: Polygon
+  # spatial indexing
+  spatial_index :mouth
 
-  # simplified spatial indexing
-  # you can only index one point in mongodb version below 1.9
-  # if you want something besides the defaults {bit: 24, min: -180, max: 180} just set index to the options on the index
-  spatial_index :source
+  # default mongodb options
+  spatial_index :mouth, {bit: 24, min: -180, max: 180}
 
 end
 ```
@@ -125,9 +126,15 @@ rake db:mongoid:create_indexes
 ```
 
 
-Before we manipulate the data mongoid_spatial handles is what we call points.
+Before you read about mongoid_spatial have sure you read this:
 
-Points can be:
+http://mongoid.org/en/origin/docs/selection.html#standard
+
+All MongoDB queries are handled by Mongoid.
+
+
+Points
+------
 
 * an unordered hash with the lat long string keys defined when setting the field (only applies for setting the field)
 * longitude latitude array in that order - [long,lat]
@@ -163,34 +170,8 @@ Mongoid Geo has extended all built in spatial symbol extensions
 
 * near
   * River.where(:source.near => [-73.98, 40.77])
-  * River.where(:source.near => [[-73.98, 40.77],5]) # sets max distance of 5
-  * River.where(:source.near => {:point => [-73.98, 40.77], :max => 5}) # sets max distance of 5
-  * River.where(:source.near(:sphere) => [[-73.98, 40.77],5]) # sets max distance of 5 radians
-  * River.where(:source.near(:sphere) => {:point => [-73.98, 40.77], :max => 5, :unit => :km}) # sets max distance of 5 km
-  * River.where(:source.near(:sphere) => [-73.98, 40.77])
-* within
   * River.where(:source.within(:box) => [[-73.99756,40.73083], [-73.988135,40.741404]])
-  * River.where(:source.within(:box) => [ {:lat => 40.73083, :lng => -73.99756}, [-73.988135,40.741404]])
-  * River.where(:source.within(:polygon) => [ [ 10, 20 ], [ 10, 40 ], [ 30, 40 ], [ 30, 20 ] ]
-  * River.where(:source.within(:polygon) => { a : { x : 10, y : 20 }, b : { x : 15, y : 25 }, c : { x : 20, y : 20 } })
-  * River.where(:source.within(:center) => [[-73.98, 40.77],5])         # same format as near
-  * River.where(:source.within(:center_sphere) => [[-73.98, 40.77],5])  # same format as near(:sphere)
 
-One of the most handy features we have added is geo_near finder
-
-```ruby
-# accepts all criteria chains except without, only, asc, desc, order\_by
-River.where(:name=>'hudson').geo_near({:lat => 40.73083, :lng => -73.99756})
-
-# geo\_near accepts a few parameters besides a point
-# :num = limit
-# :query = where
-# :unit - [:km, :m, :mi, :ft] - converts :max\_distance to appropriate values and automatically sets :distance\_multiplier. accepts
-# :max\_distance - Integer
-# :distance\_multiplier - Integer
-# :spherical - true - To enable spherical calculations
-River.geo_near([-73.99756,40.73083], :max_distance => 4, :unit => :mi, :spherical => true)
-```
 
 
 Mongo DB 1.9+ New Geo features
