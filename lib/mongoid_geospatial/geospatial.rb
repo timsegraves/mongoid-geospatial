@@ -32,6 +32,14 @@ module Mongoid
       @@spatial_fields_indexed = []
     end
 
+    def self.use_rgeo
+      require 'mongoid_geospatial/wrappers/rgeo'
+    end
+
+    def self.use_georuby
+      require 'mongoid_geospatial/wrappers/georuby'
+    end
+
     module ClassMethods #:nodoc:
 
       # create spatial index for given field

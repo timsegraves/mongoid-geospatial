@@ -141,33 +141,6 @@ describe Mongoid::Geospatial::Point do
 
     describe "with rgeo" do
 
-      before do
-        require 'mongoid_geospatial/wrappers/rgeo'
-      end
-
-      it "should mongoize array" do
-        geom = Bar.new(location: [10, -9]).location
-        geom.class.should eql(Mongoid::Geospatial::Point)
-        geom.to_geo.class.should eql(RGeo::Geographic::SphericalPointImpl)
-        geom.x.should be_within(0.1).of(10)
-        geom.to_geo.y.should be_within(0.1).of(-9)
-      end
-
-      it "should mongoize hash" do
-        geom = Bar.new(location: {x: 10, y: -9}).location
-        geom.class.should eql(Mongoid::Geospatial::Point)
-        geom.to_geo.class.should eql(RGeo::Geographic::SphericalPointImpl)
-      end
-
-      it "should accept an RGeo object" do
-        pending
-        point = RGeo::Geographic.spherical_factory.point 1, 2
-        bar = Bar.create!(location: point)
-        bar.location.x.should be_within(0.1).of(1)
-        bar.location.y.should be_within(0.1).of(2)
-      end
-
-
       describe "instantiated" do
 
         let(:bar) { Bar.create!(name: 'Vitinho', location: [10,10]) }
