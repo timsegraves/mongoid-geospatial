@@ -196,8 +196,34 @@ You can use Geometry instance directly on any query:
   * Bar.where(:location.within_polygon => city.area)
 
 
+External Libraries
+------------------
+
+Use RGeo?
+https://github.com/dazuma/rgeo
+
+RGeo is a Ruby wrapper for Proj/GEOS.
+It's perfect when you need to work with complex calculations and projections.
+It'll require more stuff installed to compile/work.
+
+
+Use GeoRuby?
+https://github.com/nofxx/geo_ruby
+
+GeoRuby is a pure Ruby Geometry Library.
+It's perfect if you want simple calculations and/or keep your stack in pure ruby.
+Albeit not full featured in maths it has a handful of methods and good import/export helpers.
+
+Use Nothing?
+
+This lib won't stand in your way.
+Write your own wrapper if you want.
+
+
 Class Methods
 -------------
+
+* MISSING: this is the last part I'm working on...wait and comment *
 
 Some method are added to your class when you define a field as spatial.
 
