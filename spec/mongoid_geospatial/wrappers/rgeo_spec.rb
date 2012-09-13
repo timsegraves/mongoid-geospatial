@@ -7,6 +7,12 @@ describe Mongoid::Geospatial::Point do
     Bar.count.should eql(1)
   end
 
+  it "should not respond to distance before loading external" do
+    bar = Bar.create!(location: [5,5])
+    bar.location.should_not respond_to(:distance)
+  end
+
+
   describe "queryable" do
 
     before do
@@ -40,7 +46,7 @@ describe Mongoid::Geospatial::Point do
       it "should calculate 3d distances by default" do
         bar = Bar.create! location: [-73.77694444, 40.63861111 ]
         bar2 = Bar.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
-        bar.location.distance(bar2.location).to_i.should be_within(1).of(2469)
+        bar.location.distance(bar2.location.to_geo).to_i.should be_within(1).of(3978262)
       end
 
     end

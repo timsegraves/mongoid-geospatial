@@ -120,11 +120,6 @@ describe Mongoid::Geospatial::Point do
         bar[:location].should == [3,2]
       end
 
-      it "should not calculate distance between points w/o external" do
-        bar = Bar.create!(location: [5,5])
-        bar.location.should_not respond_to(:distance)
-      end
-
     end
 
     # should raise
