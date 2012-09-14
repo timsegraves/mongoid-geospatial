@@ -25,8 +25,8 @@ module Mongoid
         [center, r]
       end
 
-      def radius_sphere r = 1
-        [center, r.to_f/Mongoid::Geospatial.earth_radius[:km]]
+      def radius_sphere r = 1, unit = :km
+        radius r.to_f/Mongoid::Geospatial.earth_radius[unit]
       end
 
 

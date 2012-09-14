@@ -1,6 +1,7 @@
 module Mongoid
   module Geospatial
     class Point
+      include Enumerable
       attr_accessor :x, :y
 
       def initialize(x=nil, y=nil)
@@ -16,6 +17,11 @@ module Mongoid
 
       def [](args)
         mongoize[args]
+      end
+
+      def each
+        yield x
+        yield y
       end
 
       def to_hsh xl = :x, yl = :y

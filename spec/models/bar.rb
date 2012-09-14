@@ -8,4 +8,6 @@ class Bar
   has_one :rating, :as => :ratable
 
   spatial_index :location
+  spatial_scope :location
+
 end

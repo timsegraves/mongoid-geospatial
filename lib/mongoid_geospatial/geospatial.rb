@@ -26,7 +26,7 @@ module Mongoid
     @@earth_radius = EARTH_RADIUS.dup
 
     included do
-      attr_accessor :geo
+      # attr_accessor :geo
       cattr_accessor :spatial_fields, :spatial_fields_indexed
       @@spatial_fields = []
       @@spatial_fields_indexed = []
@@ -49,6 +49,15 @@ module Mongoid
       def spatial_index name, options = {}
         self.spatial_fields_indexed << name
         index({name => '2d'}, options)
+      end
+
+      def spatial_scope field, opts = {}
+        self.singleton_class.class_eval do
+          # define_method(:close) do |args|
+          define_method(:nearby) do |args|
+            queryable.where(field.near_sphere => args)
+          end
+        end
       end
 
     end

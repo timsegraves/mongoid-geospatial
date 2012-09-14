@@ -12,6 +12,13 @@ describe Mongoid::Geospatial::Point do
     bar.location.should be_nil
   end
 
+  it "should set point to nil" do
+    bar = Bar.create!(name: "Moe's", location: [1, 1])
+    bar.location = nil
+    bar.location.should be_nil
+    bar.save.should be_true
+  end
+
   describe "methods" do
 
     let(:bar) { Bar.create!(location: [3,2]) }
@@ -34,6 +41,14 @@ describe Mongoid::Geospatial::Point do
 
     it "should have a radius sphere helper" do
       bar.location.radius_sphere[1].should be_within(0.0001).of(0.00015)
+    end
+
+    it "should have a radius sphere helper in meters" do
+      bar.location.radius_sphere(1000, :m)[1].should be_within(0.0001).of(0.00015)
+    end
+
+    it "should have a radius sphere helper in miles" do
+      bar.location.radius_sphere(1, :mi)[1].should be_within(0.0001).of(0.00025)
     end
 
   end
@@ -64,6 +79,15 @@ describe Mongoid::Geospatial::Point do
 
       it "returns the documents sorted closest to furthest" do
         Bar.where(:location.near => jim.location).should == [ paris, prague, berlin ]
+      end
+
+      it "returns the documents sorted closest to furthest" do
+        Bar.near(location: jim.location).should == [ paris, prague, berlin ]
+      end
+
+      it "returns the documents sorted closest to furthest sphere" do
+        person = Person.new(:location => [ 41.23, 2.9 ])
+        Bar.near_sphere(location: jim.location).should == [ paris, prague, berlin ]
       end
 
       it "returns the documents sorted closest to furthest sphere" do
@@ -113,6 +137,11 @@ describe Mongoid::Geospatial::Point do
       it "returns the documents within a center_sphere" do
         Bar.where(:location.within_spherical_circle => [elvis.location, 0.5]).to_a.should include(mile9)
       end
+
+      it "returns the documents within a box" do
+        Bar.within_box(location: [elvis.location, elvis.location.map(&:ceil)]).to_a.should == [ mile3 ]
+      end
+
     end
 
   end
