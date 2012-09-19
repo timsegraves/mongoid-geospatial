@@ -31,16 +31,16 @@ You can also use an external Geometric/Spatial alongside.
       # Include the module
       include Mongoid::Geospatial
 
-	  # Just like mongoid,
+      # Just like mongoid,
       field :name,     type: String
-	  # define your field, but choose a geometry type:
+      # define your field, but choose a geometry type:
       field :location, type: Point, :spatial => true
       field :route,    type: Linestring
       field :area,     type: Polygon
-	  
-	  # If your are going to query on your points, don't forget to index:
-	  spatial_index :location
-	  
+
+      # If your are going to query on your points, don't forget to index:
+      spatial_index :location
+
     end
 
 
@@ -57,15 +57,14 @@ Currently, MongoDB supports query operations on 2D points only, so that's
 what this lib does. All geometries apart from points are just arrays
 in the database. Here's is how you can input a point as:
 
-* an unordered hash with the lat long string keys defined when setting the field (only applies for setting the field)
 * longitude latitude array in that order - [long,lat] ([x, y])
 * an unordered hash with latitude key(:lat, :latitude) and a longitude key(:lon, :long, :lng, :longitude)
 * an ordered hash with longitude as the first item and latitude as the second item
   This hash does not have include the latitude and longitude keys
   \*only works in ruby 1.9 and up because hashes below ruby 1.9 because they are not ordered
-* anything with the method to_lng_lat that converts it to a [long,lat]
+* anything with the a method #to_xy or #to_lng_lat that converts itself to  [long, lat] array
 
-We store data in the DB as a [lng,lat] array then reformat when it is returned to you
+We store data in the DB as a [x, y] array then reformat when it is returned to you
 
 
     hudson = River.create(
@@ -81,14 +80,16 @@ We store data in the DB as a [lng,lat] array then reformat when it is returned t
 Now to access this spatial information we can do this
 
     hudson.mouth  # => [-74.026667, 40.703056]
-	
+
 If you need a hash
 
     hudson.mouth.to_hsh  # => { x: -74.026667, y: 40.703056 }
-	
+
 If you are using GeoRuby or RGeo
 
     hudson.mouth.to_geo  # => NiceGeolib::Point
+
+Conventions: This lib uses #x and #y everywhere. 1. It's shorter than lat or lng or another variation that also confuses. 2. A point is a 2D mathematical notation, longitude/latitude is when you use that notation to map an sphere. In other words, all longitudes are 'xs' where not all 'xs' are longitudes. In the eyes of a moralist it's not even a valid position point, it does not have #z or #m.
 
 Distance and other geometrical calculations are delegated to the external
 library you choosed. More info about using RGeo or GeoRuby below.
@@ -106,9 +107,9 @@ Some built in helpers for mongoid queries:
 
 And for polygons and lines:
 
-	house.area.bbox    # Returns polygon bounding_box (envelope)
-	house.area.center  # Returns calculate middle point
-	
+    house.area.bbox    # Returns polygon bounding_box (envelope)
+    house.area.center  # Returns calculate middle point
+
 
 Query
 --------
@@ -125,7 +126,7 @@ You can use Geometry instance directly on any query:
 * near
   * Bar.near(location: person.house)
   * Bar.where(:location.near => person.house)
-  
+
 
 * near_sphere
   * Bar.near_sphere(location: person.house)
@@ -134,15 +135,15 @@ You can use Geometry instance directly on any query:
 
 * within_box
   * Bar.within_box(location: hood.area)
-  
+
 
 * within_circle
   * Bar.within_circle(location: hood.area)
-  
+
 
 * within_circle_sphere
   * Bar.within_circle_sphere(location: hood.area)
-  
+
 
 * within_polygon
   * Bar.within_polygon(location: city.area)
@@ -213,7 +214,7 @@ With RGeo
 With GeoRuby
 
     Mongoid::Geospatial.use_georuby
-	
+
 
 Defaults (change if you know what you're doing)
 
@@ -237,18 +238,18 @@ You can create Point, Line, Circle, Box and Polygon on your models:
 
       field :route,        type: Line
       field :area,         type: Polygon
-     
-	  field :square,       type: Box
-	  field :around,       type: Circle
-    
+
+      field :square,       type: Box
+      field :around,       type: Circle
+
       # spatial indexing
       spatial_index :mouth
 
       # default mongodb options
       spatial_index :mouth, {bit: 24, min: -180, max: 180}
-	  
-	  # query by location
-	  spatial_scope :location	  
+
+      # query by location
+      spatial_scope :location
     end
 
 
@@ -259,11 +260,11 @@ Nearby
 You can add a `spatial_scope` on your models. So you can query:
 
     Bar.nearby(my.location)
-	
+
 instead of
 
     Bar.near(location: my.location)
-	
+
 Good when you're drunk. Just add to your model:
 
     spatial_scope :<field>
