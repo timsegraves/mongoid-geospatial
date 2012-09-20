@@ -11,3 +11,8 @@ group :development do
   gem 'pry'
   # gem 'fuubar'
 end
+
+group :test do
+  gem 'dbf'
+  gem 'nokogiri'
+end
