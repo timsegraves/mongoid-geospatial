@@ -1,11 +1,11 @@
 require "spec_helper"
 
-Mongoid::Geospatial.send(:remove_const, 'Point')
-load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/point.rb"
 
 describe Mongoid::Geospatial::Point do
 
-  before do
+  before(:all) do
+    Mongoid::Geospatial.send(:remove_const, 'Point')
+    load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/point.rb"
     Object.send(:remove_const, 'Place')
     load "#{File.dirname(__FILE__)}/../../models/place.rb"
   end

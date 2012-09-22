@@ -1,5 +1,3 @@
-#require 'ostruct'
-
 Mongoid::Fields.option :spatial do |model,field,options|
   options = {} unless options.kind_of?(Hash)
   # x_meth = options[:x] || :x
