@@ -16,8 +16,8 @@ Mongoid::Fields.option :delegate do |model, field, options|
     end
 
     # model.class_eval do
-    #   define_method "distance_from_#{field.name}" do |*args|
-    #     self.distance_from(field.name, *args)
+    #   define_method "close_to" do |*args|
+    #     queriable.where(field.name.near_sphere => *args)
     #   end
     # end
   end

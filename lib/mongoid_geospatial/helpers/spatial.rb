@@ -11,9 +11,14 @@ Mongoid::Fields.option :spatial do |model,field,options|
 
   model.class_eval do
     (self.spatial_fields ||= []) << field.name.to_sym
-  #   define_method "distance_from_#{field.name}" do |*args|
-  #     self.distance_from(field.name, *args)
-  #   end
+    (self.spatial_fields_indexed ||= []) << field.name.to_sym
+
+    # Create 2D index
+    spatial_index field.name
+
+    # define_method "near_#{field.name}" do |*args|
+    #   queryable.where(field.near_sphere => args)
+    # end
   end
 
 end
