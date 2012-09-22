@@ -11,6 +11,10 @@ module Mongoid
         GeoRuby::SimpleFeatures::Point.xy(x, y)
       end
 
+      def distance other
+        to_geo.spherical_distance(other.to_geo)
+      end
+
       def self.mongoize(obj)
         case obj
         when GeoRuby::SimpleFeatures::Point then [obj.x, obj.y]
