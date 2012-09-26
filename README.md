@@ -112,7 +112,7 @@ And for polygons and lines:
 
 
 Query
---------
+-----
 
 Before you read about mongoid_spatial have sure you read this:
 
@@ -200,7 +200,7 @@ To illustrate:
 
 
 Configure
-----------------
+---------
 
 Assemble it as you need (use a initializer file):
 
@@ -464,6 +464,12 @@ Troubleshooting
 Indexes need to be created. Execute command:
 
     rake db:mongoid:create_indexes
+
+Using mongoid_geospatial (or mongoid for that matter) without rails?
+
+    https://github.com/kristianmandrup/mongoid_indexing
+
+You need a way to create indexes easily, check out the gem above.
 
 
 Thanks
