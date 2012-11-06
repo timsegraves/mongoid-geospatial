@@ -34,13 +34,13 @@ You can also use an external Geometric/Spatial alongside.
       # Just like mongoid,
       field :name,     type: String
       # define your field, but choose a geometry type:
-      field :location, type: Point, :spatial => true
+      field :location, type: Point
       field :route,    type: Linestring
       field :area,     type: Polygon
 
       # If your are going to query on your points, don't forget to index:
       spatial_index :location
-
+      # You can index points with :spatial => true option too, see below.
     end
 
 
@@ -112,7 +112,7 @@ And for polygons and lines:
 
 
 Query
---------
+-----
 
 Before you read about mongoid_spatial have sure you read this:
 
@@ -200,7 +200,7 @@ To illustrate:
 
 
 Configure
-----------------
+---------
 
 Assemble it as you need (use a initializer file):
 
@@ -234,13 +234,13 @@ You can create Point, Line, Circle, Box and Polygon on your models:
       include Mongoid::Document
       include Mongoid::Geospatial
 
-      field :location,     type: Point
+      field :location,  type: Point, :spatial => true, :delegate => true
 
-      field :route,        type: Line
-      field :area,         type: Polygon
+      field :route,     type: Line
+      field :area,      type: Polygon
 
-      field :square,       type: Box
-      field :around,       type: Circle
+      field :square,    type: Box
+      field :around,    type: Circle
 
       # spatial indexing
       spatial_index :mouth
@@ -252,6 +252,24 @@ You can create Point, Line, Circle, Box and Polygon on your models:
       spatial_scope :location
     end
 
+
+Helpers
+-------
+
+You can use `:spatial => true` to add an '2d' index automatically,
+No need for `spatial_index :location`:
+
+
+    field :location,  type: Point, :spatial => true
+
+
+You can delegate some point methods to the instance itself:
+
+
+    field :location,  type: Point, :delegate => true
+
+
+Now instead of `instance.location.x` you may call `instance.x`.
 
 
 Nearby
@@ -446,6 +464,12 @@ Troubleshooting
 Indexes need to be created. Execute command:
 
     rake db:mongoid:create_indexes
+
+Using mongoid_geospatial (or mongoid for that matter) without rails?
+
+    https://github.com/kristianmandrup/mongoid_indexing
+
+You need a way to create indexes easily, check out the gem above.
 
 
 Thanks

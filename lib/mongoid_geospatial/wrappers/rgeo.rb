@@ -5,10 +5,13 @@ module Mongoid
   module Geospatial
 
     class Point
-      delegate :distance, :to => :to_geo
 
       def to_geo
         RGeo::Geographic.spherical_factory.point x, y
+      end
+
+      def distance other
+        to_geo.distance other.to_geo
       end
 
       def self.mongoize(obj)

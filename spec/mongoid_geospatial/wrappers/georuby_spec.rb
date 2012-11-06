@@ -1,15 +1,21 @@
 require "spec_helper"
-Mongoid::Geospatial::Point = Class.new
-load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/point.rb"
+
 
 describe Mongoid::Geospatial::Point do
+
+  before(:all) do
+    Mongoid::Geospatial.send(:remove_const, 'Point')
+    load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/point.rb"
+    Object.send(:remove_const, 'Place')
+    load "#{File.dirname(__FILE__)}/../../models/place.rb"
+  end
 
   it "should not inferfer with mongoid" do
     Place.create!(name: "Moe's")
     Place.count.should eql(1)
   end
 
-  it "should not respond to distance before loading external" do
+  it "should not respond to distance before loading external gem" do
     bar = Place.create!(location: [5,5])
     bar.location.should_not respond_to(:distance)
   end
@@ -18,8 +24,8 @@ describe Mongoid::Geospatial::Point do
   describe "queryable" do
 
     before do
-      Place.create_indexes
       Mongoid::Geospatial.use_georuby
+      Place.create_indexes
     end
 
     describe "(de)mongoize" do
@@ -48,7 +54,7 @@ describe Mongoid::Geospatial::Point do
       it "should calculate 3d distances by default" do
         bar = Place.create! location: [-73.77694444, 40.63861111 ]
         bar2 = Place.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
-        bar.location.distance(bar2.location.to_geo).to_i.should be_within(1).of(3978262)
+        bar.location.distance(bar2.location).to_i.should be_within(1).of(3973808)
       end
 
     end
