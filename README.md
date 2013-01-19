@@ -494,4 +494,6 @@ Contributing
 Copyright
 -----------
 
-Copyright (c) 2011 Ryan Ong. See LICENSE.txt for further details.
+WTFPL
+
+http://en.wikipedia.org/wiki/WTFPL
