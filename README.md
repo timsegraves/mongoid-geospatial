@@ -14,7 +14,6 @@ There are no plans to support MongoDB < 2.0
 There are no plans to support Mongoid <= 2.0
 
 
-
 Quick Start
 -----------
 
