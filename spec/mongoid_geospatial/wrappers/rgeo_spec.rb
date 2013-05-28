@@ -22,7 +22,7 @@ describe "RGeo Wrapper" do
   end
 
   describe Mongoid::Geospatial::Point do
-    it "should not inferfer with mongoid" do
+    it "should not interfer with mongoid" do
       Bar.create!(name: "Moe's")
       Bar.count.should eql(1)
     end
@@ -34,7 +34,7 @@ describe "RGeo Wrapper" do
   end
 
   describe Mongoid::Geospatial::Polygon do
-    it "should not inferfer with mongoid" do
+    it "should not interfer with mongoid" do
       Farm.create!(name: "Springfield Nuclear Power Plant")
       Farm.count.should eql(1)
     end
@@ -46,7 +46,7 @@ describe "RGeo Wrapper" do
   end
 
   describe Mongoid::Geospatial::Line do
-    it "should not inferfer with mongoid" do
+    it "should not interfer with mongoid" do
       River.create!(name: "Mississippi")
       River.count.should eql(1)
     end
