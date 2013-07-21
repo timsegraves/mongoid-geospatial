@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "mongoid_geospatial"
   gem.require_paths = ["lib"]
   gem.version       = Mongoid::Geospatial::VERSION
+  gem.license       = "MIT"
 
   gem.add_dependency('mongoid', ['>= 3.0.0'])
   gem.add_dependency('activesupport', [">= 3.2"])
