@@ -2,8 +2,8 @@ module Mongoid
   module Geospatial
     extend ActiveSupport::Concern
 
-    LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude]
-    LAT_SYMBOLS = [:y, :lat, :latitude]
+    LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude, 'x', 'lon', 'long', 'longitude']
+    LAT_SYMBOLS = [:y, :lat, :latitude, 'y', 'lat', 'latitude']
 
     EARTH_RADIUS_KM = 6371 # taken directly from mongodb
     RAD_PER_DEG = Math::PI / 180
