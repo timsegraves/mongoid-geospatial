@@ -32,10 +32,21 @@ describe Mongoid::Fields do
 
     end
 
-    it "should set instance method x and y" do
+    it "should set instance methods x= and y=" do
       bus = Bus.create!(name: "B", location: [7,7])
       bus.x = 9; bus.y = 9
       bus.location.to_a.should eq([9,9])
+    end
+
+    it "should work fine with default values" do
+      event = Event.create!(name: "Bvent")
+      event.x = 9; event.y = 9
+      event.location.to_a.should eq([9,9])
+    end
+
+    it "should not work fine with nils" do
+      bus = Bus.create!(name: "B", location: nil)
+      -> { bus.x = 9; bus.y = 9 }.should raise_error(NoMethodError)
     end
 
   end

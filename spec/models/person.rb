@@ -10,26 +10,26 @@ class Person
   class_attribute :somebody_elses_important_class_options
   self.somebody_elses_important_class_options = { :keep_me_around => true }
 
-  field :title
-  field :terms, :type => Boolean
-  field :pets, :type => Boolean, :default => false
-  field :age, :type => Integer, :default => 100
-  field :dob, :type => Date
-  field :employer_id
-  field :lunch_time, :type => Time
-  field :aliases, :type => Array
-  field :map, :type => Hash
-  field :score, :type => Integer
-  field :blood_alcohol_content, :type => Float, :default => lambda{ 0.0 }
-  field :last_drink_taken_at, :type => Date, :default => lambda { 1.day.ago.in_time_zone("Alaska") }
   field :ssn
-  field :owner_id, :type => Integer
+  field :title
+  field :terms,      type: Boolean
+  field :pets,       type: Boolean, :default => false
+  field :age,        type: Integer, :default => 100
+  field :dob,        type: Date
+  field :lunch_time, type: Time
+  field :aliases,    type: Array
+  field :map,        type: Hash
+  field :score,      type: Integer
+  field :owner_id,   type: Integer
+  field :reading,    type: Object
+  field :bson_id,    type: bson_object_id_class
+  field :employer_id
   field :security_code
-  field :reading, :type => Object
-  field :bson_id, :type => bson_object_id_class
+  field :blood_alcohol_content, type: Float, :default => lambda{ 0.0 }
+  field :last_drink_taken_at,   type: Date,  :default => lambda { 1.day.ago.in_time_zone("Alaska") }
 
   # Geo
-  field :location, :type => Point
+  field :location, type: Point
 
   index age: 1
   index addresses: 1
