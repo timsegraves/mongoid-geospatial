@@ -162,7 +162,19 @@ describe Mongoid::Geospatial::Point do
       geom.y.should be_within(0.1).of(-9)
     end
 
+    it "should mongoize hash with symbols in any order" do
+      geom = Bar.new(location: {y: -9, x: 10}).location
+      geom.class.should eql(Mongoid::Geospatial::Point)
+      geom.x.should be_within(0.1).of(10)
+      geom.y.should be_within(0.1).of(-9)
+    end
 
+    it "should mongoize hash with string keys in any order" do
+      geom = Bar.new(location: {'y' => -9, 'x' => 10}).location
+      geom.class.should eql(Mongoid::Geospatial::Point)
+      geom.x.should be_within(0.1).of(10)
+      geom.y.should be_within(0.1).of(-9)
+    end
 
     # should raise
     # geom.to_geo
