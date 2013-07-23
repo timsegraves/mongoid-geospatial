@@ -3,6 +3,7 @@ require "spec_helper"
 describe Mongoid::Fields do
 
   context "delegate" do
+
     before do
       Bus.create_indexes
     end
@@ -37,9 +38,6 @@ describe Mongoid::Fields do
       bus.location.to_a.should eq([9,9])
     end
 
-  end
-
-  context "geom" do
   end
 
 end

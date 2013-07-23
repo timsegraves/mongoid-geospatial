@@ -67,3 +67,19 @@ module Mongoid
 
   end
 end
+
+  # model.instance_eval do # wont work
+  # #   define_method "near_#{field.name}" do |*args|
+  # #     self.where(field.name => args)
+  # #   end
+  # end
+
+  # define_method "near_#{field.name}" do |*args|
+    #   queryable.where(field.near_sphere => args)
+    # end
+
+    # model.class_eval do
+    #   define_method "close_to" do |*args|
+    #     queriable.where(field.name.near_sphere => *args)
+    #   end
+    # end

@@ -3,6 +3,7 @@ require "spec_helper"
 describe Mongoid::Fields do
 
   context "spatial" do
+
     before do
       Bar.create_indexes
     end
