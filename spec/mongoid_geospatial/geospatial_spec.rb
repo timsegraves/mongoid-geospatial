@@ -16,26 +16,57 @@ describe Mongoid::Geospatial do
 
   end
 
-  #
-  # TODO: Model helpers
-  # describe "#geo_near" do
+  context "Creating indexes" do
 
-  #   before do
-  #     Bar.create_indexes
-  #   end
+    it "should create a 2d index" do
+      Bar.create_indexes
+      Bar.index_options.keys.should include({:location => '2d'})
+    end
 
-  #   let!(:jfk) do
-  #     Bar.create(:name => 'jfk', :location => [-73.77694444, 40.63861111 ])
-  #   end
+    it "should create a 2dsphere index" do
+      Alarm.create_indexes
+      Alarm.index_options.keys.should include({:spot => '2dsphere'})
+    end
 
-  #   let!(:lax) do
-  #     Bar.create(:name => 'lax', :location => [-118.40, 33.94])
-  #   end
+  end
 
-  #   it "should work with specifying specific center and different location attribute on collction" do
-  #     pending
-  #     Bar.geo_near(lax.location, :spherical => true).should == [lax, jfk]
-  #   end
+  context "#nearby 2d" do
+
+    before do
+      Bar.create_indexes
+    end
+
+    let!(:jfk) do
+      Bar.create(:name => 'jfk', :location => [-73.77694444, 40.63861111 ])
+    end
+
+    let!(:lax) do
+      Bar.create(:name => 'lax', :location => [-118.40, 33.94])
+    end
+
+    it "should work with specifying specific center and different location attribute on collction" do
+      Bar.nearby(lax.location).should == [lax, jfk]
+    end
+
+  end
+
+  context "#nearby 2dsphere" do
+
+    before do
+      Alarm.create_indexes
+    end
+
+    let!(:jfk) do
+      Alarm.create(:name => 'jfk', :spot => [-73.77694444, 40.63861111 ])
+    end
+
+    let!(:lax) do
+      Alarm.create(:name => 'lax', :spot => [-118.40, 33.94])
+    end
+
+    it "should work with specifying specific center and different spot attribute on collction" do
+      Alarm.nearby(lax.spot).should == [lax, jfk]
+    end
 
   #   context ':maxDistance' do
   #     it "should get 1 item" do
@@ -107,6 +138,6 @@ describe Mongoid::Geospatial do
   #   it "per_page=5" do
   #     Bar.geo_near([1,1], :page => 1, :per_page => 5).size.should == 5
   #   end
-  # end
+  end
 
 end

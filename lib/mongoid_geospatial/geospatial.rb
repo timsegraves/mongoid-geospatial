@@ -54,6 +54,11 @@ module Mongoid
         index({name => '2d'}, options)
       end
 
+      def sphere_index name, options = {}
+        self.spatial_fields_indexed << name
+        index({name => '2dsphere'}, options)
+      end
+
       def spatial_scope field, opts = {}
         self.singleton_class.class_eval do
           # define_method(:close) do |args|

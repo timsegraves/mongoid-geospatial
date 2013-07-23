@@ -4,6 +4,7 @@ class Alarm
 
   field :radius,  type: Circle
   field :area,    type: Box
+  field :spot,    type: Point, sphere: true
 
-
+  spatial_scope :spot
 end
