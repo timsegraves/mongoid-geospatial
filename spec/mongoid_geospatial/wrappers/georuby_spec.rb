@@ -57,6 +57,19 @@ describe Mongoid::Geospatial::Point do
         bar.location.distance(bar2.location).to_i.should be_within(1).of(3973808)
       end
 
+      describe "simple features" do
+
+        it "should mongoize lines" do
+          river = River.new(course: [[1,2],[3,4],[5,6]])
+          river.course.to_geo.should be_instance_of(GeoRuby::SimpleFeatures::LineString)
+        end
+
+        it "should mongoize polygon" do
+          farm = Farm.new(area: [[1,2],[3,4],[5,6]])
+          farm.area.to_geo.should be_instance_of(GeoRuby::SimpleFeatures::Polygon)
+        end
+
+      end
     end
   end
 end

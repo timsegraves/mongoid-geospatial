@@ -5,14 +5,14 @@ describe Mongoid::Geospatial::Line do
   describe "(de)mongoize" do
 
     it "should support a field mapped as linestring" do
-      river = River.new(source: [[5,5],[6,5],[6,6],[5,6]])
-      river.source.should be_a Mongoid::Geospatial::Line
-      river.source.should eq([[5,5],[6,5],[6,6],[5,6]])
+      river = River.new(course: [[5,5],[6,5],[6,6],[5,6]])
+      river.course.should be_a Mongoid::Geospatial::Line
+      river.course.should eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
     it "should support a field mapped as linestring" do
-      River.create!(source: [[5,5],[6,5],[6,6],[5,6]])
-      River.first.source.should eq([[5,5],[6,5],[6,6],[5,6]])
+      River.create!(course: [[5,5],[6,5],[6,6],[5,6]])
+      River.first.course.should eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
     it "should have a bounding box" do

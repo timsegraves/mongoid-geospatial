@@ -28,15 +28,17 @@ module Mongoid
 
 
     class Line < GeometryField
+
       def to_geo
-        GeoRuby::SimpleFeatures::LineString.from_array(self)
+        GeoRuby::SimpleFeatures::LineString.from_coordinates([self])
       end
 
     end
 
     class Polygon < GeometryField
+
       def to_geo
-        GeoRuby::SimpleFeatures::Polygon.from_array(self)
+        GeoRuby::SimpleFeatures::Polygon.from_coordinates([self])
       end
 
     end

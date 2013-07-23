@@ -52,8 +52,8 @@ describe "RGeo Wrapper" do
     end
 
     it "should not respond to to_geo before loading external" do
-      river = River.create!(source: [[5,5],[6,5],[6,6],[5,6]])
-      river.source.should_not respond_to(:to_geo)
+      river = River.create!(course: [[5,5],[6,5],[6,6],[5,6]])
+      river.course.should_not respond_to(:to_geo)
     end
   end
 
@@ -108,7 +108,7 @@ describe "RGeo Wrapper" do
 
       describe Mongoid::Geospatial::Line do
         it "should mongoize array" do
-          geom = River.create!(source: [[5,5],[6,5],[6,6],[5,6]]).source
+          geom = River.create!(course: [[5,5],[6,5],[6,6],[5,6]]).course
           geom.class.should eql(Mongoid::Geospatial::Line)
           geom.to_geo.class.should eql(RGeo::Geographic::SphericalLineStringImpl)
           geom.to_geo.to_s.should eq "LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)"
