@@ -10,8 +10,9 @@ Version 2+ is going to be beta testing, when it's ready I'll release v3,
 So the major version stays the same as mongoid.
 
 [![Gem Version](https://badge.fury.io/rb/mongoid_geospatial.png)](http://badge.fury.io/rb/mongoid_geospatial)
-[![Build Status](https://travis-ci.org/nofxx/mongoid_geospatial.png?branch=master)](https://travis-ci.org/nofxx/mongoid_geospatial)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid_geospatial.png)](https://codeclimate.com/github/nofxx/mongoid_geospatial)
+[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid_geospatial/badge.png)](https://coveralls.io/r/nofxx/mongoid_geospatial)
+[![Build Status](https://travis-ci.org/nofxx/mongoid_geospatial.png?branch=master)](https://travis-ci.org/nofxx/mongoid_geospatial)
 
 
 Quick Start
