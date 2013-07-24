@@ -10,10 +10,6 @@ Version 2+ is going to be beta testing, when it's ready I'll release v3,
 So the major version stays the same as mongoid.
 
 
-There are no plans to support MongoDB < 2.0
-There are no plans to support Mongoid <= 2.0
-
-
 Quick Start
 -----------
 
@@ -49,7 +45,7 @@ For geo points, an extra macro `geo_field` is available
     class Place
       include Mongoid::Document
       include Mongoid::Geospatial
-      
+
       # field :location, type: Point, spatial: true
       geo_field :location
     end
@@ -109,7 +105,14 @@ If you are using GeoRuby or RGeo
 
     hudson.mouth.to_geo  # => NiceGeolib::Point
 
-Conventions: This lib uses #x and #y everywhere. 1. It's shorter than lat or lng or another variation that also confuses. 2. A point is a 2D mathematical notation, longitude/latitude is when you use that notation to map an sphere. In other words, all longitudes are 'xs' where not all 'xs' are longitudes. In the eyes of a moralist it's not even a valid position point, it does not have #z or #m.
+Conventions:
+
+This lib uses #x and #y everywhere.
+It's shorter than lat or lng or another variation that also confuses.
+A point is a 2D mathematical notation, longitude/latitude is when you use that notation to map an sphere.
+
+In other words, all longitudes are 'xs' where not all 'xs' are longitudes.
+In the eyes of a moralist it's not even a valid position point, it does not have #z or #m.
 
 Distance and other geometrical calculations are delegated to the external
 library you choosed. More info about using RGeo or GeoRuby below.
@@ -492,12 +495,6 @@ Using mongoid_geospatial (or mongoid for that matter) without rails?
 You need a way to create indexes easily, check out the gem above.
 
 
-Thanks
-------
-
-* Thanks to Kristian Mandrup for creating the base of the gem and a few of the tests
-* Thanks to CarZen LLC. for letting me release the code we are using
-
 
 Contributing
 ------------
@@ -509,11 +506,3 @@ Contributing
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
-
-
-Copyright
------------
-
-WTFPL
-
-http://en.wikipedia.org/wiki/WTFPL
