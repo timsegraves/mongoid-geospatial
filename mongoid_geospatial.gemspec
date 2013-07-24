@@ -18,9 +18,4 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('mongoid', ['>= 3.0.0'])
   gem.add_dependency('activesupport', [">= 3.2"])
-  gem.add_development_dependency('yard', [">= 0.6.0"])
-  gem.add_development_dependency('rspec', ['>= 2.11'])
-  gem.add_development_dependency('kaminari', ['>= 0'])
-  gem.add_development_dependency('will_paginate', ['>= 0'])
-  gem.add_development_dependency("rake")
 end
