@@ -9,6 +9,7 @@ Removing some trash, improving and adding support for RGeo and GeoRuby.
 Version 2+ is going to be beta testing, when it's ready I'll release v3,
 So the major version stays the same as mongoid.
 
+[![Gem Version](https://badge.fury.io/rb/mongoid_geospatial.png)](http://badge.fury.io/rb/mongoid_geospatial)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid_geospatial.png)](https://codeclimate.com/github/nofxx/mongoid_geospatial)
 
 
