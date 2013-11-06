@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 gemspec # Specify  gem's dependencies in mongoid_geospatial.gemspec
 
 gem 'rake'
+gem 'mongoid', github: 'mongoid/mongoid'
+
 
 group :development do
   gem 'pry'

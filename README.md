@@ -19,7 +19,7 @@ Quick Start
 -----------
 
 This gem focus on (making helpers for) spatial features MongoDB has.
-You can also use an external Geometric/Spatial alongside.
+You may also use an external Geometric/Spatial gem alongside.
 
     # Gemfile
     gem 'mongoid_geospatial'
@@ -47,13 +47,10 @@ You can also use an external Geometric/Spatial alongside.
 For geo points, an extra macro `geo_field` is available
 
 
-    class Place
-      include Mongoid::Document
-      include Mongoid::Geospatial
-
-      # field :location, type: Point, spatial: true
       geo_field :location
-    end
+      # Will generate:
+      field :location, type: Point, spatial: true
+
 
 
 Generate indexes on MongoDB:
