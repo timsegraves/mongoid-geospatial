@@ -19,15 +19,13 @@ describe Mongoid::Geospatial do
   context "Creating indexes" do
 
     it "should create a 2d index" do
-      pending 'check indexes on mongoid 4'
       Bar.create_indexes
-      Bar.index_options.keys.should include({:location => '2d'})
+      Bar.collection.indexes[:location => '2d'].should_not be_nil
     end
 
     it "should create a 2dsphere index" do
-      pending 'check indexes on mongoid 4'
       Alarm.create_indexes
-      Alarm.index_options.keys.should include({:spot => '2dsphere'})
+      Alarm.collection.indexes[:spot => '2dsphere'].should_not be_nil
     end
 
   end
