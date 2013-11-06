@@ -26,6 +26,10 @@ module Mongoid
         yield y
       end
 
+      def to_s
+        "#{x}, #{y}"
+      end
+
       def to_hsh xl = :x, yl = :y
         {xl => x, yl => y}
       end
