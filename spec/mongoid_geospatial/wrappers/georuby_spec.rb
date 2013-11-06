@@ -24,7 +24,7 @@ describe Mongoid::Geospatial::Point do
   describe "queryable" do
 
     before do
-      Mongoid::Geospatial.use_georuby
+      Mongoid::Geospatial.with_georuby!
       Place.create_indexes
     end
 
@@ -54,7 +54,7 @@ describe Mongoid::Geospatial::Point do
       it "should calculate 3d distances by default" do
         bar = Place.create! location: [-73.77694444, 40.63861111 ]
         bar2 = Place.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
-        bar.location.distance(bar2.location).to_i.should be_within(1).of(3973808)
+        bar.location.geo_distance(bar2.location).to_i.should be_within(1).of(3973808)
       end
 
       describe "simple features" do

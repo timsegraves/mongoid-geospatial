@@ -32,11 +32,11 @@ module Mongoid
       self.spatial_fields_indexed = []
     end
 
-    def self.use_rgeo
+    def self.with_rgeo!
       require 'mongoid_geospatial/wrappers/rgeo'
     end
 
-    def self.use_georuby
+    def self.with_georuby!
       require 'mongoid_geospatial/wrappers/georuby'
     end
 

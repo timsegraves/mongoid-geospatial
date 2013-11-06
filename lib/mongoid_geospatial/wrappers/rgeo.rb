@@ -5,23 +5,14 @@ module Mongoid
   module Geospatial
 
     class Point
-      def to_geo
+      def to_rgeo
         RGeo::Geographic.spherical_factory.point x, y
       end
 
-      def distance other
-        to_geo.distance other.to_geo
+      def rgeo_distance other
+        to_rgeo.distance other.to_rgeo
       end
 
-      def self.mongoize(obj)
-        case obj
-        when RGeo::Geographic::SphericalPointImpl then [obj.x, obj.y]
-        when Point then obj.mongoize
-        when Array then Geospatial.from_array(obj)
-        when Hash  then Geospatial.from_hash(obj)
-        else obj
-        end
-      end
     end
 
     class GeometryField
@@ -34,17 +25,19 @@ module Mongoid
     end
 
     class Line < GeometryField
-      def to_geo
+      def to_rgeo
         RGeo::Geographic.spherical_factory.line_string points
       end
 
     end
 
     class Polygon < GeometryField
-      def to_geo
+      def to_rgeo
         ring = RGeo::Geographic.spherical_factory.linear_ring points
         RGeo::Geographic.spherical_factory.polygon ring
       end
     end
+
   end
+
 end

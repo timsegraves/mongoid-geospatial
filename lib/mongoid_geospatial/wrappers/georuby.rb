@@ -1,5 +1,5 @@
 require 'geo_ruby'
-# require 'mongoid_geospatial/extensions/georuby'
+require 'mongoid_geospatial/extensions/georuby_point'
 
 module Mongoid
   module Geospatial
@@ -11,19 +11,10 @@ module Mongoid
         GeoRuby::SimpleFeatures::Point.xy(x, y)
       end
 
-      def distance other
+      def geo_distance other
         to_geo.spherical_distance(other.to_geo)
       end
 
-      def self.mongoize(obj)
-        case obj
-        when GeoRuby::SimpleFeatures::Point then [obj.x, obj.y]
-        when Point then obj.mongoize
-        when Array then Geospatial.from_array(obj)
-        when Hash  then Geospatial.from_hash(obj)
-        else obj
-        end
-      end
     end
 
     class Line < GeometryField

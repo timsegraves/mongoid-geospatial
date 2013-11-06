@@ -60,7 +60,7 @@ describe "RGeo Wrapper" do
   describe "queryable" do
 
     before do
-      Mongoid::Geospatial.use_rgeo
+      Mongoid::Geospatial.with_rgeo!
       Bar.create_indexes
       Farm.create_indexes
       River.create_indexes
@@ -72,15 +72,15 @@ describe "RGeo Wrapper" do
         it "should mongoize array" do
           geom = Bar.new(location: [10, -9]).location
           geom.class.should eql(Mongoid::Geospatial::Point)
-          geom.to_geo.class.should eql(RGeo::Geographic::SphericalPointImpl)
+          geom.to_rgeo.class.should eql(RGeo::Geographic::SphericalPointImpl)
           geom.x.should be_within(0.1).of(10)
-          geom.to_geo.y.should be_within(0.1).of(-9)
+          geom.to_rgeo.y.should be_within(0.1).of(-9)
         end
 
         it "should mongoize hash" do
           geom = Bar.new(location: {x: 10, y: -9}).location
           geom.class.should eql(Mongoid::Geospatial::Point)
-          geom.to_geo.class.should eql(RGeo::Geographic::SphericalPointImpl)
+          geom.to_rgeo.class.should eql(RGeo::Geographic::SphericalPointImpl)
         end
 
         it "should accept an RGeo object" do
@@ -93,7 +93,7 @@ describe "RGeo Wrapper" do
         it "should calculate 3d distances by default" do
           bar = Bar.create! location: [-73.77694444, 40.63861111 ]
           bar2 = Bar.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
-          bar.location.distance(bar2.location).to_i.should be_within(1).of(3978262)
+          bar.location.rgeo_distance(bar2.location).to_i.should be_within(1).of(3978262)
         end
       end
 
@@ -101,8 +101,8 @@ describe "RGeo Wrapper" do
         it "should mongoize array" do
           geom = Farm.create!(area: [[5,5],[6,5],[6,6],[5,6]]).area
           geom.class.should eql(Mongoid::Geospatial::Polygon)
-          geom.to_geo.class.should eql(RGeo::Geographic::SphericalPolygonImpl)
-          geom.to_geo.to_s.should eq "POLYGON ((5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0, 5.0 5.0))"
+          geom.to_rgeo.class.should eql(RGeo::Geographic::SphericalPolygonImpl)
+          geom.to_rgeo.to_s.should eq "POLYGON ((5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0, 5.0 5.0))"
         end
       end
 
@@ -110,8 +110,8 @@ describe "RGeo Wrapper" do
         it "should mongoize array" do
           geom = River.create!(course: [[5,5],[6,5],[6,6],[5,6]]).course
           geom.class.should eql(Mongoid::Geospatial::Line)
-          geom.to_geo.class.should eql(RGeo::Geographic::SphericalLineStringImpl)
-          geom.to_geo.to_s.should eq "LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)"
+          geom.to_rgeo.class.should eql(RGeo::Geographic::SphericalLineStringImpl)
+          geom.to_rgeo.to_s.should eq "LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)"
         end
       end
     end

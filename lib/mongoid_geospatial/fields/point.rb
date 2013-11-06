@@ -74,7 +74,7 @@ module Mongoid
           when Point then object.mongoize
           when Array then Geospatial.from_array(object)
           when Hash then Geospatial.from_hash(object)
-          else object
+          else object.mongoize
           end
         end
 
