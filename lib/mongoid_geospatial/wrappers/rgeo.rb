@@ -17,8 +17,8 @@ module Mongoid
         case obj
         when RGeo::Geographic::SphericalPointImpl then [obj.x, obj.y]
         when Point then obj.mongoize
-        when Array then obj.to_xy
-        when Hash  then obj.to_xy
+        when Array then Geospatial.from_array(obj)
+        when Hash  then Geospatial.from_hash(obj)
         else obj
         end
       end

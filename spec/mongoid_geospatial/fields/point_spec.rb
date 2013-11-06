@@ -21,7 +21,19 @@ describe Mongoid::Geospatial::Point do
 
   it "should set point with comma separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = Mongoid::Geospatial::Point.new("2.99, 3.99")
+    bar.location = Mongoid::Geospatial::Point.new("2.99,3.99")
+    bar.location.mongoize.should eq([2.99, 3.99])
+  end
+
+  it "should set point with space separated text" do
+    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
+    bar.location = Mongoid::Geospatial::Point.new("2.99 3.99")
+    bar.location.mongoize.should eq([2.99, 3.99])
+  end
+
+  it "should set point with space comma separated text" do
+    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
+    bar.location = Mongoid::Geospatial::Point.new("2.99 ,  3.99")
     bar.location.mongoize.should eq([2.99, 3.99])
   end
 

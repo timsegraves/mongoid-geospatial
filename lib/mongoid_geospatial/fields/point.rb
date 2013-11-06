@@ -72,8 +72,8 @@ module Mongoid
         def mongoize(object)
           case object
           when Point then object.mongoize
-          when Array then object.to_xy
-          when Hash then object.to_xy
+          when Array then Geospatial.from_array(object)
+          when Hash then Geospatial.from_hash(object)
           else object
           end
         end

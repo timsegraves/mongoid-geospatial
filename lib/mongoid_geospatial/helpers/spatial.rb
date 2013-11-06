@@ -15,4 +15,5 @@ Mongoid::Fields.option :spatial do |model, field, options|
     spatial_index field.name
 
   end
+
 end
