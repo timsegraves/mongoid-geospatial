@@ -2,10 +2,12 @@ module Mongoid
   module Geospatial
     class Point
       include Enumerable
-      attr_accessor :x, :y
+      attr_reader :x, :y
 
-      def initialize(x=nil, y=nil)
-        @x, @y = x, y
+      def initialize(x = nil, y = nil)
+        return unless x
+        ll = y ? [x, y] : x.split(/,|\s/).reject(&:empty?)
+        @x, @y = ll.map(&:to_f)
       end
 
       # Object -> Database
@@ -64,8 +66,7 @@ module Mongoid
 
         # Database -> Object
         def demongoize(object)
-          return unless object
-          Point.new(*object)
+          Point.new(*object) if object
         end
 
         def mongoize(object)
