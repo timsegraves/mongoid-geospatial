@@ -9,8 +9,7 @@ describe Mongoid::Fields do
     end
 
     it "should created indexes" do
-      pending 'check indexes on mongoid 4'
-      Alarm.index_options.keys.should include({:spot => '2dsphere'})
+      Alarm.collection.indexes[:spot => '2dsphere'].should_not be_nil
     end
 
     it "should set spatial fields" do

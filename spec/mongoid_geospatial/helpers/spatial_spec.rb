@@ -9,8 +9,7 @@ describe Mongoid::Fields do
     end
 
     it "should created indexes" do
-      pending 'check indexes on mongoid 4'
-      Bar.index_options.keys.should include({:location => '2d'})
+      Bar.collection.indexes[:location => '2d'].should_not be_nil
     end
 
     it "should set spatial fields" do
