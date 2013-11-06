@@ -101,11 +101,14 @@ Now to access this spatial information we can do this
 
 If you need a hash
 
-    hudson.mouth.to_hsh  # => { x: -74.026667, y: 40.703056 }
+    hudson.mouth.to_hsh   # => { x: -74.026667, y: 40.703056 }
 
 If you are using GeoRuby or RGeo
 
-    hudson.mouth.to_geo  # => NiceGeolib::Point
+    hudson.mouth.to_geo   # => GeoRuby::Point
+
+    hudson.mouth.to_rgeo  # => RGeo::Point
+
 
 Conventions:
 
@@ -202,8 +205,10 @@ Geometry Helpers
 ----------------
 
 We currently support GeoRuby and RGeo.
-If you require one of those, a #to_geo method will be available to all
-spatial fields, returning the external library corresponding object.
+If you require one of those, a #to_geo and #to_rgeo, respectivelly,
+method(s) will be available to all spatial fields, returning the
+external library corresponding object.
+
 To illustrate:
 
     class Person
@@ -221,7 +226,7 @@ To illustrate:
 
     # Example with RGeo
     point.class # Mongoid::Geospatial::Point
-    point.to_geo.class # RGeo::Geographic::SphericalPointImpl
+    point.to_rgeo.class # RGeo::Geographic::SphericalPointImpl
 
 
 Configure
@@ -231,14 +236,14 @@ Assemble it as you need (use a initializer file):
 
 With RGeo
 
-    Mongoid::Geospatial.use_rgeo
+    Mongoid::Geospatial.with_rgeo!
     # Optional
     # Mongoid::Geospatial.factory = RGeo::Geographic.spherical_factory
 
 
 With GeoRuby
 
-    Mongoid::Geospatial.use_georuby
+    Mongoid::Geospatial.with_georuby!
 
 
 Defaults (change if you know what you're doing)
