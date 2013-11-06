@@ -2,6 +2,7 @@ class Bus
   include Mongoid::Document
   include Mongoid::Geospatial
 
+  field :name
   field :plates,   :type => String
   field :location, :type => Point, :delegate => true
 

@@ -4,7 +4,7 @@ require File.expand_path('../lib/mongoid_geospatial/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Ryan Ong", "Marcos Piccinini"]
   gem.email         = ["use@git.hub.com"]
-  gem.description   = "Mongoid Extension that simplifies MongoDB operations and autocast for spatial Ruby objects."
+  gem.description   = "Mongoid Extension that simplifies MongoDB casting and operations on spatial Ruby objects."
   gem.summary       = "Mongoid Extension that simplifies MongoDB Geospatial Operations."
   gem.homepage      = "https://github.com/nofxx/mongoid_geospatial"
 

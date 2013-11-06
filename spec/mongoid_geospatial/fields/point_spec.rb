@@ -12,11 +12,25 @@ describe Mongoid::Geospatial::Point do
     bar.location.should be_nil
   end
 
+  it "should set point methodically" do
+    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
+    bar.location = Mongoid::Geospatial::Point.new(8,8)
+    bar.save.should be_true
+    Bar.first.location.x.should eq(8)
+  end
+
+  it "should set point with comma separated text" do
+    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
+    bar.location = Mongoid::Geospatial::Point.new("2.99, 3.99")
+    bar.location.mongoize.should eq([2.99, 3.99])
+  end
+
   it "should set point to nil" do
     bar = Bar.create!(name: "Moe's", location: [1, 1])
     bar.location = nil
     bar.location.should be_nil
     bar.save.should be_true
+    Bar.first.location.should be_nil
   end
 
   describe "methods" do

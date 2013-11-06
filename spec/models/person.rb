@@ -1,8 +1,7 @@
 class Person
   include Mongoid::Document
-  include Mongoid::MultiParameterAttributes
   include Mongoid::Timestamps
-  include Mongoid::Versioning
+  # include Mongoid::Versioning
   include Mongoid::Geospatial
 
   attr_accessor :mode
@@ -22,7 +21,7 @@ class Person
   field :score,      type: Integer
   field :owner_id,   type: Integer
   field :reading,    type: Object
-  field :bson_id,    type: bson_object_id_class
+  # field :bson_id,    type: bson_object_id_class
   field :employer_id
   field :security_code
   field :blood_alcohol_content, type: Float, :default => lambda{ 0.0 }
@@ -42,7 +41,7 @@ class Person
 
   attr_reader :rescored
 
-  attr_protected :security_code, :owner_id
+  # attr_protected :security_code, :owner_id
 
   embeds_many :addresses, :as => :addressable do
     def extension
