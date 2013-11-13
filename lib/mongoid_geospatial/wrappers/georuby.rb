@@ -1,5 +1,4 @@
 require 'geo_ruby'
-require 'mongoid_geospatial/extensions/georuby_point'
 
 module Mongoid
   module Geospatial
@@ -12,7 +11,7 @@ module Mongoid
         GeoRuby::SimpleFeatures::Point.xy(x, y)
       end
 
-      def geo_distance other
+      def geo_distance(other)
         to_geo.spherical_distance(other.to_geo)
       end
 

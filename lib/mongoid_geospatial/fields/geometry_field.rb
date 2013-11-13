@@ -1,5 +1,7 @@
 module Mongoid
   module Geospatial
+    # Main Geometry Array
+    # Holds Lines/Polygons....
     class GeometryField < Array
 
       def bounding_box
@@ -13,32 +15,30 @@ module Mongoid
         end
         [[min_x, min_y], [max_x, max_y]]
       end
-      alias :bbox :bounding_box
+      alias_method :bbox, :bounding_box
 
       def center_point
         min, max = *bbox
         [(min[0] + max[0]) / 2.0, (min[1] + max[1]) / 2.0]
       end
-      alias :center :center_point
+      alias_method :center, :center_point
 
-      def radius r = 1
+      def radius(r = 1)
         [center, r]
       end
 
-      def radius_sphere r = 1, unit = :km
-        radius r.to_f/Mongoid::Geospatial.earth_radius[unit]
+      def radius_sphere(r = 1, unit = :km)
+        radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
       end
-
 
       class << self
 
         # Database -> Object
         def demongoize(o)
-          self.new(o)
+          new(o)
         end
 
       end
-
     end
   end
 end

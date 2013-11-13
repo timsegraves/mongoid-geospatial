@@ -1,5 +1,7 @@
 module Mongoid
   module Geospatial
+    # Point
+    #
     class Point
       include Enumerable
       attr_reader :x, :y
@@ -15,8 +17,8 @@ module Mongoid
         return nil unless x && y
         [x, y]
       end
-      alias :to_a  :mongoize
-      alias :to_xy :mongoize
+      alias_method :to_a,  :mongoize
+      alias_method :to_xy, :mongoize
 
       def [](args)
         mongoize[args]
@@ -31,17 +33,17 @@ module Mongoid
         "#{x}, #{y}"
       end
 
-      def to_hsh xl = :x, yl = :y
-        {xl => x, yl => y}
+      def to_hsh(xl = :x, yl = :y)
+        { xl => x, yl => y }
       end
-      alias :to_hash :to_hsh
+      alias_method :to_hash, :to_hsh
 
-      def radius r = 1
+      def radius(r = 1)
         [mongoize, r]
       end
 
-      def radius_sphere r = 1, unit = :km
-        radius r.to_f/Mongoid::Geospatial.earth_radius[unit]
+      def radius_sphere(r = 1, unit = :km)
+        radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
       end
 
       def valid?
@@ -52,21 +54,26 @@ module Mongoid
       # Distance calculation methods. Thinking about not using it
       # One needs to choose and external lib. GeoRuby or RGeo
       #
-      # #Return the distance between the 2D points (ie taking care only of the x and y coordinates), assuming
-      # #the points are in projected coordinates. Euclidian distance in whatever unit the x and y ordinates are.
+      # Return the distance between the 2D points (ie taking care
+      # only of the x and y coordinates), assuming the points are
+      # in projected coordinates. Euclidian distance in whatever
+      # unit the x and y ordinates are.
       # def euclidian_distance(point)
       #   Math.sqrt((point.x - x)**2 + (point.y - y)**2)
       # end
 
       # # Spherical distance in meters, using 'Haversine' formula.
       # # with a radius of 6471000m
-      # # Assumes x is the lon and y the lat, in degrees (Changed in version 1.1).
-      # # The user has to make sure using this distance makes sense (ie she should be in latlon coordinates)
+      # # Assumes x is the lon and y the lat, in degrees (Changed
+      # in version 1.1).
+      # # The user has to make sure using this distance makes sense
+      # (ie she should be in latlon coordinates)
       # def spherical_distance(point,r=6370997.0)
       #   dlat = (point.lat - lat) * DEG2RAD / 2
       #   dlon = (point.lon - lon) * DEG2RAD / 2
 
-      #   a = Math.sin(dlat)**2 + Math.cos(lat * DEG2RAD) * Math.cos(point.lat * DEG2RAD) * Math.sin(dlon)**2
+      #   a = Math.sin(dlat)**2 + Math.cos(lat * DEG2RAD) *
+      #         Math.cos(point.lat * DEG2RAD) * Math.sin(dlon)**2
       #   c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
       #   r * c
       # end
@@ -89,7 +96,7 @@ module Mongoid
 
         # Throw error on wrong hash, just for a change.
         def from_hash(hsh)
-          raise "Hash must have at least 2 items" if hsh.size < 2
+          fail "Hash must have at least 2 items" if hsh.size < 2
           [from_hash_x(hsh), from_hash_y(hsh)]
         end
 
@@ -122,7 +129,7 @@ module Mongoid
           when NilClass then nil
           else
             return object.to_xy if object.respond_to?(:to_xy)
-            fail "Invalid Point"
+            fail 'Invalid Point'
           end
         end
 

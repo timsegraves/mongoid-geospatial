@@ -20,7 +20,6 @@ describe Mongoid::Geospatial::Point do
     bar.location.should_not respond_to(:distance)
   end
 
-
   describe "queryable" do
 
     before do

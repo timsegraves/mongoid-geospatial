@@ -12,7 +12,7 @@ module Mongoid
       :km => EARTH_RADIUS_KM,
       :m  => EARTH_RADIUS_KM * 1000,
       :mi => EARTH_RADIUS_KM * 0.621371192, # taken directly from mongodb
-      :ft => EARTH_RADIUS_KM * 5280*0.621371192,
+      :ft => EARTH_RADIUS_KM * 5280 * 0.621371192,
       :sm => EARTH_RADIUS_KM * 0.53995680345572 # sea mile
     }
 
@@ -41,6 +41,7 @@ module Mongoid
     end
 
     module ClassMethods #:nodoc:
+
       def geo_field name, options = {}
         field name, {type: Mongoid::Geospatial::Point, spatial: true}.merge(options)
       end
@@ -51,15 +52,15 @@ module Mongoid
       # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
       def spatial_index name, options = {}
         self.spatial_fields_indexed << name
-        index({name => '2d'}, options)
+        index({ name => '2d' }, options)
       end
 
-      def sphere_index name, options = {}
+      def sphere_index(name, options = {})
         self.spatial_fields_indexed << name
-        index({name => '2dsphere'}, options)
+        index({ name => '2dsphere' }, options)
       end
 
-      def spatial_scope field, opts = {}
+      def spatial_scope(field, opts = {})
         self.singleton_class.class_eval do
           # define_method(:close) do |args|
           define_method(:nearby) do |args|
