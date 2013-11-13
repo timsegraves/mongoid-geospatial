@@ -3,7 +3,7 @@ module RGeo
     # RGeo Point
     class SphericalPointImpl
 
-      def mongoize
+      def to_xy
         [x, y]
       end
 
