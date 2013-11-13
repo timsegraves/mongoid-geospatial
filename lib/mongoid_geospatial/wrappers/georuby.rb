@@ -8,6 +8,7 @@ module Mongoid
       delegate :distance, :to => :to_geo
 
       def to_geo
+        return unless valid?
         GeoRuby::SimpleFeatures::Point.xy(x, y)
       end
 

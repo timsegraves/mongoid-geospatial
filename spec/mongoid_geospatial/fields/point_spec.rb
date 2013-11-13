@@ -21,19 +21,19 @@ describe Mongoid::Geospatial::Point do
 
   it "should set point with comma separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = Mongoid::Geospatial::Point.new("2.99,3.99")
+    bar.location = "2.99,3.99"
     bar.location.mongoize.should eq([2.99, 3.99])
   end
 
   it "should set point with space separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = Mongoid::Geospatial::Point.new("2.99 3.99")
+    bar.location = "2.99 3.99"
     bar.location.mongoize.should eq([2.99, 3.99])
   end
 
   it "should set point with space comma separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = Mongoid::Geospatial::Point.new("2.99 ,  3.99")
+    bar.location = "2.99 ,  3.99"
     bar.location.mongoize.should eq([2.99, 3.99])
   end
 
@@ -42,7 +42,23 @@ describe Mongoid::Geospatial::Point do
     bar.location = nil
     bar.location.should be_nil
     bar.save.should be_true
-    Bar.first.location.should be_nil
+    Bar.where(location: nil).first.should eq(bar)
+  end
+
+  it "should set point empty string to nil" do
+    bar = Bar.create!(name: "Moe's", location: [1, 1])
+    bar.location = ""
+    bar.location.should be_nil
+    bar.save.should be_true
+    Bar.where(location: nil).first.should eq(bar)
+  end
+
+  it "should set point empty array to nil" do
+    bar = Bar.create!(name: "Moe's", location: [1, 1])
+    bar.location = []
+    bar.location.should be_nil
+    bar.save.should be_true
+    Bar.where(location: nil).first.should eq(bar)
   end
 
   describe "methods" do
