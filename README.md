@@ -18,13 +18,15 @@ So the major version stays the same as mongoid.
 Quick Start
 -----------
 
-This gem focus on (making helpers for) spatial features MongoDB has.
-You may also use an external Geometric/Spatial gem alongside.
+This gem focus on (making helpers for) MongoDB's spatial features.
+But you may also use an external Geometric/Spatial gem alongside.
 
     # Gemfile
     gem 'mongoid_geospatial'
 
-    # A place to illustrate Point, Line and Polygon
+
+A place to illustrate Point, Line and Polygon
+
     class Place
       include Mongoid::Document
 
@@ -33,6 +35,7 @@ You may also use an external Geometric/Spatial gem alongside.
 
       # Just like mongoid,
       field :name,     type: String
+
       # define your field, but choose a geometry type:
       field :location, type: Point
       field :route,    type: Linestring
@@ -40,7 +43,9 @@ You may also use an external Geometric/Spatial gem alongside.
 
       # If your are going to query on your points, don't forget to index:
       spatial_index :location
-      # You can index points with :spatial => true option too, see below.
+
+      # Or you can index points with 'spatial: true' option too:
+      field :location, type: Point, spatial: true
     end
 
 
@@ -85,29 +90,26 @@ in the database. Here's is how you can input a point as:
 We store data in the DB as a [x, y] array then reformat when it is returned to you
 
 
-    hudson = River.create(
-      name: 'Hudson',
-      length: 315,
-      discharge: 21_400,
-      # when setting array LNG (x) MUST BE FIRST LAT (y) MUST BE SECOND
-      # source: [-73.935833,44.106667],
-      # but we can use hash in any order
-      source: {:lat => 44.106667, :lng => -73.935833},
-      mouth: {:latitude => 40.703056, :longitude => -74.026667}
+    cafe = Place.create(
+      name: 'Café Rider',
+      location: {:lat => 44.106667, :lng => -73.935833},
+      # or
+      location: {latitude: 40.703056, longitude: -74.026667}
+      #...
 
 Now to access this spatial information we can do this
 
-    hudson.mouth  # => [-74.026667, 40.703056]
+    cafe.location  # => [-74.026667, 40.703056]
 
 If you need a hash
 
-    hudson.mouth.to_hsh   # => { x: -74.026667, y: 40.703056 }
+    cafe.location.to_hsh   # => { x: -74.026667, y: 40.703056 }
 
 If you are using GeoRuby or RGeo
 
-    hudson.mouth.to_geo   # => GeoRuby::Point
+    cafe.location.to_geo   # => GeoRuby::Point
 
-    hudson.mouth.to_rgeo  # => RGeo::Point
+    cafe.location.to_rgeo  # => RGeo::Point
 
 
 Conventions:
@@ -125,12 +127,12 @@ Some built in helpers for mongoid queries:
 
     # Returns middle point + radius
     # Useful to search #within_circle
-    hudson.mouth.radius(5)        # [[-74.., 40..], 5]
-    hudson.mouth.radius_sphere(5) # [[-74.., 40..], 0.00048..]
+    cafe.location.radius(5)        # [[-74.., 40..], 5]
+    cafe.location.radius_sphere(5) # [[-74.., 40..], 0.00048..]
 
     # Returns hash if needed
-    hudson.mounth.to_hsh              # {:x => -74.., :y => 40..}
-    hudson.mounth.to_hsh(:lon, :lat)  # {:lon => -74.., :lat => 40..}
+    cafe.location.to_hsh              # {:x => -74.., :y => 40..}
+    cafe.location.to_hsh(:lon, :lat)  # {:lon => -74.., :lat => 40..}
 
 
 And for polygons and lines:
@@ -264,7 +266,7 @@ You can create Point, Line, Circle, Box and Polygon on your models:
       include Mongoid::Document
       include Mongoid::Geospatial
 
-      field :location,  type: Point, :spatial => true, :delegate => true
+      field :location,  type: Point, spatial: true, delegate: true
 
       field :route,     type: Line
       field :area,      type: Polygon
@@ -272,11 +274,8 @@ You can create Point, Line, Circle, Box and Polygon on your models:
       field :square,    type: Box
       field :around,    type: Circle
 
-      # spatial indexing
-      spatial_index :mouth
-
       # default mongodb options
-      spatial_index :mouth, {bit: 24, min: -180, max: 180}
+      spatial_index :location, {bit: 24, min: -180, max: 180}
 
       # query by location
       spatial_scope :location
@@ -286,17 +285,17 @@ You can create Point, Line, Circle, Box and Polygon on your models:
 Helpers
 -------
 
-You can use `:spatial => true` to add an '2d' index automatically,
+You can use `spatial: true` to add an '2d' index automatically,
 No need for `spatial_index :location`:
 
 
-    field :location,  type: Point, :spatial => true
+    field :location,  type: Point, spatial: true
 
 
 You can delegate some point methods to the instance itself:
 
 
-    field :location,  type: Point, :delegate => true
+    field :location,  type: Point, delegate: true
 
 
 Now instead of `instance.location.x` you may call `instance.x`.
