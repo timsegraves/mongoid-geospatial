@@ -112,7 +112,7 @@ module Mongoid
           v = (Mongoid::Geospatial.lng_symbols & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
           fail "Hash cannot contain #{Mongoid::Geospatial.lat_symbols.inspect} as the first item if there is no #{Mongoid::Geospatial.lng_symbols.inspect}" if Mongoid::Geospatial.lat_symbols.index(hsh.keys[0])
-          values[0].to_f
+          hsh.values[0].to_f
         end
 
         # Database -> Object
