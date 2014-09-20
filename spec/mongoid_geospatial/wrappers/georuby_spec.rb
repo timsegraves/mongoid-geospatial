@@ -12,12 +12,12 @@ describe Mongoid::Geospatial::Point do
 
   it "should not interfer with mongoid" do
     Place.create!(name: "Moe's")
-    Place.count.should eql(1)
+    expect(Place.count).to eql(1)
   end
 
   it "should not respond to distance before loading external gem" do
     bar = Place.create!(location: [5,5])
-    bar.location.should_not respond_to(:distance)
+    expect(bar.location).not_to respond_to(:distance)
   end
 
   describe "queryable" do
@@ -31,41 +31,41 @@ describe Mongoid::Geospatial::Point do
 
       it "should mongoize array" do
         geom = Place.new(location: [10, -9]).location
-        geom.class.should eql(Mongoid::Geospatial::Point)
-        geom.to_geo.class.should eql(GeoRuby::SimpleFeatures::Point)
-        geom.x.should be_within(0.1).of(10)
-        geom.to_geo.y.should be_within(0.1).of(-9)
+        expect(geom.class).to eql(Mongoid::Geospatial::Point)
+        expect(geom.to_geo.class).to eql(GeoRuby::SimpleFeatures::Point)
+        expect(geom.x).to be_within(0.1).of(10)
+        expect(geom.to_geo.y).to be_within(0.1).of(-9)
       end
 
       it "should mongoize hash" do
         geom = Place.new(location: {x: 10, y: -9}).location
-        geom.class.should eql(Mongoid::Geospatial::Point)
-        geom.to_geo.class.should eql(GeoRuby::SimpleFeatures::Point)
+        expect(geom.class).to eql(Mongoid::Geospatial::Point)
+        expect(geom.to_geo.class).to eql(GeoRuby::SimpleFeatures::Point)
       end
 
       it "should accept a GeoRuby point" do
         point = GeoRuby::SimpleFeatures::Point.from_x_y 1, 2
         bar = Place.create!(location: point)
-        bar.location.x.should be_within(0.1).of(1)
-        bar.location.y.should be_within(0.1).of(2)
+        expect(bar.location.x).to be_within(0.1).of(1)
+        expect(bar.location.y).to be_within(0.1).of(2)
       end
 
       it "should calculate 3d distances by default" do
         bar = Place.create! location: [-73.77694444, 40.63861111 ]
         bar2 = Place.create! location: [-118.40, 33.94] #,:unit=>:mi, :spherical => true)
-        bar.location.geo_distance(bar2.location).to_i.should be_within(1).of(3973808)
+        expect(bar.location.geo_distance(bar2.location).to_i).to be_within(1).of(3973808)
       end
 
       describe "simple features" do
 
         it "should mongoize lines" do
           river = River.new(course: [[1,2],[3,4],[5,6]])
-          river.course.to_geo.should be_instance_of(GeoRuby::SimpleFeatures::LineString)
+          expect(river.course.to_geo).to be_instance_of(GeoRuby::SimpleFeatures::LineString)
         end
 
         it "should mongoize polygon" do
           farm = Farm.new(area: [[1,2],[3,4],[5,6]])
-          farm.area.to_geo.should be_instance_of(GeoRuby::SimpleFeatures::Polygon)
+          expect(farm.area.to_geo).to be_instance_of(GeoRuby::SimpleFeatures::Polygon)
         end
 
       end

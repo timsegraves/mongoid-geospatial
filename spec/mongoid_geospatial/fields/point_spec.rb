@@ -4,61 +4,61 @@ describe Mongoid::Geospatial::Point do
 
   it "should not interfer with mongoid" do
     Bar.create!(name: "Moe's")
-    Bar.count.should eql(1)
+    expect(Bar.count).to eql(1)
   end
 
   it "should not fail if point is nil" do
     bar = Bar.create!(name: "Moe's")
-    bar.location.should be_nil
+    expect(bar.location).to be_nil
   end
 
   it "should set point methodically" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
     bar.location = Mongoid::Geospatial::Point.new(8,8)
-    bar.save.should be_true
-    Bar.first.location.x.should eq(8)
+    expect(bar.save).to be_truthy
+    expect(Bar.first.location.x).to eq(8)
   end
 
   it "should set point with comma separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
     bar.location = "2.99,3.99"
-    bar.location.mongoize.should eq([2.99, 3.99])
+    expect(bar.location.mongoize).to eq([2.99, 3.99])
   end
 
   it "should set point with space separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
     bar.location = "2.99 3.99"
-    bar.location.mongoize.should eq([2.99, 3.99])
+    expect(bar.location.mongoize).to eq([2.99, 3.99])
   end
 
   it "should set point with space comma separated text" do
     bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
     bar.location = "2.99 ,  3.99"
-    bar.location.mongoize.should eq([2.99, 3.99])
+    expect(bar.location.mongoize).to eq([2.99, 3.99])
   end
 
   it "should set point to nil" do
     bar = Bar.create!(name: "Moe's", location: [1, 1])
     bar.location = nil
-    bar.location.should be_nil
-    bar.save.should be_true
-    Bar.where(location: nil).first.should eq(bar)
+    expect(bar.location).to be_nil
+    expect(bar.save).to be_truthy
+    expect(Bar.where(location: nil).first).to eq(bar)
   end
 
   it "should set point empty string to nil" do
     bar = Bar.create!(name: "Moe's", location: [1, 1])
     bar.location = ""
-    bar.location.should be_nil
-    bar.save.should be_true
-    Bar.where(location: nil).first.should eq(bar)
+    expect(bar.location).to be_nil
+    expect(bar.save).to be_truthy
+    expect(Bar.where(location: nil).first).to eq(bar)
   end
 
   it "should set point empty array to nil" do
     bar = Bar.create!(name: "Moe's", location: [1, 1])
     bar.location = []
-    bar.location.should be_nil
-    bar.save.should be_true
-    Bar.where(location: nil).first.should eq(bar)
+    expect(bar.location).to be_nil
+    expect(bar.save).to be_truthy
+    expect(Bar.where(location: nil).first).to eq(bar)
   end
 
   describe "methods" do
@@ -66,31 +66,31 @@ describe Mongoid::Geospatial::Point do
     let(:bar) { Bar.create!(location: [3,2]) }
 
     it "should have a .to_a" do
-      bar.location.to_a[0..1].should == [3.0, 2.0]
+      expect(bar.location.to_a[0..1]).to eq([3.0, 2.0])
     end
 
     it "should have an array [] accessor" do
-      bar.location[0].should == 3.0
+      expect(bar.location[0]).to eq(3.0)
     end
 
     it "should have an ActiveModel symbol accessor" do
-      bar[:location].should == [3,2]
+      expect(bar[:location]).to eq([3,2])
     end
 
     it "should have a radius helper" do
-      bar.location.radius.should eql([[3.0, 2.0], 1])
+      expect(bar.location.radius).to eql([[3.0, 2.0], 1])
     end
 
     it "should have a radius sphere helper" do
-      bar.location.radius_sphere[1].should be_within(0.0001).of(0.00015)
+      expect(bar.location.radius_sphere[1]).to be_within(0.0001).of(0.00015)
     end
 
     it "should have a radius sphere helper in meters" do
-      bar.location.radius_sphere(1000, :m)[1].should be_within(0.0001).of(0.00015)
+      expect(bar.location.radius_sphere(1000, :m)[1]).to be_within(0.0001).of(0.00015)
     end
 
     it "should have a radius sphere helper in miles" do
-      bar.location.radius_sphere(1, :mi)[1].should be_within(0.0001).of(0.00025)
+      expect(bar.location.radius_sphere(1, :mi)[1]).to be_within(0.0001).of(0.00025)
     end
 
   end
@@ -120,25 +120,25 @@ describe Mongoid::Geospatial::Point do
       end
 
       it "returns the documents sorted closest to furthest" do
-        Bar.where(:location.near => jim.location).should == [ paris, prague, berlin ]
+        expect(Bar.where(:location.near => jim.location)).to eq([ paris, prague, berlin ])
       end
 
       it "returns the documents sorted closest to furthest" do
-        Bar.near(location: jim.location).should == [ paris, prague, berlin ]
+        expect(Bar.near(location: jim.location)).to eq([ paris, prague, berlin ])
       end
 
       it "returns the documents sorted closest to furthest sphere" do
         person = Person.new(:location => [ 41.23, 2.9 ])
-        Bar.near_sphere(location: jim.location).should == [ paris, prague, berlin ]
+        expect(Bar.near_sphere(location: jim.location)).to eq([ paris, prague, berlin ])
       end
 
       it "returns the documents sorted closest to furthest sphere" do
         person = Person.new(:location => [ 41.23, 2.9 ])
-        Bar.where(:location.near_sphere => jim.location).should == [ paris, prague, berlin ]
+        expect(Bar.where(:location.near_sphere => jim.location)).to eq([ paris, prague, berlin ])
       end
 
       it "returns the documents sorted closest to furthest with max" do
-        Bar.near(location: jim.location).max_distance(location: 10).to_a.should == [ paris ] #, prague, berlin ]
+        expect(Bar.near(location: jim.location).max_distance(location: 10).to_a).to eq([ paris ]) #, prague, berlin ]
       end
 
     end
@@ -165,23 +165,23 @@ describe Mongoid::Geospatial::Point do
       end
 
       it "returns the documents within a center_circle" do
-        Bar.where(:location.within_circle => [elvis.location, 250.0/Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a.should == [ mile1 ]
+        expect(Bar.where(:location.within_circle => [elvis.location, 250.0/Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a).to eq([ mile1 ])
       end
 
       it "returns the documents within a center_circle" do
-        Bar.where(:location.within_circle => [elvis.location, 500.0/Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a.should include(mile3)
+        expect(Bar.where(:location.within_circle => [elvis.location, 500.0/Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a).to include(mile3)
       end
 
       it "returns the documents within a center_sphere" do
-        Bar.where(:location.within_spherical_circle => [elvis.location, 0.0005]).to_a.should == [ mile1 ]
+        expect(Bar.where(:location.within_spherical_circle => [elvis.location, 0.0005]).to_a).to eq([ mile1 ])
       end
 
       it "returns the documents within a center_sphere" do
-        Bar.where(:location.within_spherical_circle => [elvis.location, 0.5]).to_a.should include(mile9)
+        expect(Bar.where(:location.within_spherical_circle => [elvis.location, 0.5]).to_a).to include(mile9)
       end
 
       it "returns the documents within a box" do
-        Bar.within_box(location: [elvis.location, elvis.location.map(&:ceil)]).to_a.should == [ mile3 ]
+        expect(Bar.within_box(location: [elvis.location, elvis.location.map(&:ceil)]).to_a).to eq([ mile3 ])
       end
 
     end
@@ -192,30 +192,30 @@ describe Mongoid::Geospatial::Point do
 
     it "should mongoize array" do
       bar = Bar.new(location: [10, -9])
-      bar.location.class.should eql(Mongoid::Geospatial::Point)
-      bar.location.x.should be_within(0.1).of(10)
-      bar.location.y.should be_within(0.1).of(-9)
+      expect(bar.location.class).to eql(Mongoid::Geospatial::Point)
+      expect(bar.location.x).to be_within(0.1).of(10)
+      expect(bar.location.y).to be_within(0.1).of(-9)
     end
 
     it "should mongoize hash" do
       geom = Bar.new(location: {x: 10, y: -9}).location
-      geom.class.should eql(Mongoid::Geospatial::Point)
-      geom.x.should be_within(0.1).of(10)
-      geom.y.should be_within(0.1).of(-9)
+      expect(geom.class).to eql(Mongoid::Geospatial::Point)
+      expect(geom.x).to be_within(0.1).of(10)
+      expect(geom.y).to be_within(0.1).of(-9)
     end
 
     it "should mongoize hash with symbols in any order" do
       geom = Bar.new(location: {y: -9, x: 10}).location
-      geom.class.should eql(Mongoid::Geospatial::Point)
-      geom.x.should be_within(0.1).of(10)
-      geom.y.should be_within(0.1).of(-9)
+      expect(geom.class).to eql(Mongoid::Geospatial::Point)
+      expect(geom.x).to be_within(0.1).of(10)
+      expect(geom.y).to be_within(0.1).of(-9)
     end
 
     it "should mongoize hash with string keys in any order" do
       geom = Bar.new(location: {'y' => -9, 'x' => 10}).location
-      geom.class.should eql(Mongoid::Geospatial::Point)
-      geom.x.should be_within(0.1).of(10)
-      geom.y.should be_within(0.1).of(-9)
+      expect(geom.class).to eql(Mongoid::Geospatial::Point)
+      expect(geom.x).to be_within(0.1).of(10)
+      expect(geom.y).to be_within(0.1).of(-9)
     end
 
     # should raise
@@ -228,7 +228,7 @@ describe Mongoid::Geospatial::Point do
         let(:bar) { Bar.create!(name: 'Vitinho', location: [10,10]) }
 
         it "should demongoize to rgeo" do
-          bar.location.class.should eql(Mongoid::Geospatial::Point)
+          expect(bar.location.class).to eql(Mongoid::Geospatial::Point)
         end
 
       end

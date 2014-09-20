@@ -6,33 +6,33 @@ describe Mongoid::Geospatial::Polygon do
 
     it "should support a field mapped as polygon" do
       farm = Farm.new(area: [[5,5],[6,5],[6,6],[5,6]])
-      farm.area.should be_a Mongoid::Geospatial::Polygon
-      farm.area.should eq([[5,5],[6,5],[6,6],[5,6]])
+      expect(farm.area).to be_a Mongoid::Geospatial::Polygon
+      expect(farm.area).to eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
     it "should store as array on mongo" do
       Farm.create(area: [[5,5],[6,5],[6,6],[5,6]])
-      Farm.first.area.should eq([[5,5],[6,5],[6,6],[5,6]])
+      expect(Farm.first.area).to eq([[5,5],[6,5],[6,6],[5,6]])
     end
 
     it "should have a bounding box" do
       geom = Mongoid::Geospatial::Polygon.new [[1,5],[6,5],[6,6],[5,6]]
-      geom.bbox.should eq([[1,5], [6,6]])
+      expect(geom.bbox).to eq([[1,5], [6,6]])
     end
 
     it "should have a center point" do
       geom = Mongoid::Geospatial::Polygon.new [[1,1],[1,1],[9,9],[9,9]]
-      geom.center.should eq([5.0,5.0])
+      expect(geom.center).to eq([5.0,5.0])
     end
 
     it "should have a radius helper" do
       geom = Mongoid::Geospatial::Polygon.new [[1,1],[1,1],[9,9],[9,9]]
-      geom.radius(10).should eq([[5.0,5.0], 10])
+      expect(geom.radius(10)).to eq([[5.0,5.0], 10])
     end
 
     it "should have a radius sphere" do
       geom = Mongoid::Geospatial::Polygon.new [[1,1],[1,1],[9,9],[9,9]]
-      geom.radius_sphere(10)[1].should be_within(0.001).of(0.001569)
+      expect(geom.radius_sphere(10)[1]).to be_within(0.001).of(0.001569)
     end
 
 
@@ -59,19 +59,19 @@ describe Mongoid::Geospatial::Polygon do
       end
 
       it "returns the documents within a box" do
-        Farm.where(:geom.within_box => ranch.area ).to_a.should == [ ranch ]
+        expect(Farm.where(:geom.within_box => ranch.area ).to_a).to eq([ ranch ])
       end
 
       it "returns the documents within a polygon" do
-        Farm.where(:geom.within_polygon => farm.area).to_a.should == [ farm ]
+        expect(Farm.where(:geom.within_polygon => farm.area).to_a).to eq([ farm ])
       end
 
       it "returns the documents within a center" do
-        Farm.where(:geom.within_circle => [ranch.geom, 0.4]).first.should eq(ranch)
+        expect(Farm.where(:geom.within_circle => [ranch.geom, 0.4]).first).to eq(ranch)
       end
 
       it "returns the documents within a center_sphere" do
-        Farm.where(:geom.within_spherical_circle => [ranch.geom, 0.1]).first.should eq(ranch)
+        expect(Farm.where(:geom.within_spherical_circle => [ranch.geom, 0.1]).first).to eq(ranch)
       end
 
     end

@@ -5,13 +5,13 @@ describe Mongoid::Geospatial do
   context "Class Stuff" do
 
     it "should have an lng_symbols accessor" do
-      Mongoid::Geospatial.lng_symbols.should be_instance_of Array
-      Mongoid::Geospatial.lng_symbols.should include :x
+      expect(Mongoid::Geospatial.lng_symbols).to be_instance_of Array
+      expect(Mongoid::Geospatial.lng_symbols).to include :x
     end
 
     it "should have an lat_symbols accessor" do
-      Mongoid::Geospatial.lat_symbols.should be_instance_of Array
-      Mongoid::Geospatial.lat_symbols.should include :y
+      expect(Mongoid::Geospatial.lat_symbols).to be_instance_of Array
+      expect(Mongoid::Geospatial.lat_symbols).to include :y
     end
 
   end
@@ -20,12 +20,12 @@ describe Mongoid::Geospatial do
 
     it "should create a 2d index" do
       Bar.create_indexes
-      Bar.collection.indexes[:location => '2d'].should_not be_nil
+      expect(Bar.collection.indexes[:location => '2d']).not_to be_nil
     end
 
     it "should create a 2dsphere index" do
       Alarm.create_indexes
-      Alarm.collection.indexes[:spot => '2dsphere'].should_not be_nil
+      expect(Alarm.collection.indexes[:spot => '2dsphere']).not_to be_nil
     end
 
   end
@@ -45,7 +45,7 @@ describe Mongoid::Geospatial do
     end
 
     it "should work with specifying specific center and different location attribute on collction" do
-      Bar.nearby(lax.location).should == [lax, jfk]
+      expect(Bar.nearby(lax.location)).to eq([lax, jfk])
     end
 
   end
@@ -65,7 +65,7 @@ describe Mongoid::Geospatial do
     end
 
     it "should work with specifying specific center and different spot attribute on collction" do
-      Alarm.nearby(lax.spot).should == [lax, jfk]
+      expect(Alarm.nearby(lax.spot)).to eq([lax, jfk])
     end
 
   #   context ':maxDistance' do

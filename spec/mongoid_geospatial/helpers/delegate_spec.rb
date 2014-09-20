@@ -13,21 +13,21 @@ describe Mongoid::Fields do
       let(:bus) { Bus.create!(name: "Far", location: [7,8]) }
 
       it "should set instance method x" do
-        bus.x.should eq(7)
+        expect(bus.x).to eq(7)
       end
 
       it "should set instance method y" do
-        bus.y.should eq(8)
+        expect(bus.y).to eq(8)
       end
 
       it "should set instance method x=" do
         bus.x = 9
-        bus.x.should eq(9)
+        expect(bus.x).to eq(9)
       end
 
       it "should set instance method y=" do
         bus.y = 9
-        bus.y.should eq(9)
+        expect(bus.y).to eq(9)
       end
 
     end
@@ -35,18 +35,18 @@ describe Mongoid::Fields do
     it "should set instance methods x= and y=" do
       bus = Bus.create!(name: "B", location: [7,7])
       bus.x = 9; bus.y = 9
-      bus.location.to_a.should eq([9,9])
+      expect(bus.location.to_a).to eq([9,9])
     end
 
     it "should work fine with default values" do
       event = Event.create!(name: "Bvent")
       event.x = 9; event.y = 9
-      event.location.to_a.should eq([9,9])
+      expect(event.location.to_a).to eq([9,9])
     end
 
     it "should not work fine with nils" do
       bus = Bus.create!(name: "B", location: nil)
-      -> { bus.x = 9; bus.y = 9 }.should raise_error(NoMethodError)
+      expect { bus.x = 9; bus.y = 9 }.to raise_error(NoMethodError)
     end
 
   end
