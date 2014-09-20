@@ -54,8 +54,8 @@ class Person
 
   accepts_nested_attributes_for :addresses
 
-  scope :minor, where(:age.lt => 18)
-  scope :without_ssn, without(:ssn)
+  scope :minor, ->{ where(:age.lt => 18) }
+  scope :without_ssn, ->{  without(:ssn) }
 
   def score_with_rescoring=(score)
     @rescored = score.to_i + 20
