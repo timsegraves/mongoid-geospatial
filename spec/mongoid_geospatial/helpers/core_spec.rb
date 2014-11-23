@@ -1,12 +1,11 @@
 module Mongoid
   module Geospatial
-
     def self.from_array(ary)
       ary[0..1].map(&:to_f)
     end
 
     def self.from_hash(hsh)
-      raise "Hash must have at least 2 items" if hsh.size < 2
+      fail 'Hash must have at least 2 items' if hsh.size < 2
       [from_hash_x(hsh), from_hash_y(hsh)]
     end
 

@@ -1,3 +1,4 @@
+# Sample spec class
 class Farm
   include Mongoid::Document
   include Mongoid::Geospatial

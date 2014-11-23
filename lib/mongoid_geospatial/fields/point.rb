@@ -79,7 +79,6 @@ module Mongoid
       # end
 
       class << self
-
         # Makes life easier:
         # "" -> nil
         def from_string(str)
@@ -96,7 +95,7 @@ module Mongoid
 
         # Throw error on wrong hash, just for a change.
         def from_hash(hsh)
-          fail "Hash must have at least 2 items" if hsh.size < 2
+          fail 'Hash must have at least 2 items' if hsh.size < 2
           [from_hash_x(hsh), from_hash_y(hsh)]
         end
 
@@ -138,9 +137,7 @@ module Mongoid
         def evolve(object)
           object.respond_to?(:x) ? object.mongoize : object
         end
-
       end # << self
-
     end # Point
   end # Geospatial
 end # Mongoid

@@ -13,7 +13,6 @@ module Mongoid
       def radius
         self[1]
       end
-
     end
   end
 end

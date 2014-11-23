@@ -1,4 +1,9 @@
 module Mongoid
+  #
+  # Main Geospatial module
+  #
+  # include Mongoid::Geospatial
+  #
   module Geospatial
     extend ActiveSupport::Concern
 
@@ -9,11 +14,11 @@ module Mongoid
     RAD_PER_DEG = Math::PI / 180
 
     EARTH_RADIUS = {
-      :km => EARTH_RADIUS_KM,
-      :m  => EARTH_RADIUS_KM * 1000,
-      :mi => EARTH_RADIUS_KM * 0.621371192, # taken directly from mongodb
-      :ft => EARTH_RADIUS_KM * 5280 * 0.621371192,
-      :sm => EARTH_RADIUS_KM * 0.53995680345572 # sea mile
+      km: EARTH_RADIUS_KM,
+      m: EARTH_RADIUS_KM * 1000,
+      mi: EARTH_RADIUS_KM * 0.621371192, # taken directly from mongodb
+      ft: EARTH_RADIUS_KM * 5280 * 0.621371192,
+      sm: EARTH_RADIUS_KM * 0.53995680345572 # sea mile
     }
 
     mattr_accessor :lng_symbols
@@ -41,51 +46,48 @@ module Mongoid
     end
 
     module ClassMethods #:nodoc:
-
-      def geo_field name, options = {}
-        field name, {type: Mongoid::Geospatial::Point, spatial: true}.merge(options)
+      def geo_field(name, options = {})
+        field name, { type: Mongoid::Geospatial::Point, spatial: true }.merge(options)
       end
 
       # create spatial index for given field
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
       # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
-      def spatial_index name, options = {}
-        self.spatial_fields_indexed << name
+      def spatial_index(name, options = {})
+        spatial_fields_indexed << name
         index({ name => '2d' }, options)
       end
 
       def sphere_index(name, options = {})
-        self.spatial_fields_indexed << name
+        spatial_fields_indexed << name
         index({ name => '2dsphere' }, options)
       end
 
-      def spatial_scope(field, opts = {})
-        self.singleton_class.class_eval do
+      def spatial_scope(field, _opts = {})
+        singleton_class.class_eval do
           # define_method(:close) do |args|
           define_method(:nearby) do |args|
             queryable.where(field.near_sphere => args)
           end
         end
       end
-
     end
-
   end
 end
 
-  # model.instance_eval do # wont work
-  # #   define_method "near_#{field.name}" do |*args|
-  # #     self.where(field.name => args)
-  # #   end
-  # end
+# model.instance_eval do # wont work
+# #   define_method "near_#{field.name}" do |*args|
+# #     self.where(field.name => args)
+# #   end
+# end
 
-  # define_method "near_#{field.name}" do |*args|
-    #   queryable.where(field.near_sphere => args)
-    # end
+# define_method "near_#{field.name}" do |*args|
+#   queryable.where(field.near_sphere => args)
+# end
 
-    # model.class_eval do
-    #   define_method "close_to" do |*args|
-    #     queriable.where(field.name.near_sphere => *args)
-    #   end
-    # end
+# model.class_eval do
+#   define_method "close_to" do |*args|
+#     queriable.where(field.name.near_sphere => *args)
+#   end
+# end

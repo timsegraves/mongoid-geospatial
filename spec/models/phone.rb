@@ -1,3 +1,4 @@
+# Sample spec class
 class Phone
   include Mongoid::Document
   field :number

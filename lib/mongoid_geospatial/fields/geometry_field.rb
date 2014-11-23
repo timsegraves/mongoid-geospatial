@@ -3,7 +3,6 @@ module Mongoid
     # Main Geometry Array
     # Holds Lines/Polygons....
     class GeometryField < Array
-
       def bounding_box
         max_x, min_x = -Float::MAX, Float::MAX
         max_y, min_y = -Float::MAX, Float::MAX
@@ -32,12 +31,10 @@ module Mongoid
       end
 
       class << self
-
         # Database -> Object
         def demongoize(o)
           new(o)
         end
-
       end
     end
   end

@@ -1,3 +1,4 @@
+# Sample spec class
 class River
   include Mongoid::Document
   include Mongoid::Geospatial
@@ -8,8 +9,8 @@ class River
   field :course,            type: Line,      spatial: true
   # set return_array to true if you do not want a hash returned all the time
   field :source,            type: Point,     spatial: true
-  field :mouth,             type: Point,    spatial: {lat: 'latitude', lng: 'longitude'}
-  field :mouth_array,       type: Array,    spatial: {return_array: true}
+  field :mouth,             type: Point,    spatial: { lat: 'latitude', lng: 'longitude' }
+  field :mouth_array,       type: Array,    spatial: { return_array: true }
 
   # simplified spatial indexing
   # you can only index one field in mongodb < 1.9

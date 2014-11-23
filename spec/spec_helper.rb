@@ -2,34 +2,34 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
-MODELS = File.join(File.dirname(__FILE__), "models")
-SUPPORT = File.join(File.dirname(__FILE__), "support")
+MODELS = File.join(File.dirname(__FILE__), 'models')
+SUPPORT = File.join(File.dirname(__FILE__), 'support')
 $LOAD_PATH.unshift(MODELS)
 $LOAD_PATH.unshift(SUPPORT)
 
-if ENV["CI"]
-  #require "simplecov"
-  require "coveralls"
+if ENV['CI']
+  # require "simplecov"
+  require 'coveralls'
   Coveralls.wear!
-  #SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  #SimpleCov.start do
+  # SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  # SimpleCov.start do
   #  add_filter "spec"
-  #end
+  # end
 end
 
-require "mongoid"
+require 'mongoid'
 # require "mocha"
-require "rspec"
-require "mongoid_geospatial"
+require 'rspec'
+require 'mongoid_geospatial'
 
 # These environment variables can be set if wanting to test against a database
 # that is not on the local machine.
-ENV["MONGOID_SPEC_HOST"] ||= "localhost"
-ENV["MONGOID_SPEC_PORT"] ||= "27018"
+ENV['MONGOID_SPEC_HOST'] ||= 'localhost'
+ENV['MONGOID_SPEC_PORT'] ||= '27018'
 
 # These are used when creating any connection in the test suite.
-HOST = ENV["MONGOID_SPEC_HOST"]
-PORT = ENV["MONGOID_SPEC_PORT"].to_i
+HOST = ENV['MONGOID_SPEC_HOST']
+PORT = ENV['MONGOID_SPEC_PORT'].to_i
 
 LOGGER = Logger.new($stdout)
 
@@ -44,12 +44,12 @@ Mongoid.configure do |config|
 end
 
 # Autoload every model for the test suite that sits in spec/app/models.
-Dir[ File.join(MODELS, "*.rb") ].sort.each do |file|
-  name = File.basename(file, ".rb")
+Dir[File.join(MODELS, '*.rb')].sort.each do |file|
+  name = File.basename(file, '.rb')
   autoload name.camelize.to_sym, name
 end
 
-Dir[ File.join(SUPPORT, "*.rb") ].each { |file| require File.basename(file) }
+Dir[File.join(SUPPORT, '*.rb')].each { |file| require File.basename(file) }
 
 def bson_object_id_class
   Moped::BSON::ObjectId

@@ -1,3 +1,4 @@
+# Sample spec class
 class Alarm
   include Mongoid::Document
   include Mongoid::Geospatial
