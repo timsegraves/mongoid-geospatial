@@ -2,13 +2,6 @@ require 'spec_helper'
 
 describe Mongoid::Geospatial::Point do
 
-  before(:all) do
-    Mongoid::Geospatial.send(:remove_const, 'Point')
-    load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/point.rb"
-    Object.send(:remove_const, 'Place')
-    load "#{File.dirname(__FILE__)}/../../models/place.rb"
-  end
-
   it 'should not interfer with mongoid' do
     Place.create!(name: "Moe's")
     expect(Place.count).to eql(1)

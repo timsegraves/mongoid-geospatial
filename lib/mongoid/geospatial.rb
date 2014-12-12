@@ -1,15 +1,14 @@
 require 'mongoid'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/concern'
-require 'mongoid_geospatial/geospatial'
-require 'mongoid_geospatial/helpers/spatial'
-require 'mongoid_geospatial/helpers/sphere'
-require 'mongoid_geospatial/helpers/delegate'
+require 'mongoid/geospatial/helpers/spatial'
+require 'mongoid/geospatial/helpers/sphere'
+require 'mongoid/geospatial/helpers/delegate'
 
-require 'mongoid_geospatial/fields/geometry_field'
+require 'mongoid/geospatial/fields/geometry_field'
 
 %w(point circle box line polygon).each do |type|
-  require "mongoid_geospatial/fields/#{type}"
+  require "mongoid/geospatial/fields/#{type}"
 end
 
 module Mongoid
@@ -52,11 +51,11 @@ module Mongoid
     end
 
     def self.with_rgeo!
-      require 'mongoid_geospatial/wrappers/rgeo'
+      require 'mongoid/geospatial/wrappers/rgeo'
     end
 
     def self.with_georuby!
-      require 'mongoid_geospatial/wrappers/georuby'
+      require 'mongoid/geospatial/wrappers/georuby'
     end
 
     module ClassMethods #:nodoc:

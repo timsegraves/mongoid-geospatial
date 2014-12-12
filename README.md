@@ -9,10 +9,10 @@ Removing some trash, improving and adding support for RGeo and GeoRuby.
 Version 3+ is going to be beta testing, when it's ready I'll release v4,
 So the major version stays the same as mongoid.
 
-[![Gem Version](https://badge.fury.io/rb/mongoid_geospatial.png)](http://badge.fury.io/rb/mongoid_geospatial)
-[![Code Climate](https://codeclimate.com/github/nofxx/mongoid_geospatial.png)](https://codeclimate.com/github/nofxx/mongoid_geospatial)
-[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid_geospatial/badge.png)](https://coveralls.io/r/nofxx/mongoid_geospatial)
-[![Build Status](https://travis-ci.org/nofxx/mongoid_geospatial.png?branch=master)](https://travis-ci.org/nofxx/mongoid_geospatial)
+[![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.png)](http://badge.fury.io/rb/mongoid-geospatial)
+[![Code Climate](https://codeclimate.com/github/nofxx/mongoid-geospatial.png)](https://codeclimate.com/github/nofxx/mongoid-geospatial)
+[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-geospatial/badge.png)](https://coveralls.io/r/nofxx/mongoid-geospatial)
+[![Build Status](https://travis-ci.org/nofxx/mongoid-geospatial.png?branch=master)](https://travis-ci.org/nofxx/mongoid-geospatial)
 
 
 Quick Start
@@ -22,7 +22,7 @@ This gem focus on (making helpers for) MongoDB's spatial features.
 But you may also use an external Geometric/Spatial gem alongside.
 
     # Gemfile
-    gem 'mongoid_geospatial'
+    gem 'mongoid-geospatial'
 
 
 A place to illustrate Point, Line and Polygon
@@ -494,7 +494,7 @@ Indexes need to be created. Execute command:
 
     rake db:mongoid:create_indexes
 
-Using mongoid_geospatial (or mongoid for that matter) without rails?
+Using mongoid-geospatial (or mongoid for that matter) without rails?
 
     https://github.com/kristianmandrup/mongoid_indexing
 
@@ -514,5 +514,4 @@ Contributing
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nofxx/mongoid_geospatial/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nofxx/mongoid-geospatial/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

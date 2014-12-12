@@ -20,7 +20,7 @@ end
 require 'mongoid'
 # require "mocha"
 require 'rspec'
-require 'mongoid_geospatial'
+require 'mongoid/geospatial'
 
 # These environment variables can be set if wanting to test against a database
 # that is not on the local machine.

@@ -120,25 +120,30 @@ describe Mongoid::Geospatial::Point do
       end
 
       it 'returns the documents sorted closest to furthest' do
-        expect(Bar.where(:location.near => jim.location)).to eq([paris, prague, berlin])
+        expect(Bar.where(:location.near => jim.location))
+          .to eq([paris, prague, berlin])
       end
 
       it 'returns the documents sorted closest to furthest' do
-        expect(Bar.near(location: jim.location)).to eq([paris, prague, berlin])
+        expect(Bar.near(location: jim.location))
+          .to eq([paris, prague, berlin])
       end
 
       it 'returns the documents sorted closest to furthest sphere' do
         person = Person.new(location: [41.23, 2.9])
-        expect(Bar.near_sphere(location: jim.location)).to eq([paris, prague, berlin])
+        expect(Bar.near_sphere(location: jim.location))
+          .to eq([paris, prague, berlin])
       end
 
       it 'returns the documents sorted closest to furthest sphere' do
         person = Person.new(location: [41.23, 2.9])
-        expect(Bar.where(:location.near_sphere => jim.location)).to eq([paris, prague, berlin])
+        expect(Bar.where(:location.near_sphere => jim.location))
+          .to eq([paris, prague, berlin])
       end
 
       it 'returns the documents sorted closest to furthest with max' do
-        expect(Bar.near(location: jim.location).max_distance(location: 10).to_a).to eq([paris]) # , prague, berlin ]
+        expect(Bar.near(location: jim.location).max_distance(location: 10).to_a)
+          .to eq([paris]) # , prague, berlin ]
       end
 
     end
@@ -165,23 +170,32 @@ describe Mongoid::Geospatial::Point do
       end
 
       it 'returns the documents within a center_circle' do
-        expect(Bar.where(:location.within_circle => [elvis.location, 250.0 / Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a).to eq([mile1])
+        expect(Bar.where(:location.within_circle =>
+                         [elvis.location, 250.0 /
+                           Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a)
+          .to eq([mile1])
       end
 
       it 'returns the documents within a center_circle' do
-        expect(Bar.where(:location.within_circle => [elvis.location, 500.0 / Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a).to include(mile3)
+        expect(Bar.where(:location.within_circle => [elvis.location,
+                           500.0 / Mongoid::Geospatial::EARTH_RADIUS_KM])
+                 .to_a).to include(mile3)
       end
 
       it 'returns the documents within a center_sphere' do
-        expect(Bar.where(:location.within_spherical_circle => [elvis.location, 0.0005]).to_a).to eq([mile1])
+        expect(Bar.where(:location.within_spherical_circle =>
+                         [elvis.location, 0.0005]).to_a).to eq([mile1])
       end
 
       it 'returns the documents within a center_sphere' do
-        expect(Bar.where(:location.within_spherical_circle => [elvis.location, 0.5]).to_a).to include(mile9)
+        expect(Bar.where(:location.within_spherical_circle =>
+                         [elvis.location, 0.5]).to_a).to include(mile9)
       end
 
       it 'returns the documents within a box' do
-        expect(Bar.within_box(location: [elvis.location, elvis.location.map(&:ceil)]).to_a).to eq([mile3])
+        expect(Bar.within_box(location: [elvis.location,
+                                elvis.location.map(&:ceil)]).to_a)
+          .to eq([mile3])
       end
 
     end

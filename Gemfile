@@ -2,12 +2,11 @@ source 'http://rubygems.org'
 gemspec # Specify  gem's dependencies in mongoid_geospatial.gemspec
 
 gem 'rake'
-gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid' #, github: 'mongoid/mongoid'
 
 group :development do
   gem 'pry'
   gem 'yard'
-  # gem 'fuubar'
 end
 
 group :test do
@@ -21,8 +20,11 @@ group :test do
     gem 'coveralls', require: false
     gem 'yard'
   else
+    gem 'rubocop'
+    gem 'fuubar'
     gem 'guard'
+    gem 'guard-rubocop'
     gem 'guard-rspec'
-    gem 'rb-fsevent'
+    # gem 'rb-fsevent'
   end
 end

@@ -3,22 +3,22 @@ require 'spec_helper'
 describe 'RGeo Wrapper' do
 
   before(:all) do
-    Mongoid::Geospatial.send(:remove_const, 'Point')
-    Mongoid::Geospatial.send(:remove_const, 'Polygon')
-    Mongoid::Geospatial.send(:remove_const, 'Line')
+    # Mongoid::Geospatial.send(:remove_const, 'Point')
+    # Mongoid::Geospatial.send(:remove_const, 'Polygon')
+    # Mongoid::Geospatial.send(:remove_const, 'Line')
 
-    load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/point.rb"
-    load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/polygon.rb"
-    load "#{File.dirname(__FILE__)}/../../../lib/mongoid_geospatial/fields/line.rb"
+    # load "#{File.dirname(__FILE__)}/../../../lib/mongoid/geospatial/fields/point.rb"
+    # load "#{File.dirname(__FILE__)}/../../../lib/mongoid/geospatial/fields/polygon.rb"
+    # load "#{File.dirname(__FILE__)}/../../../lib/mongoid/geospatial/fields/line.rb"
 
-    Object.send(:remove_const, 'Bar')
-    load "#{File.dirname(__FILE__)}/../../models/bar.rb"
+    # Object.send(:remove_const, 'Bar')
+    # load "#{File.dirname(__FILE__)}/../../models/bar.rb"
 
-    Object.send(:remove_const, 'Farm')
-    load "#{File.dirname(__FILE__)}/../../models/farm.rb"
+    # Object.send(:remove_const, 'Farm')
+    # load "#{File.dirname(__FILE__)}/../../models/farm.rb"
 
-    Object.send(:remove_const, 'River')
-    load "#{File.dirname(__FILE__)}/../../models/river.rb"
+    # Object.send(:remove_const, 'River')
+    # load "#{File.dirname(__FILE__)}/../../models/river.rb"
   end
 
   describe Mongoid::Geospatial::Point do
@@ -102,7 +102,8 @@ describe 'RGeo Wrapper' do
           geom = Farm.create!(area: [[5, 5], [6, 5], [6, 6], [5, 6]]).area
           expect(geom.class).to eql(Mongoid::Geospatial::Polygon)
           expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalPolygonImpl)
-          expect(geom.to_rgeo.to_s).to eq 'POLYGON ((5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0, 5.0 5.0))'
+          expect(geom.to_rgeo.to_s)
+            .to eq 'POLYGON ((5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0, 5.0 5.0))'
         end
       end
 
@@ -111,7 +112,8 @@ describe 'RGeo Wrapper' do
           geom = River.create!(course: [[5, 5], [6, 5], [6, 6], [5, 6]]).course
           expect(geom.class).to eql(Mongoid::Geospatial::Line)
           expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalLineStringImpl)
-          expect(geom.to_rgeo.to_s).to eq 'LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)'
+          expect(geom.to_rgeo.to_s)
+            .to eq 'LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)'
         end
       end
     end
