@@ -126,13 +126,13 @@ describe Mongoid::Geospatial::Point do
 
       it 'returns the documents sorted closest to furthest sphere' do
         person = Person.new(location: [41.23, 2.9])
-        expect(Bar.near_sphere(location: jim.location))
+        expect(Bar.near_sphere(location: person.location))
           .to eq([paris, prague, berlin])
       end
 
       it 'returns the documents sorted closest to furthest sphere' do
         person = Person.new(location: [41.23, 2.9])
-        expect(Bar.where(:location.near_sphere => jim.location))
+        expect(Bar.where(:location.near_sphere => person.location))
           .to eq([paris, prague, berlin])
       end
 

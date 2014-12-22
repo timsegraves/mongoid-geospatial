@@ -38,7 +38,7 @@ describe Mongoid::Geospatial do
       Bar.create(name: 'lax', location: [-118.40, 33.94])
     end
 
-    it 'should work with specifying specific center and different location attribute on collction' do
+    it 'should work specifing center and different location' do
       expect(Bar.nearby(lax.location)).to eq([lax, jfk])
     end
   end

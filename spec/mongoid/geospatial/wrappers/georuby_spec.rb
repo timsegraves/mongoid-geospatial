@@ -48,12 +48,14 @@ describe Mongoid::Geospatial::Point do
       describe 'simple features' do
         it 'should mongoize lines' do
           river = River.new(course: [[1, 2], [3, 4], [5, 6]])
-          expect(river.course.to_geo).to be_instance_of(GeoRuby::SimpleFeatures::LineString)
+          expect(river.course.to_geo)
+            .to be_instance_of(GeoRuby::SimpleFeatures::LineString)
         end
 
         it 'should mongoize polygon' do
           farm = Farm.new(area: [[1, 2], [3, 4], [5, 6]])
-          expect(farm.area.to_geo).to be_instance_of(GeoRuby::SimpleFeatures::Polygon)
+          expect(farm.area.to_geo)
+            .to be_instance_of(GeoRuby::SimpleFeatures::Polygon)
         end
       end
     end

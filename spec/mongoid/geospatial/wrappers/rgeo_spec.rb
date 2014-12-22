@@ -55,20 +55,23 @@ describe 'RGeo Wrapper' do
 
         it 'should wrap to georuby' do
           geom = Bar.new(location: [10, -9]).location
-          expect(geom.to_geo.class).to eql(GeoRuby::SimpleFeatures::Point)
+          expect(geom.to_geo.class)
+            .to eql(GeoRuby::SimpleFeatures::Point)
           expect(geom.to_geo.y).to be_within(0.1).of(-9)
         end
 
         it 'should wrap to rgeo' do
           geom = Bar.new(location: [10, -9]).location
-          expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalPointImpl)
+          expect(geom.to_rgeo.class)
+            .to eql(RGeo::Geographic::SphericalPointImpl)
           expect(geom.to_rgeo.y).to be_within(0.1).of(-9)
         end
 
         it 'should mongoize hash' do
           geom = Bar.new(location: { x: 10, y: -9 }).location
           expect(geom.class).to eql(Mongoid::Geospatial::Point)
-          expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalPointImpl)
+          expect(geom.to_rgeo.class)
+            .to eql(RGeo::Geographic::SphericalPointImpl)
         end
 
         it 'should accept an RGeo object' do
@@ -80,8 +83,9 @@ describe 'RGeo Wrapper' do
 
         it 'should calculate 3d distances by default' do
           bar = Bar.create! location: [-73.77694444, 40.63861111]
-          bar2 = Bar.create! location: [-118.40, 33.94] # ,:unit=>:mi, :spherical => true)
-          expect(bar.location.rgeo_distance(bar2.location).to_i).to be_within(1).of(3_978_262)
+          bar2 = Bar.create! location: [-118.40, 33.94] # ,:unit=>:mi
+          expect(bar.location.rgeo_distance(bar2.location).to_i)
+            .to be_within(1).of(3_978_262)
         end
       end
 
