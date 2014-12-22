@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Mongoid::Geospatial::Point do
-
   it 'should not interfer with mongoid' do
     Bar.create!(name: "Moe's")
     expect(Bar.count).to eql(1)
@@ -62,7 +61,6 @@ describe Mongoid::Geospatial::Point do
   end
 
   describe 'methods' do
-
     let(:bar) { Bar.create!(location: [3, 2]) }
 
     it 'should have a .to_a' do
@@ -92,17 +90,14 @@ describe Mongoid::Geospatial::Point do
     it 'should have a radius sphere helper in miles' do
       expect(bar.location.radius_sphere(1, :mi)[1]).to be_within(0.0001).of(0.00025)
     end
-
   end
 
   describe 'queryable' do
-
     before do
       Bar.create_indexes
     end
 
     describe ':near :near_sphere' do
-
       let!(:berlin) do
         Bar.create(name: :berlin, location: [52.30, 13.25])
       end
@@ -145,7 +140,6 @@ describe Mongoid::Geospatial::Point do
         expect(Bar.near(location: jim.location).max_distance(location: 10).to_a)
           .to eq([paris]) # , prague, berlin ]
       end
-
     end
 
     describe ':within_circle :within_spherical_circle' do
@@ -170,7 +164,7 @@ describe Mongoid::Geospatial::Point do
       end
 
       it 'returns the documents within a circle' do
-        pending "Moped"
+        pending 'Moped'
         expect(Bar.where(:location.within_circle =>
                          [elvis.location, 250.0 /
                            Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a)
@@ -178,44 +172,40 @@ describe Mongoid::Geospatial::Point do
       end
 
       it 'returns the documents within a circle' do
-        pending "Moped"
+        pending 'Moped'
         expect(Bar.where(:location.within_circle => [elvis.location,
-                           500.0 / Mongoid::Geospatial::EARTH_RADIUS_KM])
+                                                     500.0 / Mongoid::Geospatial::EARTH_RADIUS_KM])
                  .to_a).to include(mile3)
       end
 
       it 'returns the documents within a spherical circle' do
-        pending "Moped"
+        pending 'Moped'
         expect(Bar.where(:location.within_spherical_circle =>
                          [elvis.location, 0.0005]).to_a).to eq([mile1])
       end
 
       it 'returns the documents within a spherical circle 2' do
-        pending "Moped"
+        pending 'Moped'
         expect(Bar.where(:location.within_spherical_circle =>
                          [elvis.location, 0.5]).to_a).to include(mile9)
       end
 
       it 'returns the documents within a center circle' do
-        pending "Moped"
+        pending 'Moped'
         expect(Bar.where(:location.within_center_circle =>
                          [elvis.location, 0.0005]).to_a).to eq([mile1])
       end
 
-
       it 'returns the documents within a box' do
-        pending "Moped"
+        pending 'Moped'
         expect(Bar.within_box(location: [elvis.location,
-                                elvis.location.map(&:ceil)]).to_a)
+                                         elvis.location.map(&:ceil)]).to_a)
           .to eq([mile3])
       end
-
     end
-
   end
 
   describe '(de)mongoize' do
-
     it 'should mongoize array' do
       bar = Bar.new(location: [10, -9])
       expect(bar.location.class).to eql(Mongoid::Geospatial::Point)
@@ -248,19 +238,13 @@ describe Mongoid::Geospatial::Point do
     # geom.to_geo
 
     describe 'with rgeo' do
-
       describe 'instantiated' do
-
         let(:bar) { Bar.create!(name: 'Vitinho', location: [10, 10]) }
 
         it 'should demongoize to rgeo' do
           expect(bar.location.class).to eql(Mongoid::Geospatial::Point)
         end
-
       end
-
     end
-
   end
-
 end

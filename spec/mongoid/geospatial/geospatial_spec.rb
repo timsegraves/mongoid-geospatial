@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Mongoid::Geospatial do
-
   context 'Class Stuff' do
-
     it 'should have an lng_symbols accessor' do
       expect(Mongoid::Geospatial.lng_symbols).to be_instance_of Array
       expect(Mongoid::Geospatial.lng_symbols).to include :x
@@ -13,11 +11,9 @@ describe Mongoid::Geospatial do
       expect(Mongoid::Geospatial.lat_symbols).to be_instance_of Array
       expect(Mongoid::Geospatial.lat_symbols).to include :y
     end
-
   end
 
   context 'Creating indexes' do
-
     it 'should create a 2d index' do
       Bar.create_indexes
       expect(Bar.collection.indexes[location: '2d']).not_to be_nil
@@ -27,11 +23,9 @@ describe Mongoid::Geospatial do
       Alarm.create_indexes
       expect(Alarm.collection.indexes[spot: '2dsphere']).not_to be_nil
     end
-
   end
 
   context '#nearby 2d' do
-
     before do
       Bar.create_indexes
     end
@@ -47,11 +41,9 @@ describe Mongoid::Geospatial do
     it 'should work with specifying specific center and different location attribute on collction' do
       expect(Bar.nearby(lax.location)).to eq([lax, jfk])
     end
-
   end
 
   context '#nearby 2dsphere' do
-
     before do
       Alarm.create_indexes
     end
@@ -139,5 +131,4 @@ describe Mongoid::Geospatial do
     #     Bar.geo_near([1,1], :page => 1, :per_page => 5).size.should == 5
     #   end
   end
-
 end

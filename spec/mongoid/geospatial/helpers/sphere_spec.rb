@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Mongoid::Fields do
-
   context 'spatial' do
-
     before do
       Alarm.create_indexes
     end
@@ -20,7 +18,5 @@ describe Mongoid::Fields do
       far  = Alarm.create!(name: 'Far', spot: [7, 7])
       expect(far.spot).to be_instance_of(Mongoid::Geospatial::Point)
     end
-
   end
-
 end

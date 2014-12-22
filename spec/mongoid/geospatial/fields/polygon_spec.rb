@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Mongoid::Geospatial::Polygon do
-
   describe '(de)mongoize' do
-
     it 'should support a field mapped as polygon' do
       farm = Farm.new(area: [[5, 5], [6, 5], [6, 6], [5, 6]])
       expect(farm.area).to be_a Mongoid::Geospatial::Polygon
@@ -38,13 +36,10 @@ describe Mongoid::Geospatial::Polygon do
     describe 'with rgeo' do
       # farm.area.should be_a RGeo::Geographic::SphericalPolygonImpl
     end
-
   end
 
   describe 'query' do
-
     context ':box, :polygon' do
-
       before do
         Farm.create_indexes
       end
@@ -58,31 +53,28 @@ describe Mongoid::Geospatial::Polygon do
       end
 
       it 'returns the documents within a box' do
-        pending "Moped"
+        pending 'Moped'
         expect(Farm.where(:geom.within_polygon =>
                           ranch.area).to_a).to eq([ranch])
       end
 
       it 'returns the documents within a polygon' do
-        pending "Moped"
+        pending 'Moped'
         expect(Farm.where(:geom.within_polygon =>
                           farm.area).to_a).to eq([farm])
       end
 
       it 'returns the documents within a center' do
-        pending "Moped"
+        pending 'Moped'
         expect(Farm.where(:geom.within_circle =>
                           [ranch.geom, 0.4]).first).to eq(ranch)
       end
 
       it 'returns the documents within a center_sphere' do
-        pending "Moped"
+        pending 'Moped'
         expect(Farm.where(:geom.within_spherical_circle =>
                           [ranch.geom, 0.1]).first).to eq(ranch)
       end
-
     end
-
   end
-
 end

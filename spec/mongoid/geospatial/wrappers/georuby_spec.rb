@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Mongoid::Geospatial::Point do
-
   it 'should not interfer with mongoid' do
     Place.create!(name: "Moe's")
     expect(Place.count).to eql(1)
@@ -13,14 +12,12 @@ describe Mongoid::Geospatial::Point do
   end
 
   describe 'queryable' do
-
     before do
       Mongoid::Geospatial.with_georuby!
       Place.create_indexes
     end
 
     describe '(de)mongoize' do
-
       it 'should mongoize array' do
         geom = Place.new(location: [10, -9]).location
         expect(geom.class).to eql(Mongoid::Geospatial::Point)
@@ -49,7 +46,6 @@ describe Mongoid::Geospatial::Point do
       end
 
       describe 'simple features' do
-
         it 'should mongoize lines' do
           river = River.new(course: [[1, 2], [3, 4], [5, 6]])
           expect(river.course.to_geo).to be_instance_of(GeoRuby::SimpleFeatures::LineString)
@@ -59,7 +55,6 @@ describe Mongoid::Geospatial::Point do
           farm = Farm.new(area: [[1, 2], [3, 4], [5, 6]])
           expect(farm.area.to_geo).to be_instance_of(GeoRuby::SimpleFeatures::Polygon)
         end
-
       end
     end
   end

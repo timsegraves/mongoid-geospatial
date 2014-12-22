@@ -1,26 +1,6 @@
 require 'spec_helper'
 
 describe 'RGeo Wrapper' do
-
-  before(:all) do
-    # Mongoid::Geospatial.send(:remove_const, 'Point')
-    # Mongoid::Geospatial.send(:remove_const, 'Polygon')
-    # Mongoid::Geospatial.send(:remove_const, 'Line')
-
-    # load "#{File.dirname(__FILE__)}/../../../lib/mongoid/geospatial/fields/point.rb"
-    # load "#{File.dirname(__FILE__)}/../../../lib/mongoid/geospatial/fields/polygon.rb"
-    # load "#{File.dirname(__FILE__)}/../../../lib/mongoid/geospatial/fields/line.rb"
-
-    # Object.send(:remove_const, 'Bar')
-    # load "#{File.dirname(__FILE__)}/../../models/bar.rb"
-
-    # Object.send(:remove_const, 'Farm')
-    # load "#{File.dirname(__FILE__)}/../../models/farm.rb"
-
-    # Object.send(:remove_const, 'River')
-    # load "#{File.dirname(__FILE__)}/../../models/river.rb"
-  end
-
   describe Mongoid::Geospatial::Point do
     it 'should not interfer with mongoid' do
       Bar.create!(name: "Moe's")
@@ -58,7 +38,6 @@ describe 'RGeo Wrapper' do
   end
 
   describe 'queryable' do
-
     before do
       Mongoid::Geospatial.with_rgeo!
       Bar.create_indexes
@@ -67,7 +46,6 @@ describe 'RGeo Wrapper' do
     end
 
     describe '(de)mongoize' do
-
       describe Mongoid::Geospatial::Point do
         it 'should mongoize array' do
           geom = Bar.new(location: [10, -9]).location

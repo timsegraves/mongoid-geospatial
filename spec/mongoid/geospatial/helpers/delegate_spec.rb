@@ -1,15 +1,12 @@
 require 'spec_helper'
 
 describe Mongoid::Fields do
-
   context 'delegate' do
-
     before do
       Bus.create_indexes
     end
 
     context 'x, y helpers' do
-
       let(:bus) { Bus.create!(name: 'Far', location: [7, 8]) }
 
       it 'should set instance method x' do
@@ -29,7 +26,6 @@ describe Mongoid::Fields do
         bus.y = 9
         expect(bus.y).to eq(9)
       end
-
     end
 
     it 'should set instance methods x= and y=' do
@@ -48,7 +44,5 @@ describe Mongoid::Fields do
       bus = Bus.create!(name: 'B', location: nil)
       expect { bus.x = 9; bus.y = 9 }.to raise_error(NoMethodError)
     end
-
   end
-
 end

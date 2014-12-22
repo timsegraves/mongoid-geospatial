@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Mongoid::Fields do
-
   context 'spatial' do
-
     before do
       Bar.create_indexes
     end
@@ -27,10 +25,8 @@ describe Mongoid::Fields do
     #   near = Bar.create!(name: "Near", location: [2,2])
     #   Bar.near_location([1,1]).should eq([near, far])
     # end
-
   end
 
   context 'geom' do
   end
-
 end
