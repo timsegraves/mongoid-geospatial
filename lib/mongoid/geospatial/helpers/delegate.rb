@@ -9,7 +9,6 @@ Mongoid::Fields.option :delegate do |model, field, options|
   y_meth = options[:y] || :y
 
   model.instance_eval do
-
     define_method x_meth do
       self[field.name][0]
     end
@@ -25,6 +24,5 @@ Mongoid::Fields.option :delegate do |model, field, options|
     define_method "#{y_meth}=" do |arg|
       self[field.name][1] = arg
     end
-
   end
 end

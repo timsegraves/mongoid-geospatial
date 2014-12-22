@@ -20,7 +20,8 @@ module Mongoid
   module Geospatial
     extend ActiveSupport::Concern
 
-    LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude, 'x', 'lon', 'long', 'longitude']
+    LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude,
+                   'x', 'lon', 'long', 'lng', 'longitude']
     LAT_SYMBOLS = [:y, :lat, :latitude, 'y', 'lat', 'latitude']
 
     EARTH_RADIUS_KM = 6371 # taken directly from mongodb
@@ -60,7 +61,8 @@ module Mongoid
 
     module ClassMethods #:nodoc:
       def geo_field(name, options = {})
-        field name, { type: Mongoid::Geospatial::Point, spatial: true }.merge(options)
+        field name, { type: Mongoid::Geospatial::Point,
+                      spatial: true }.merge(options)
       end
 
       # create spatial index for given field
