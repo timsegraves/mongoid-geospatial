@@ -39,9 +39,9 @@ describe 'RGeo Wrapper' do
       expect(Farm.count).to eql(1)
     end
 
-    it 'should not respond to to_geo before loading external' do
+    it 'should respond to to_geo' do
       farm = Farm.create!(area: [[5, 5], [6, 5], [6, 6], [5, 6]])
-      expect(farm.area).not_to respond_to(:to_geo)
+      expect(farm.area).to respond_to(:to_geo)
     end
   end
 
@@ -51,9 +51,9 @@ describe 'RGeo Wrapper' do
       expect(River.count).to eql(1)
     end
 
-    it 'should not respond to to_geo before loading external' do
+    it 'should respond to to_geo before loading external' do
       river = River.create!(course: [[5, 5], [6, 5], [6, 6], [5, 6]])
-      expect(river.course).not_to respond_to(:to_geo)
+      expect(river.course).to respond_to(:to_geo)
     end
   end
 
@@ -72,8 +72,18 @@ describe 'RGeo Wrapper' do
         it 'should mongoize array' do
           geom = Bar.new(location: [10, -9]).location
           expect(geom.class).to eql(Mongoid::Geospatial::Point)
-          expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalPointImpl)
           expect(geom.x).to be_within(0.1).of(10)
+        end
+
+        it 'should wrap to georuby' do
+          geom = Bar.new(location: [10, -9]).location
+          expect(geom.to_geo.class).to eql(GeoRuby::SimpleFeatures::Point)
+          expect(geom.to_geo.y).to be_within(0.1).of(-9)
+        end
+
+        it 'should wrap to rgeo' do
+          geom = Bar.new(location: [10, -9]).location
+          expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalPointImpl)
           expect(geom.to_rgeo.y).to be_within(0.1).of(-9)
         end
 

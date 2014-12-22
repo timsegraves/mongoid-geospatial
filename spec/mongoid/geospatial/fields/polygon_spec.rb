@@ -58,21 +58,25 @@ describe Mongoid::Geospatial::Polygon do
       end
 
       it 'returns the documents within a box' do
+        pending "Moped"
         expect(Farm.where(:geom.within_polygon =>
                           ranch.area).to_a).to eq([ranch])
       end
 
       it 'returns the documents within a polygon' do
+        pending "Moped"
         expect(Farm.where(:geom.within_polygon =>
                           farm.area).to_a).to eq([farm])
       end
 
       it 'returns the documents within a center' do
+        pending "Moped"
         expect(Farm.where(:geom.within_circle =>
                           [ranch.geom, 0.4]).first).to eq(ranch)
       end
 
       it 'returns the documents within a center_sphere' do
+        pending "Moped"
         expect(Farm.where(:geom.within_spherical_circle =>
                           [ranch.geom, 0.1]).first).to eq(ranch)
       end

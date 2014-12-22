@@ -4,7 +4,7 @@ module Mongoid
   module Geospatial
     # Wrapper to GeoRuby's Point
     class Point
-      delegate :distance, to: :to_geo
+      # delegate :distance, to: :to_geo
 
       def to_geo
         return unless valid?
