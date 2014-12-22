@@ -11,6 +11,13 @@ Removing some trash, improving and adding support for RGeo and GeoRuby.
 Version 3+ is going to be beta testing, when it's ready I'll release v4,
 So the major version stays the same as mongoid.
 
+** Gem name: 'mongoid-geospatial' (notice the hyphen) **
+
+The name of this gem has changed.
+Please change the underscore to a hyphen.
+If you need to: require 'mongoid/geospatial'
+
+
 [![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.png)](http://badge.fury.io/rb/mongoid-geospatial)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid-geospatial.png)](https://codeclimate.com/github/nofxx/mongoid-geospatial)
 [![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-geospatial/badge.png)](https://coveralls.io/r/nofxx/mongoid-geospatial)
