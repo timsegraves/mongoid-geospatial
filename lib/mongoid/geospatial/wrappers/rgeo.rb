@@ -1,5 +1,5 @@
 require 'rgeo'
-require 'mongoid_geospatial/ext/rgeo_spherical_point_impl'
+require 'mongoid/geospatial/ext/rgeo_spherical_point_impl'
 
 module Mongoid
   module Geospatial
