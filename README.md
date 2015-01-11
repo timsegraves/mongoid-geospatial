@@ -1,7 +1,6 @@
 Mongoid Geospatial
 ==================
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nofxx/mongoid-geospatial?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A Mongoid Extension that simplifies the use of MongoDB spatial features.
 
@@ -21,6 +20,7 @@ If you need to: require 'mongoid/geospatial'
 [![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.png)](http://badge.fury.io/rb/mongoid-geospatial)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid-geospatial.png)](https://codeclimate.com/github/nofxx/mongoid-geospatial)
 [![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-geospatial/badge.png)](https://coveralls.io/r/nofxx/mongoid-geospatial)
+[![Dependency Status](https://gemnasium.com/nofxx/mongoid-geospatial.svg)](https://gemnasium.com/nofxx/mongoid-geospatial)
 [![Build Status](https://travis-ci.org/nofxx/mongoid-geospatial.png?branch=master)](https://travis-ci.org/nofxx/mongoid-geospatial)
 
 
@@ -60,9 +60,10 @@ A place to illustrate Point, Line and Polygon
 
 For geo points, an extra macro `geo_field` is available
 
-
       geo_field :location
-      # Will generate:
+
+Will generate:
+
       field :location, type: Point, spatial: true
 
 
@@ -514,10 +515,6 @@ You need a way to create indexes easily, check out the gem above.
 Contributing
 ------------
 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+* Have mongod running
+* Install dev gems with `bundle install`
+* Run `rake spec`, `spec spec` or `guard`
