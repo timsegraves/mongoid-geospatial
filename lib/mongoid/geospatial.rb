@@ -1,13 +1,13 @@
 require 'mongoid'
-require 'active_support/core_ext/string/inflections'
-require 'active_support/concern'
+# require 'active_support/core_ext/string/inflections'
+# require 'active_support/concern'
 require 'mongoid/geospatial/helpers/spatial'
 require 'mongoid/geospatial/helpers/sphere'
 require 'mongoid/geospatial/helpers/delegate'
 
 require 'mongoid/geospatial/fields/geometry_field'
 
-%w(point circle box line polygon).each do |type|
+%w(point circle line box polygon).each do |type|
   require "mongoid/geospatial/fields/#{type}"
 end
 
@@ -28,9 +28,9 @@ module Mongoid
     RAD_PER_DEG = Math::PI / 180
 
     EARTH_RADIUS = {
+      m:  EARTH_RADIUS_KM * 1000,
       km: EARTH_RADIUS_KM,
-      m: EARTH_RADIUS_KM * 1000,
-      mi: EARTH_RADIUS_KM * 0.621371192, # taken directly from mongodb
+      mi: EARTH_RADIUS_KM * 0.621371192,
       ft: EARTH_RADIUS_KM * 5280 * 0.621371192,
       sm: EARTH_RADIUS_KM * 0.53995680345572 # sea mile
     }
@@ -90,19 +90,3 @@ module Mongoid
     end
   end
 end
-
-# model.instance_eval do # wont work
-# #   define_method "near_#{field.name}" do |*args|
-# #     self.where(field.name => args)
-# #   end
-# end
-
-# define_method "near_#{field.name}" do |*args|
-#   queryable.where(field.near_sphere => args)
-# end
-
-# model.class_eval do
-#   define_method "close_to" do |*args|
-#     queriable.where(field.name.near_sphere => *args)
-#   end
-# end
