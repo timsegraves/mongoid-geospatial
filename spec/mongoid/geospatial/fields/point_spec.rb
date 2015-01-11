@@ -1,39 +1,37 @@
 require 'spec_helper'
 
 describe Mongoid::Geospatial::Point do
-  it 'should not interfer with mongoid' do
-    Bar.create!(name: "Moe's")
-    expect(Bar.count).to eql(1)
-  end
+  describe "Moe's Bar" do
+    let(:bar) { Bar.create!(name: "Moe's") }
 
-  it 'should not fail if point is nil' do
-    bar = Bar.create!(name: "Moe's")
-    expect(bar.location).to be_nil
-  end
+    it 'should not interfer with mongoid' do
+      expect(bar.class.count).to eql(1)
+    end
 
-  it 'should set point methodically' do
-    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = Mongoid::Geospatial::Point.new(8, 8)
-    expect(bar.save).to be_truthy
-    expect(Bar.first.location.x).to eq(8)
-  end
+    it 'should not fail if point is nil' do
+      expect(bar.location).to be_nil
+    end
 
-  it 'should set point with comma separated text' do
-    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = '2.99,3.99'
-    expect(bar.location.mongoize).to eq([2.99, 3.99])
-  end
+    it 'should set point methodically' do
+      bar.location = Mongoid::Geospatial::Point.new(8, 8)
+      expect(bar.save).to be_truthy
+      expect(Bar.first.location.x).to eq(8)
+    end
 
-  it 'should set point with space separated text' do
-    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = '2.99 3.99'
-    expect(bar.location.mongoize).to eq([2.99, 3.99])
-  end
+    it 'should set point with comma separated text' do
+      bar.location = '2.99,3.99'
+      expect(bar.location.mongoize).to eq([2.99, 3.99])
+    end
 
-  it 'should set point with space comma separated text' do
-    bar = Bar.create!(name: "Moe's", location: Mongoid::Geospatial::Point.new)
-    bar.location = '2.99 ,  3.99'
-    expect(bar.location.mongoize).to eq([2.99, 3.99])
+    it 'should set point with space separated text' do
+      bar.location = '2.99 3.99'
+      expect(bar.location.mongoize).to eq([2.99, 3.99])
+    end
+
+    it 'should set point with space comma separated text' do
+      bar.location = '2.99 ,  3.99'
+      expect(bar.location.mongoize).to eq([2.99, 3.99])
+    end
   end
 
   it 'should set point to nil' do
