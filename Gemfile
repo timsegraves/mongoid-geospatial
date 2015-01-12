@@ -12,10 +12,11 @@ gem 'dbf'
 gem 'rgeo'
 gem 'georuby'
 
+gem 'rspec'
+
 if ENV['CI']
   gem 'coveralls', require: false
 else
-  gem 'rspec'
   gem 'rubocop'
   gem 'fuubar'
   gem 'guard'
