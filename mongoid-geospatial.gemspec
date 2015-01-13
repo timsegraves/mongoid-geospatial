@@ -15,7 +15,5 @@ Gem::Specification.new do |gem|
   gem.version       = Mongoid::Geospatial::VERSION
   gem.license       = 'MIT'
 
-  gem.add_dependency('mongoid', ['>= 3.0.0'])
-  gem.add_dependency('activemodel', ['>= 3.2'])
-  gem.add_dependency('activesupport', ['>= 3.2'])
+  gem.add_dependency('mongoid', ['>= 4.0.0'])
 end
