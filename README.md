@@ -68,19 +68,18 @@ Will generate:
 
 
 
-Generate indexes on MongoDB:
+Generate indexes on MongoDB via rake:
 
 
     rake db:mongoid:create_indexes
 
 
-Index programatically via https://github.com/kristianmandrup/mongoid_indexing gem
+Or programatically:
 
 
-    Mongoid::Indexing.create_indexes
+    Place.create_indexes
 
 
-This is fx useful when running specs or when working with spatials on a gem or engine.
 
 
 Points
@@ -126,13 +125,12 @@ Conventions:
 
 This lib uses #x and #y everywhere.
 It's shorter than lat or lng or another variation that also confuses.
-A point is a 2D mathematical notation, longitude/latitude is when you use that notation to map an sphere.
-
-In other words, all longitudes are 'xs' where not all 'xs' are longitudes.
-In the eyes of a moralist it's not even a valid position point, it does not have #z or #m.
+A point is a 2D mathematical notation, longitude/latitude is when you
+use that notation to map an sphere. In other words:
+All longitudes are 'xs' where not all 'xs' are longitudes.
 
 Distance and other geometrical calculations are delegated to the external
-library you choosed. More info about using RGeo or GeoRuby below.
+library of your choice. More info about using RGeo or GeoRuby below.
 Some built in helpers for mongoid queries:
 
     # Returns middle point + radius
@@ -154,7 +152,7 @@ And for polygons and lines:
 Query
 -----
 
-Before you read about mongoid_spatial have sure you read this:
+Before you read about this gem have sure you read this:
 
 http://mongoid.org/en/origin/docs/selection.html#standard
 
@@ -173,6 +171,10 @@ You can use Geometry instance directly on any query:
   * Bar.where(:location.near_sphere => person.house)
 
 
+# Not supported (until Mongoid 5.0.0)
+Those have been dropped from moped, should return on mongoid 5.
+Sad story.
+
 * within_box
   * Bar.within_box(location: hood.area)
 
@@ -189,6 +191,7 @@ You can use Geometry instance directly on any query:
   * Bar.within_polygon(location: city.area)
 
 
+
 External Libraries
 ------------------
 
@@ -201,16 +204,12 @@ It'll require more stuff installed to compile/work.
 
 
 Use GeoRuby?
-https://github.com/nofxx/geo_ruby
+https://github.com/nofxx/georuby
 
 GeoRuby is a pure Ruby Geometry Library.
 It's perfect if you want simple calculations and/or keep your stack in pure ruby.
 Albeit not full featured in maths it has a handful of methods and good import/export helpers.
 
-Use Nothing?
-
-This lib won't stand in your way.
-Write your own wrapper if you want.
 
 
 Geometry Helpers
@@ -503,13 +502,6 @@ Troubleshooting
 Indexes need to be created. Execute command:
 
     rake db:mongoid:create_indexes
-
-Using mongoid-geospatial (or mongoid for that matter) without rails?
-
-    https://github.com/kristianmandrup/mongoid_indexing
-
-You need a way to create indexes easily, check out the gem above.
-
 
 
 Contributing
