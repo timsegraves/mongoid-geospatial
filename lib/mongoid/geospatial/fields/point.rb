@@ -6,12 +6,14 @@ module Mongoid
       include Enumerable
       attr_reader :x, :y
 
-      def initialize(x, y)
-        @x, @y = x, y
+      def initialize(x, y, z=nil)
+         @x, @y, @z = x, y, z
       end
 
       # Object -> Database
       # Let's store NilClass if we are invalid.
+      #
+      # @return (Array)
       def mongoize
         return nil unless x && y
         [x, y]
@@ -27,15 +29,15 @@ module Mongoid
         yield x
         yield y
       end
-
-      def to_s
-        "#{x}, #{y}"
-      end
-
+      #
+      # Point representation as a Hash
+      #
+      # @return (Hash)
       def to_hsh(xl = :x, yl = :y)
         { xl => x, yl => y }
       end
       alias_method :to_hash, :to_hsh
+
 
       def radius(r = 1)
         [mongoize, r]
@@ -45,8 +47,23 @@ module Mongoid
         radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
       end
 
+      #
+      # Am I valid?
+      #
+      # Validates that x & y are `Numeric`
+      #
       def valid?
         x && y && x.is_a?(Numeric) && y.is_a?(Numeric)
+      end
+
+      #
+      # Point definition as string
+      #
+      # "x, y"
+      #
+      # @return [String] Point as comma separated String
+      def to_s
+        "#{x}, #{y}"
       end
 
       #
@@ -78,18 +95,33 @@ module Mongoid
       # end
 
       class << self
+        #
+        # Sanitize a `Point` from a `String`
+        #
         # Makes life easier:
-        # "" -> nil
+        # ""         ->    []
+        # "1, 2"     ->    [1.0, 2.0]
+        # "1.1 2.2"  ->    [1.1, 2.2]
+        #
+        # @return (Array)
+        #
         def from_string(str)
           return nil if str.empty?
           str.split(/,|\s/).reject(&:empty?).map(&:to_f)
         end
 
+        #
+        # Sanitize a `Point` from an `Array`
+        #
         # Also makes life easier:
-        # [] -> nil
+        # []          ->   []
+        # [1,2]       ->   [1.0, 2.0]
+        #
+        # @return (Array)
+        #
         def from_array(ary)
           return nil if ary.empty?
-          ary[0..1].map(&:to_f)
+          ary.flatten[0..1].map(&:to_f)
         end
 
         # Throw error on wrong hash, just for a change.
@@ -98,26 +130,12 @@ module Mongoid
           [from_hash_x(hsh), from_hash_y(hsh)]
         end
 
-        def from_hash_y(hsh)
-          v = (Mongoid::Geospatial.lat_symbols & hsh.keys).first
-          return hsh[v].to_f if !v.nil? && hsh[v]
-          fail "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect} if Ruby version is less than 1.9" if RUBY_VERSION.to_f < 1.9
-          fail "Hash cannot contain #{Mongoid::Geospatial.lng_symbols.inspect} as the second item if there is no #{Mongoid::Geospatial.lat_symbols.inspect}" if Mongoid::Geospatial.lng_symbols.index(hsh.keys[1])
-          hsh.values[1].to_f
-        end
-
-        def from_hash_x(hsh)
-          v = (Mongoid::Geospatial.lng_symbols & hsh.keys).first
-          return hsh[v].to_f if !v.nil? && hsh[v]
-          fail "Hash cannot contain #{Mongoid::Geospatial.lat_symbols.inspect} as the first item if there is no #{Mongoid::Geospatial.lng_symbols.inspect}" if Mongoid::Geospatial.lat_symbols.index(hsh.keys[0])
-          hsh.values[0].to_f
-        end
-
-        # Database -> Object
         def demongoize(object)
           Point.new(*object) if object
         end
-
+        #
+        # Object -> Database
+        #
         def mongoize(object)
           case object
           when Point  then object.mongoize
@@ -135,6 +153,23 @@ module Mongoid
         # into a database friendly form.
         def evolve(object)
           object.respond_to?(:x) ? object.mongoize : object
+        end
+
+        private
+
+        def from_hash_y(hsh)
+          v = (Mongoid::Geospatial.lat_symbols & hsh.keys).first
+          return hsh[v].to_f if !v.nil? && hsh[v]
+          fail "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect} if Ruby version is less than 1.9" if RUBY_VERSION.to_f < 1.9
+          fail "Hash cannot contain #{Mongoid::Geospatial.lng_symbols.inspect} as the second item if there is no #{Mongoid::Geospatial.lat_symbols.inspect}" if Mongoid::Geospatial.lng_symbols.index(hsh.keys[1])
+          hsh.values[1].to_f
+        end
+
+        def from_hash_x(hsh)
+          v = (Mongoid::Geospatial.lng_symbols & hsh.keys).first
+          return hsh[v].to_f if !v.nil? && hsh[v]
+          fail "Hash cannot contain #{Mongoid::Geospatial.lat_symbols.inspect} as the first item if there is no #{Mongoid::Geospatial.lng_symbols.inspect}" if Mongoid::Geospatial.lat_symbols.index(hsh.keys[0])
+          hsh.values[0].to_f
         end
       end # << self
     end # Point
