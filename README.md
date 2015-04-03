@@ -171,7 +171,7 @@ You can use Geometry instance directly on any query:
   * Bar.where(:location.near_sphere => person.house)
 
 
-# Not supported (until Mongoid 5.0.0)
+### Not supported (until Mongoid 5.0.0)
 Those have been dropped from moped, should return on mongoid 5.
 Sad story.
 

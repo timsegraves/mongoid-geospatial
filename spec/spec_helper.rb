@@ -17,9 +17,10 @@ if ENV['CI']
   # end
 end
 
+require 'rspec'
+
 require 'mongoid'
 # require "mocha"
-require 'rspec'
 require 'mongoid/geospatial'
 
 LOGGER = Logger.new($stdout)
