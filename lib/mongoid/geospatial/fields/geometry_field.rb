@@ -22,18 +22,33 @@ module Mongoid
       end
       alias_method :center, :center_point
 
+      #
+      # Generates a radius from the point
+      #
+      # @param [Numeric] r radius
+      # @return [Array]  [point, r] point and radius in mongoid format
       def radius(r = 1)
         [center, r]
       end
 
+      #
+      # Generates a spherical radius from the point
+      #
+      # point.radius(x) ->  [point, x / earth radius]
+      #
+      # @see Point#radius
+      # @return (Float)
+      #
       def radius_sphere(r = 1, unit = :km)
         radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
       end
 
       class << self
+        #
         # Database -> Object
+        #
         def demongoize(o)
-          new(o)
+          o && new(o)
         end
       end
     end
