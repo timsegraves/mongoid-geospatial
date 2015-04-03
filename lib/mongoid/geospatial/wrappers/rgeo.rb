@@ -33,18 +33,18 @@ module Mongoid
       end
     end
 
-    # Wrapper to Rgeo's Line
-    Line.class_eval do
+    # Wrapper to Rgeo's LineString
+    LineString.class_eval do
       def to_rgeo
-        RGeo::Geographic.spherical_factory.line_string points
+        RGeo::Geographic.spherical_factory.line_string(self)
       end
     end
 
     # Wrapper to Rgeo's Polygon
     Polygon.class_eval do
       def to_rgeo
-        ring = RGeo::Geographic.spherical_factory.linear_ring points
-        RGeo::Geographic.spherical_factory.polygon ring
+        ring = RGeo::Geographic.spherical_factory.linear_ring(self)
+        RGeo::Geographic.spherical_factory.polygon(ring)
       end
     end
   end

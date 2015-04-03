@@ -25,7 +25,7 @@ describe 'RGeo Wrapper' do
     end
   end
 
-  describe Mongoid::Geospatial::Line do
+  describe Mongoid::Geospatial::LineString do
     it 'should not interfer with mongoid' do
       River.create!(name: 'Mississippi')
       expect(River.count).to eql(1)
@@ -99,10 +99,10 @@ describe 'RGeo Wrapper' do
         end
       end
 
-      describe Mongoid::Geospatial::Line do
+      describe Mongoid::Geospatial::LineString do
         it 'should mongoize array' do
           geom = River.create!(course: [[5, 5], [6, 5], [6, 6], [5, 6]]).course
-          expect(geom.class).to eql(Mongoid::Geospatial::Line)
+          expect(geom.class).to eql(Mongoid::Geospatial::LineString)
           expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalLineStringImpl)
           expect(geom.to_rgeo.to_s)
             .to eq 'LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)'

@@ -24,8 +24,8 @@ module Mongoid
       end
     end
 
-    # Wrapper to GeoRuby's Line
-    Line.class_eval do
+    # Wrapper to GeoRuby's LineString
+    LineString.class_eval do
       def to_geo
         GeoRuby::SimpleFeatures::LineString.from_coordinates(self)
       end

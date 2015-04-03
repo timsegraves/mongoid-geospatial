@@ -16,13 +16,14 @@ module Mongoid
     autoload :GeometryField,      'mongoid/geospatial/fields/geometry_field'
     autoload :GeometryCollection, 'mongoid/geospatial/fields/geometry_collection'
 
-    autoload :Point,     'mongoid/geospatial/fields/point'
-    autoload :Polygon,   'mongoid/geospatial/fields/polygon'
-    autoload :Box,       'mongoid/geospatial/fields/box'
-    autoload :Line,      'mongoid/geospatial/fields/line'
-    autoload :Circle,    'mongoid/geospatial/fields/circle'
+    autoload :Point,      'mongoid/geospatial/fields/point'
+    autoload :LineString, 'mongoid/geospatial/fields/line_string'
+    autoload :Polygon,    'mongoid/geospatial/fields/polygon'
 
-    autoload :VERSION,   'mongoid/geospatial/version'
+    autoload :Box,        'mongoid/geospatial/fields/box'
+    autoload :Circle,     'mongoid/geospatial/fields/circle'
+
+    autoload :VERSION,    'mongoid/geospatial/version'
 
     extend ActiveSupport::Concern
 
