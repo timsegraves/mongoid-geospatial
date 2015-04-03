@@ -5,28 +5,39 @@ require 'mongoid/geospatial/helpers/spatial'
 require 'mongoid/geospatial/helpers/sphere'
 require 'mongoid/geospatial/helpers/delegate'
 
-require 'mongoid/geospatial/fields/geometry_field'
-
-%w(point circle line box polygon).each do |type|
-  require "mongoid/geospatial/fields/#{type}"
-end
-
 module Mongoid
+
   #
   # Main Geospatial module
   #
   # include Mongoid::Geospatial
   #
   module Geospatial
+    autoload :GeometryField,      'mongoid/geospatial/fields/geometry_field'
+    autoload :GeometryCollection, 'mongoid/geospatial/fields/geometry_collection'
+
+    autoload :Point,     'mongoid/geospatial/fields/point'
+    autoload :Polygon,   'mongoid/geospatial/fields/polygon'
+    autoload :Box,       'mongoid/geospatial/fields/box'
+    autoload :Line,      'mongoid/geospatial/fields/line'
+    autoload :Circle,    'mongoid/geospatial/fields/circle'
+
+    autoload :VERSION,   'mongoid/geospatial/version'
+
     extend ActiveSupport::Concern
 
+    # Symbols accepted as 'longitude', 'x'...
     LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude,
                    'x', 'lon', 'long', 'lng', 'longitude']
+
+    # Symbols accepted as 'latitude', 'y'...
     LAT_SYMBOLS = [:y, :lat, :latitude, 'y', 'lat', 'latitude']
 
+    # For distance spherical calculations
     EARTH_RADIUS_KM = 6371 # taken directly from mongodb
     RAD_PER_DEG = Math::PI / 180
 
+    # Earth radius in multiple units
     EARTH_RADIUS = {
       m:  EARTH_RADIUS_KM * 1000,
       km: EARTH_RADIUS_KM,
@@ -59,26 +70,42 @@ module Mongoid
       require 'mongoid/geospatial/wrappers/georuby'
     end
 
-    module ClassMethods #:nodoc:
-      def geo_field(name, options = {})
-        field name, { type: Mongoid::Geospatial::Point,
-                      spatial: true }.merge(options)
-      end
-
-      # create spatial index for given field
+    module ClassMethods
+      #
+      # Create Spatial index for given field
+      #
+      #
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
+      #
       # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
+      #
       def spatial_index(name, options = {})
         spatial_fields_indexed << name
         index({ name => '2d' }, options)
       end
 
+      #
+      # Creates Sphere index for given field
+      #
+      #
+      # @param [String,Symbol] name
+      # @param [Hash] options options for spatial_index
+      #
+      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
       def sphere_index(name, options = {})
         spatial_fields_indexed << name
         index({ name => '2dsphere' }, options)
       end
 
+      #
+      # Creates Sphere index for given field
+      #
+      #
+      # @param [String,Symbol] name
+      # @param [Hash] options options for spatial_index
+      #
+      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
       def spatial_scope(field, _opts = {})
         singleton_class.class_eval do
           # define_method(:close) do |args|
@@ -86,6 +113,12 @@ module Mongoid
             queryable.where(field.near_sphere => args)
           end
         end
+      end
+
+      private
+      def geo_field(name, options = {})
+        field name, { type: Mongoid::Geospatial::Point,
+                      spatial: true }.merge(options)
       end
     end
   end

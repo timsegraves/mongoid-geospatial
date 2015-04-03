@@ -30,16 +30,16 @@ describe Mongoid::Fields do
 
     it 'should set instance methods x= and y=' do
       bus = Bus.create!(name: 'B', location: [7, 7])
-      bus.x = 9
+      bus.x = 8
       bus.y = 9
-      expect(bus.location.to_a).to eq([9, 9])
+      expect(bus.location.to_a).to eq([8, 9])
     end
 
     it 'should work fine with default values' do
       event = Event.create!(name: 'Bvent')
-      event.x = 9
+      event.x = 8
       event.y = 9
-      expect(event.location.to_a).to eq([9, 9])
+      expect(event.location.to_a).to eq([8, 9])
     end
 
     it 'should not work fine with nils' do
