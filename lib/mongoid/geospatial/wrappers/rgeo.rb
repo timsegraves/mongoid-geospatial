@@ -4,18 +4,26 @@ require 'mongoid/geospatial/ext/rgeo_spherical_point_impl'
 module Mongoid
   module Geospatial
     # Wrapper to Rgeo's Point
-    class Point
+    Point.class_eval do
+      #
+      # With RGeo support
+      #
+      # @return (RGeo::SphericalFactory::Point)
       def to_rgeo
         RGeo::Geographic.spherical_factory.point x, y
       end
 
+      #
+      # Distance with RGeo
+      #
+      # @return (Float)
       def rgeo_distance(other)
         to_rgeo.distance other.to_rgeo
       end
     end
 
     # Rgeo's GeometryField concept
-    class GeometryField
+    class GeometryCollection
       private
 
       def points
@@ -26,14 +34,14 @@ module Mongoid
     end
 
     # Wrapper to Rgeo's Line
-    class Line < GeometryField
+    Line.class_eval do
       def to_rgeo
         RGeo::Geographic.spherical_factory.line_string points
       end
     end
 
     # Wrapper to Rgeo's Polygon
-    class Polygon < GeometryField
+    Polygon.class_eval do
       def to_rgeo
         ring = RGeo::Geographic.spherical_factory.linear_ring points
         RGeo::Geographic.spherical_factory.polygon ring
