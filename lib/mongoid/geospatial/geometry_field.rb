@@ -1,8 +1,16 @@
 module Mongoid
   module Geospatial
+    #
     # Main Geometry Array
-    # Holds Lines/Polygons....
+    #
+    # All multi point classes inherit from this one:
+    # LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon
+    #
     class GeometryField < Array
+      #
+      # Determines the multi point geometry bounding box.
+      # Useful to find map boundaries, and fit to screen.
+      #
       def bounding_box
         max_x, min_x = -Float::MAX, Float::MAX
         max_y, min_y = -Float::MAX, Float::MAX
@@ -16,6 +24,10 @@ module Mongoid
       end
       alias_method :bbox, :bounding_box
 
+      #
+      # Determines the center point of a multi point geometry.
+      # Geometry may be closed or not.
+      #
       def center_point
         min, max = *bbox
         [(min[0] + max[0]) / 2.0, (min[1] + max[1]) / 2.0]
@@ -47,8 +59,8 @@ module Mongoid
         #
         # Database -> Object
         #
-        def demongoize(o)
-          o && new(o)
+        def demongoize(obj)
+          obj && new(obj)
         end
       end
     end

@@ -6,8 +6,8 @@ module Mongoid
       include Enumerable
       attr_reader :x, :y
 
-      def initialize(x, y, z=nil)
-         @x, @y, @z = x, y, z
+      def initialize(x, y, z = nil)
+        @x, @y, @z = x, y, z
       end
 
       # Object -> Database
@@ -38,11 +38,12 @@ module Mongoid
       end
       alias_method :to_hash, :to_hsh
 
-
+      # Helper for [self, radius]
       def radius(r = 1)
         [mongoize, r]
       end
 
+      # Helper for [self, radius / earth radius]
       def radius_sphere(r = 1, unit = :km)
         radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
       end
@@ -96,6 +97,37 @@ module Mongoid
 
       class << self
         #
+        # Database -> Object
+        # Get it back
+        def demongoize(obj)
+          obj && Point.new(*obj)
+        end
+
+        #
+        # Object -> Database
+        # Send it to MongoDB
+        def mongoize(obj)
+          case obj
+          when Point  then obj.mongoize
+          when String then from_string(obj)
+          when Array  then from_array(obj)
+          when Hash   then from_hash(obj)
+          when NilClass then nil
+          else
+            return obj.to_xy if obj.respond_to?(:to_xy)
+            fail 'Invalid Point'
+          end
+        end
+
+        # Converts the object that was supplied to a criteria
+        # into a database friendly form.
+        def evolve(obj)
+          obj.respond_to?(:x) ? obj.mongoize : obj
+        end
+
+        private
+
+        #
         # Sanitize a `Point` from a `String`
         #
         # Makes life easier:
@@ -124,52 +156,35 @@ module Mongoid
           ary.flatten[0..1].map(&:to_f)
         end
 
-        # Throw error on wrong hash, just for a change.
+        #
+        # Sanitize a `Point` from a `Hash`
+        #
+        # Uses Mongoid::Geospatial.lat_symbols & lng_symbols
+        #
+        # Also makes life easier:
+        # {x: 1.0, y: 2.0}       ->  [1.0, 2.0]
+        # {lat: 1.0, lon: 2.0}   ->  [1.0, 2.0]
+        # {lat: 1.0, long: 2.0}  ->  [1.0, 2.0]
+        #
+        # Throws error if hash has less than 2 items.
+        #
+        # @return (Array)
+        #
         def from_hash(hsh)
           fail 'Hash must have at least 2 items' if hsh.size < 2
           [from_hash_x(hsh), from_hash_y(hsh)]
         end
 
-        def demongoize(object)
-          Point.new(*object) if object
-        end
-        #
-        # Object -> Database
-        #
-        def mongoize(object)
-          case object
-          when Point  then object.mongoize
-          when String then from_string(object)
-          when Array  then from_array(object)
-          when Hash   then from_hash(object)
-          when NilClass then nil
-          else
-            return object.to_xy if object.respond_to?(:to_xy)
-            fail 'Invalid Point'
-          end
-        end
-
-        # Converts the object that was supplied to a criteria
-        # into a database friendly form.
-        def evolve(object)
-          object.respond_to?(:x) ? object.mongoize : object
-        end
-
-        private
-
         def from_hash_y(hsh)
           v = (Mongoid::Geospatial.lat_symbols & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
-          fail "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect} if Ruby version is less than 1.9" if RUBY_VERSION.to_f < 1.9
-          fail "Hash cannot contain #{Mongoid::Geospatial.lng_symbols.inspect} as the second item if there is no #{Mongoid::Geospatial.lat_symbols.inspect}" if Mongoid::Geospatial.lng_symbols.index(hsh.keys[1])
-          hsh.values[1].to_f
+          fail "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect}"
         end
 
         def from_hash_x(hsh)
           v = (Mongoid::Geospatial.lng_symbols & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
-          fail "Hash cannot contain #{Mongoid::Geospatial.lat_symbols.inspect} as the first item if there is no #{Mongoid::Geospatial.lng_symbols.inspect}" if Mongoid::Geospatial.lat_symbols.index(hsh.keys[0])
-          hsh.values[0].to_f
+          fail "Hash must contain #{Mongoid::Geospatial.lng_symbols.inspect}"
         end
       end # << self
     end # Point
