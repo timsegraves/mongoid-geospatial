@@ -23,8 +23,7 @@ module Mongoid
     end
 
     # Rgeo's GeometryField concept
-    class GeometryCollection
-      private
+    GeometryField.class_eval do
 
       def points
         map do |pair|
@@ -36,14 +35,14 @@ module Mongoid
     # Wrapper to Rgeo's LineString
     LineString.class_eval do
       def to_rgeo
-        RGeo::Geographic.spherical_factory.line_string(self)
+        RGeo::Geographic.spherical_factory.line_string(points)
       end
     end
 
     # Wrapper to Rgeo's Polygon
     Polygon.class_eval do
       def to_rgeo
-        ring = RGeo::Geographic.spherical_factory.linear_ring(self)
+        ring = RGeo::Geographic.spherical_factory.linear_ring(points)
         RGeo::Geographic.spherical_factory.polygon(ring)
       end
     end

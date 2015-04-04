@@ -13,8 +13,7 @@ module Mongoid
   # include Mongoid::Geospatial
   #
   module Geospatial
-    autoload :GeometryField,      'mongoid/geospatial/fields/geometry_field'
-    autoload :GeometryCollection, 'mongoid/geospatial/fields/geometry_collection'
+    autoload :GeometryField,      'mongoid/geospatial/geometry_field'
 
     autoload :Point,      'mongoid/geospatial/fields/point'
     autoload :LineString, 'mongoid/geospatial/fields/line_string'
