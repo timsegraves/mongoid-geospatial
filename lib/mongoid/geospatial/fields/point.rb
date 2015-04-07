@@ -4,7 +4,7 @@ module Mongoid
     #
     class Point
       include Enumerable
-      attr_reader :x, :y
+      attr_accessor :x, :y
 
       def initialize(x, y, z = nil)
         @x, @y, @z = x, y, z
@@ -100,7 +100,7 @@ module Mongoid
         # Database -> Object
         # Get it back
         def demongoize(obj)
-          obj && Point.new(*obj)
+          obj && new(*obj)
         end
 
         #
@@ -122,7 +122,10 @@ module Mongoid
         # Converts the object that was supplied to a criteria
         # into a database friendly form.
         def evolve(obj)
-          obj.respond_to?(:x) ? obj.mongoize : obj
+          case obj
+          when Point then obj.mongoize
+          else obj
+          end
         end
 
         private

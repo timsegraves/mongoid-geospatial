@@ -6,7 +6,6 @@ require 'mongoid/geospatial/helpers/sphere'
 require 'mongoid/geospatial/helpers/delegate'
 
 module Mongoid
-
   #
   # Main Geospatial module
   #
@@ -70,6 +69,7 @@ module Mongoid
       require 'mongoid/geospatial/wrappers/georuby'
     end
 
+    # Methods applied to Document's class
     module ClassMethods
       #
       # Create Spatial index for given field
@@ -116,6 +116,7 @@ module Mongoid
       end
 
       private
+
       def geo_field(name, options = {})
         field name, { type: Mongoid::Geospatial::Point,
                       spatial: true }.merge(options)

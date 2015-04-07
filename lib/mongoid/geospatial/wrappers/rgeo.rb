@@ -2,6 +2,10 @@ require 'rgeo'
 require 'mongoid/geospatial/ext/rgeo_spherical_point_impl'
 
 module Mongoid
+  #
+  # Wrappers for RGeo
+  # https://github.com/rgeo/rgeo
+  #
   module Geospatial
     # Wrapper to Rgeo's Point
     Point.class_eval do
@@ -24,7 +28,6 @@ module Mongoid
 
     # Rgeo's GeometryField concept
     GeometryField.class_eval do
-
       def points
         map do |pair|
           RGeo::Geographic.spherical_factory.point(*pair)

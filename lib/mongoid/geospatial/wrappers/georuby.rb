@@ -1,6 +1,10 @@
 require 'geo_ruby'
 
 module Mongoid
+  #
+  # Wrappers for GeoRuby
+  # https://github.com/nofxx/georuby
+  #
   module Geospatial
     # Wrapper to GeoRuby's Point
     Point.class_eval do
