@@ -16,10 +16,9 @@ The name of this gem has changed.
 Please change the underscore to a hyphen.
 If you need to: require 'mongoid/geospatial'
 
-
 [![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.png)](http://badge.fury.io/rb/mongoid-geospatial)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid-geospatial.png)](https://codeclimate.com/github/nofxx/mongoid-geospatial)
-[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-geospatial/badge.png)](https://coveralls.io/r/nofxx/mongoid-geospatial)
+[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-geospatial/badge.svg?branch=master)](https://coveralls.io/r/nofxx/mongoid-geospatial?branch=master)
 [![Dependency Status](https://gemnasium.com/nofxx/mongoid-geospatial.svg)](https://gemnasium.com/nofxx/mongoid-geospatial)
 [![Build Status](https://travis-ci.org/nofxx/mongoid-geospatial.png?branch=master)](https://travis-ci.org/nofxx/mongoid-geospatial)
 
