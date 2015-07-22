@@ -171,11 +171,18 @@ You can create Point, Line, Circle, Box and Polygon on your models:
 Helpers
 -------
 
-You can use `spatial: true` to add an '2d' index automatically,
+You can use `spatial: true` to add a '2d' index automatically,
 No need for `spatial_index :location`:
 
 
     field :location,  type: Point, spatial: true
+
+
+And you can use `sphere: true` to add a '2dsphere' index automatically,
+No need for `spatial_sphere :location`:
+
+
+    field :location,  type: Point, sphere: true
 
 
 You can delegate some point methods to the instance itself:
@@ -212,7 +219,7 @@ Some helper methods are available to them:
 
 
     # Returns a geometry bounding box
-    # Useful to query #within_box
+    # Useful to query #within_geometry
     polygon.bbox
     polygon.bounding_box
 
@@ -224,6 +231,7 @@ Some helper methods are available to them:
     # Useful to search #within_circle
     polygon.radius(5)        # [[1.0, 1.0], 5]
     polygon.radius_sphere(5) # [[1.0, 1.0], 0.00048..]
+
 
 Query
 -----
@@ -337,125 +345,11 @@ Defaults (change if you know what you're doing)
 
 
 
-Mongo DB 1.9+ New Geo features
----------
-
-Multi-location Documents v.1.9+
-
-MongoDB now also supports indexing documents by multiple locations. These locations can be specified in arrays of sub-objects, for example:
-
-```
-> db.places.insert({ addresses : [ { name : "Home", loc : [55.5, 42.3] }, { name : "Work", loc : [32.3, 44.2] } ] })
-> db.places.ensureIndex({ "addresses.loc" : "2d" })
-```
-
-Multiple locations may also be specified in a single field:
-
-```
-> db.places.insert({ lastSeenAt : [ { x : 45.3, y : 32.2 }, [54.2, 32.3], { lon : 44.2, lat : 38.2 } ] })
-> db.places.ensureIndex({ "lastSeenAt" : "2d" })
-```
-
-By default, when performing geoNear or $near-type queries on collections containing multi-location documents, the same document may be returned multiple times, since $near queries return ordered results by distance. Queries using the $within operator by default do not return duplicate documents.
-
-  v2.0
-In v2.0, this default can be overridden by the use of a $uniqueDocs parameter for geoNear and $within queries, like so:
-
-```
-> db.runCommand( { geoNear : "places" , near : [50,50], num : 10, uniqueDocs : false } )
-> db.places.find( { loc : { $within : { $center : [[0.5, 0.5], 20], $uniqueDocs : true } } } )
-```
-
-  Currently it is not possible to specify $uniqueDocs for $near queries
-Whether or not uniqueDocs is true, when using a limit the limit is applied (as is normally the case) to the number of results returned (and not to the docs or locations).  If running a geoNear query with uniqueDocs : true, the closest location in a document to the center of the search region will always be returned - this is not true for $within queries.
-
-In addition, when using geoNear queries and multi-location documents, often it is useful to return not only distances, but also the location in the document which was used to generate the distance.  In v2.0, to return the location alongside the distance in the geoNear results (in the field loc), specify includeLocs : true in the geoNear query. The location returned will be a copy of the location in the document used.
-
-  If the location was an array, the location returned will be an object with "0" and "1" fields in v2.0.0 and v2.0.1.
-
-```
-> db.runCommand({ geoNear : "places", near : [ 0, 0 ], maxDistance : 20, includeLocs : true })
-{
-  "ns" : "test.places",
-  "near" : "1100000000000000000000000000000000000000000000000000",
-  "results" : [
-    {
-      "dis" : 5.830951894845301,
-      "loc" : {
-        "x" : 3,
-        "y" : 5
-      },
-      "obj" : {
-        "_id" : ObjectId("4e52672c15f59224bdb2544d"),
-        "name" : "Final Place",
-        "loc" : {
-          "x" : 3,
-          "y" : 5
-        }
-      }
-    },
-    {
-      "dis" : 14.142135623730951,
-      "loc" : {
-        "0" : 10,
-        "1" : 10
-      },
-      "obj" : {
-        "_id" : ObjectId("4e5266a915f59224bdb2544b"),
-        "name" : "Some Place",
-        "loc" : [
-          [
-            10,
-            10
-          ],
-          [
-            50,
-            50
-          ]
-        ]
-      }
-    },
-    {
-      "dis" : 14.142135623730951,
-      "loc" : {
-        "0" : -10,
-        "1" : -10
-      },
-      "obj" : {
-        "_id" : ObjectId("4e5266ba15f59224bdb2544c"),
-        "name" : "Another Place",
-        "loc" : [
-          [
-            -10,
-            -10
-          ],
-          [
-            -50,
-            -50
-          ]
-        ]
-      }
-    }
-  ],
-  "stats" : {
-    "time" : 0,
-    "btreelocs" : 0,
-    "nscanned" : 5,
-    "objectsLoaded" : 3,
-    "avgDistance" : 11.371741047435734,
-    "maxDistance" : 14.142157540259815
-  },
-  "ok" : 1
-}
-```
-
-The plan is to include this functionality in a future release. Please help out ;)
-
 This Fork
 ---------
 
-This fork is not backwards compatible with 'mongoid_spatial'.
-This fork delegates calculations to the external libs and use Moped.
+This fork is not backwards compatible with 'mongoid_spacial'.
+This fork delegates calculations to external libs.
 
 Change in your models:
 
@@ -473,7 +367,7 @@ And for the fields:
 
 to
 
-    field :source,  type: Point,    spatial: true
+    field :source,  type: Point,    spatial: true # or sphere: true
 
 
 Beware the 't' and 'c' issue. It's spaTial.
@@ -488,6 +382,10 @@ Troubleshooting
 Indexes need to be created. Execute command:
 
     rake db:mongoid:create_indexes
+
+Programatically
+
+    Model.create_indexes
 
 
 Contributing
