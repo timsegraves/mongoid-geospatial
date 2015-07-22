@@ -16,12 +16,12 @@ describe Mongoid::Geospatial do
   context 'Creating indexes' do
     it 'should create a 2d index' do
       Bar.create_indexes
-      expect(Bar.collection.indexes[location: '2d']).not_to be_nil
+      expect(Bar.collection.indexes.get(location: '2d')).not_to be_nil
     end
 
     it 'should create a 2dsphere index' do
       Alarm.create_indexes
-      expect(Alarm.collection.indexes[spot: '2dsphere']).not_to be_nil
+      expect(Alarm.collection.indexes.get(spot: '2dsphere')).not_to be_nil
     end
   end
 
@@ -60,6 +60,13 @@ describe Mongoid::Geospatial do
       expect(Alarm.nearby(lax.spot)).to eq([lax, jfk])
     end
 
+    it 'should work with default origin' do
+      expect(Alarm.near_sphere(spot: lax.spot)).to eq([lax, jfk])
+    end
+
+    it 'should work with default origin key' do
+      expect(Alarm.where(:spot.near_sphere => lax.spot)).to eq([lax, jfk])
+    end
     #   context ':maxDistance' do
     #     it "should get 1 item" do
     #       Bar.geo_near(lax.location, :spherical => true, :max_distance => 2465/Mongoid::Geospatial.earth_radius[:mi]).size.should == 1

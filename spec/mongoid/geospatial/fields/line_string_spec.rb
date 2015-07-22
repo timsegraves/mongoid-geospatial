@@ -15,6 +15,30 @@ describe Mongoid::Geospatial::LineString do
       expect(River.first.course).to eq(river.course)
     end
 
+    it 'should line_string += point nicely' do
+      river = River.create!(name: 'Amazonas', course: [[1, 1], [9, 9]])
+      river.course += [[10, 10]]
+      river.save
+      expect(River.first.course).to eq([[1, 1], [9, 9], [10, 10]])
+    end
+
+    it 'should parent.line_string << point nicely' do
+      river = River.create!(name: 'Amazonas', course: [[1, 1], [9, 9]])
+      river.course.push [10, 10]
+      river.save
+      expect(River.first.course).to eq([[1, 1], [9, 9], [10, 10]])
+    end
+
+    it 'should have same obj id' do
+      river = River.create!(name: 'Amazonas', course: [[1, 1], [9, 9]])
+      expect(river.course.object_id).to eq(river.course.object_id)
+    end
+
+    it 'should have same obj id ary' do
+      river = River.create!(name: 'Amazonas', mouth_array: [[1, 1], [9, 9]])
+      expect(river.mouth_array.object_id).to eq(river.mouth_array.object_id)
+    end
+
     it 'should support a field mapped as linestring' do
       River.create!(course: [[5, 5], [6, 5], [6, 6], [5, 6]])
       expect(River.first.course).to eq([[5, 5], [6, 5], [6, 6], [5, 6]])

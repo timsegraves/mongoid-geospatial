@@ -13,9 +13,10 @@ describe Mongoid::Geospatial::Point do
     end
 
     it 'should set point methodically' do
-      bar.location = Mongoid::Geospatial::Point.new(8, 8)
+      bar.location = Mongoid::Geospatial::Point.new(8, 9)
       expect(bar.save).to be_truthy
       expect(Bar.first.location.x).to eq(8)
+      expect(Bar.first.location.y).to eq(9)
     end
 
     it 'should set point with comma separated text' do
@@ -40,6 +41,13 @@ describe Mongoid::Geospatial::Point do
     expect(bar.location).to be_nil
     expect(bar.save).to be_truthy
     expect(Bar.where(location: nil).first).to eq(bar)
+  end
+
+  it 'should update point x' do
+    bar = Bar.create!(name: "Moe's", location: [1, 1])
+    bar.location = [2, 3]
+    expect(bar.save).to be_truthy
+    expect(Bar.first.location.to_a).to eq([2, 3])
   end
 
   it 'should set point empty string to nil' do

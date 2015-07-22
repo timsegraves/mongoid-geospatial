@@ -4,7 +4,7 @@ class Farm
   include Mongoid::Geospatial
 
   field :name,         type: String
-  field :geom,         type: Point,    spatial: true
+  field :geom,         type: Point,    sphere: true
   field :area,         type: Polygon,  spatial: true
   field :m2,           type: Fixnum
 

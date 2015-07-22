@@ -17,15 +17,13 @@ if ENV['CI']
   # end
 end
 
+require 'pry'
 require 'rspec'
-
 require 'mongoid'
 # require "mocha"
 require 'mongoid/geospatial'
 
 LOGGER = Logger.new($stdout)
-
-puts "Running with Mongoid v#{Mongoid::VERSION}"
 
 Mongoid.configure do |config|
   config.connect_to('mongoid_geo_test')
@@ -46,3 +44,9 @@ RSpec.configure do |config|
     Mongoid.purge!
   end
 end
+
+Mongo::Logger.logger.level = Logger::INFO if Mongoid::VERSION >= '5'
+
+# Mongoid.load!(File.expand_path('../support/mongoid.yml', __FILE__), :test)
+
+puts "Running with Mongoid v#{Mongoid::VERSION}"

@@ -7,7 +7,17 @@ describe Mongoid::Fields do
     end
 
     it 'should created indexes' do
-      expect(Bar.collection.indexes[location: '2d']).not_to be_nil
+      expect(Bar.collection.indexes.get(location: '2d')).not_to be_nil
+    end
+
+    it 'should create correct indexes' do
+      expect(Bar.collection.indexes.get(location: '2d'))
+        .to eq({
+                 "key" => {"location"=>"2d"},
+                 "name" => "location_2d",
+                 "ns" => "mongoid_geo_test.bars",
+                 "v" => 1
+               })
     end
 
     it 'should set spatial fields' do

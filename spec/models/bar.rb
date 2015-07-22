@@ -5,7 +5,7 @@ class Bar
 
   field :name,     type: String
 
-  geo_field :location
+  field :location, type: Point, spatial: true
 
   has_one :rating, as: :ratable
 

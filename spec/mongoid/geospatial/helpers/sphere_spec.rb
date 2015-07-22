@@ -7,7 +7,18 @@ describe Mongoid::Fields do
     end
 
     it 'should created indexes' do
-      expect(Alarm.collection.indexes[spot: '2dsphere']).not_to be_nil
+      expect(Alarm.collection.indexes.get(spot: '2dsphere')).not_to be_nil
+    end
+
+    it 'should create correct indexes' do
+      expect(Alarm.collection.indexes.get(spot: '2dsphere'))
+        .to eq({
+                 "2dsphereIndexVersion" => 2,
+                 "key" => {"spot"=>"2dsphere"},
+                 "name" => "spot_2dsphere",
+                 "ns" => "mongoid_geo_test.alarms",
+                 "v" => 1
+               })
     end
 
     it 'should set spatial fields' do
