@@ -114,13 +114,6 @@ module Mongoid
           end
         end
       end
-
-      private
-
-      def geo_field(name, options = {})
-        field name, { type: Mongoid::Geospatial::Point,
-                      spatial: true }.merge(options)
-      end
     end
   end
 end
