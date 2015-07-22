@@ -67,35 +67,71 @@ describe Mongoid::Geospatial do
     it 'should work with default origin key' do
       expect(Alarm.where(:spot.near_sphere => lax.spot)).to eq([lax, jfk])
     end
-    #   context ':maxDistance' do
-    #     it "should get 1 item" do
-    #       Bar.geo_near(lax.location, :spherical => true, :max_distance => 2465/Mongoid::Geospatial.earth_radius[:mi]).size.should == 1
-    #     end
 
-    #   end
+    context ':paginate' do
+      before do
+        Alarm.create_indexes
+        50.times do
+          Alarm.create(spot: [rand(10) + 1, rand(10) + 1])
+        end
+      end
+
+      it "limits fine with 25" do
+        expect(Alarm.near_sphere(spot: [5,5]).limit(25).to_a.size).to eq 25
+      end
+
+      it "limits fine with 25 and skips" do
+        expect(Alarm.near_sphere(spot: [5,5]).skip(25).limit(25).to_a.size).to eq 25
+      end
+
+      it "paginates 50" do
+        page1 = Alarm.near_sphere(spot: [5,5]).limit(25)
+        page2 = Alarm.near_sphere(spot: [5,5]).skip(25).limit(25)
+        expect((page1 + page2).uniq.size).to eq(50)
+      end
+    end
+
+    context ':query' do
+      before do
+        Alarm.create_indexes
+        3.times do
+          Alarm.create(spot: [jfk.spot.x + rand(0), jfk.spot.y + rand(0)])
+        end
+      end
+
+      it "should filter using extra query option" do
+        query = Alarm.near_sphere(spot: jfk.spot).where(name: jfk.name)
+        expect(query.to_a).to eq [jfk]
+      end
+    end
+
+    context ':maxDistance' do
+      it "should get 1 item" do
+        query = Alarm.near_sphere(spot: lax.spot)
+                .max_distance(spot: 2465/Mongoid::Geospatial.earth_radius[:mi])
+        expect(query.to_a.size).to eq 1
+      end
+    end
 
     #     context ':distance_multiplier' do
     #       it "should multiply returned distance with multiplier" do
-    #         Bar.geo_near(lax.location, :spherical => true, :distance_multiplier=> Mongoid::Geospatial.earth_radius[:mi]).second.geo[:distance].to_i.should be_within(1).of(2469)
+    #         Bar.geo_near(lax.location,
+    #         ::distance_multiplier=> Mongoid::Geospatial.earth_radius[:mi])
+    #            .second.geo[:distance].to_i.should be_within(1).of(2469)
     #       end
     #     end
 
     #     context ':unit' do
     #       it "should multiply returned distance with multiplier" do
-    #         Bar.geo_near(lax.location, :spherical => true, :unit => :mi).second.geo[:distance].to_i.should be_within(1).of(2469)
+    #         Bar.geo_near(lax.location, :spherical => true, :unit => :mi)
+    #           .second.geo[:distance].to_i.should be_within(1).of(2469)
     #       end
 
     #       it "should convert max_distance to radians with unit" do
-    #         Bar.geo_near(lax.location, :spherical => true, :max_distance => 2465, :unit => :mi).size.should == 1
+    #         Bar.geo_near(lax.location, :spherical => true,
+    #          :max_distance => 2465, :unit => :mi).size.should == 1
     #       end
 
-    #     end
-
-    #     context ':query' do
-    #       it "should filter using extra query option" do
-    #         # two record in the collection, only one's name is Munich
-    #         Bar.geo_near(jfk.location, :query => {:name => jfk.name}).should == [jfk]
-    #       end
     #     end
 
     #   end
@@ -105,37 +141,8 @@ describe Mongoid::Geospatial do
     #       Bar.where(:name => jfk.name).geo_near(jfk.location).should == [jfk]
     #       Bar.any_of({:name => jfk.name},{:name => lax.name}).geo_near(jfk.location).should == [jfk,lax]
     #     end
-
-    #     it 'should skip 1' do
-    #       Bar.skip(1).geo_near(jfk.location).size.should == 1
-    #     end
-
-    #     it 'should limit 1' do
-    #       Bar.limit(1).geo_near(jfk.location).size.should == 1
-    #     end
     #   end
     # end
 
-    # context ':paginate' do
-    #   before do
-    #     Bar.create_indexes
-    #     50.times do
-    #       Bar.create({:location => [rand(360)-180,rand(360)-180]})
-    #     end
-    #   end
-
-    #   [nil,1,2].each do |page|
-    #     it "page=#{page} should have 25" do
-    #       Bar.geo_near([1,1], :page => page).size.should == 25
-    #     end
-    #   end
-
-    #   it "page=3 should have 0" do
-    #     Bar.geo_near([1,1], :page => 20).size.should == 0
-    #   end
-
-    #   it "per_page=5" do
-    #     Bar.geo_near([1,1], :page => 1, :per_page => 5).size.should == 5
-    #   end
   end
 end

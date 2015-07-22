@@ -33,7 +33,7 @@ But you may also use an external Geometric/Spatial gem alongside.
     gem 'mongoid-geospatial'
 
 
-A place to illustrate Point, Line and Polygon
+A `Place` to illustrate `Point`, `Line` and `Polygon`
 
     class Place
       include Mongoid::Document
@@ -49,21 +49,17 @@ A place to illustrate Point, Line and Polygon
       field :route,    type: Linestring
       field :area,     type: Polygon
 
-      # If your are going to query on your points, don't forget to index:
-      spatial_index :location
+      # To query on your points, don't forget to index:
+      # You may use a method:
+      sphere_index :location  # 2d
+      # or
+      spatial_index :location # 2dsphere
 
-      # Or you can index points with 'spatial: true' option too:
-      field :location, type: Point, spatial: true
+      # Or use a helper directly on the `field`:
+      field :location, type: Point, spatial: true  # 2d
+      # or
+      field :location, type: Point, sphere: true   # 2dsphere
     end
-
-
-For geo points, an extra macro `geo_field` is available
-
-      geo_field :location
-
-Will generate:
-
-      field :location, type: Point, spatial: true
 
 
 
@@ -77,7 +73,6 @@ Or programatically:
 
 
     Place.create_indexes
-
 
 
 
@@ -148,119 +143,6 @@ And for polygons and lines:
     house.area.center  # Returns calculate middle point
 
 
-Query
------
-
-Before you read about this gem have sure you read this:
-
-http://mongoid.org/en/origin/docs/selection.html#standard
-
-All MongoDB queries are handled by Mongoid.
-
-
-You can use Geometry instance directly on any query:
-
-* near
-  * Bar.near(location: person.house)
-  * Bar.where(:location.near => person.house)
-
-
-* near_sphere
-  * Bar.near_sphere(location: person.house)
-  * Bar.where(:location.near_sphere => person.house)
-
-
-### Not supported (until Mongoid 5.0.0)
-Those have been dropped from moped, should return on mongoid 5.
-Sad story.
-
-* within_box
-  * Bar.within_box(location: hood.area)
-
-
-* within_circle
-  * Bar.within_circle(location: hood.area)
-
-
-* within_circle_sphere
-  * Bar.within_circle_sphere(location: hood.area)
-
-
-* within_polygon
-  * Bar.within_polygon(location: city.area)
-
-
-
-External Libraries
-------------------
-
-Use RGeo?
-https://github.com/dazuma/rgeo
-
-RGeo is a Ruby wrapper for Proj/GEOS.
-It's perfect when you need to work with complex calculations and projections.
-It'll require more stuff installed to compile/work.
-
-
-Use GeoRuby?
-https://github.com/nofxx/georuby
-
-GeoRuby is a pure Ruby Geometry Library.
-It's perfect if you want simple calculations and/or keep your stack in pure ruby.
-Albeit not full featured in maths it has a handful of methods and good import/export helpers.
-
-
-
-Geometry Helpers
-----------------
-
-We currently support GeoRuby and RGeo.
-If you require one of those, a #to_geo and #to_rgeo, respectivelly,
-method(s) will be available to all spatial fields, returning the
-external library corresponding object.
-
-To illustrate:
-
-    class Person
-      include Mongoid::Document
-      include Mongoid::Geospatial
-
-      field :location, type: Point
-    end
-
-    me = Person.new(location: [8, 8])
-
-    # Example with GeoRuby
-    point.class # Mongoid::Geospatial::Point
-    point.to_geo.class # GeoRuby::SimpleFeatures::Point
-
-    # Example with RGeo
-    point.class # Mongoid::Geospatial::Point
-    point.to_rgeo.class # RGeo::Geographic::SphericalPointImpl
-
-
-Configure
----------
-
-Assemble it as you need (use a initializer file):
-
-With RGeo
-
-    Mongoid::Geospatial.with_rgeo!
-    # Optional
-    # Mongoid::Geospatial.factory = RGeo::Geographic.spherical_factory
-
-
-With GeoRuby
-
-    Mongoid::Geospatial.with_georuby!
-
-
-Defaults (change if you know what you're doing)
-
-    Mongoid::Geospatial.lng_symbol = :x
-    Mongoid::Geospatial.lat_symbol = :y
-    Mongoid::Geospatial.earth_radius = EARTH_RADIUS
 
 
 
@@ -347,6 +229,115 @@ Some helper methods are available to them:
     polygon.radius(5)        # [[1.0, 1.0], 5]
     polygon.radius_sphere(5) # [[1.0, 1.0], 0.00048..]
 
+Query
+-----
+
+Before you read about this gem have sure you read this:
+
+http://mongoid.org/en/origin/docs/selection.html#standard
+
+All MongoDB queries are handled by Mongoid/Origin.
+
+http://www.rubydoc.info/github/mongoid/origin/Origin/Selectable
+
+You can use Geometry instance directly on any query:
+
+* near
+
+
+```
+Bar.near(location: person.house)
+Bar.where(:location.near => person.house)
+```
+
+* near_sphere
+
+```
+Bar.near_sphere(location: person.house)
+Bar.where(:location.near_sphere => person.house)
+```
+
+* within_polygon
+
+```
+Bar.within_polygon(location: [[[x,y],...[x,y]]])
+# or with a bbox
+Bar.within_polygon(location: street.bbox)
+```
+
+
+* intersects_line
+* intersects_point
+* intersects_polygon
+
+
+
+External Libraries
+------------------
+
+We currently support GeoRuby and RGeo.
+If you require one of those, a #to_geo and #to_rgeo, respectivelly,
+method(s) will be available to all spatial fields, returning the
+external library corresponding object.
+
+
+### Use RGeo?
+https://github.com/dazuma/rgeo
+
+RGeo is a Ruby wrapper for Proj/GEOS.
+It's perfect when you need to work with complex calculations and projections.
+It'll require more stuff installed to compile/work.
+
+
+### Use GeoRuby?
+https://github.com/nofxx/georuby
+
+GeoRuby is a pure Ruby Geometry Library.
+It's perfect if you want simple calculations and/or keep your stack in pure ruby.
+Albeit not full featured in maths it has a handful of methods and good import/export helpers.
+
+
+### Example
+
+    class Person
+      include Mongoid::Document
+      include Mongoid::Geospatial
+
+      field :location, type: Point
+    end
+
+    me = Person.new(location: [8, 8])
+
+    # Example with GeoRuby
+    point.class # Mongoid::Geospatial::Point
+    point.to_geo.class # GeoRuby::SimpleFeatures::Point
+
+    # Example with RGeo
+    point.class # Mongoid::Geospatial::Point
+    point.to_rgeo.class # RGeo::Geographic::SphericalPointImpl
+
+
+## Configure
+
+Assemble it as you need (use a initializer file):
+
+With RGeo
+
+    Mongoid::Geospatial.with_rgeo!
+    # Optional
+    # Mongoid::Geospatial.factory = RGeo::Geographic.spherical_factory
+
+
+With GeoRuby
+
+    Mongoid::Geospatial.with_georuby!
+
+
+Defaults (change if you know what you're doing)
+
+    Mongoid::Geospatial.lng_symbol = :x
+    Mongoid::Geospatial.lat_symbol = :y
+    Mongoid::Geospatial.earth_radius = EARTH_RADIUS
 
 
 

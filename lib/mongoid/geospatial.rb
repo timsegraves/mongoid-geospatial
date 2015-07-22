@@ -12,16 +12,16 @@ module Mongoid
   # include Mongoid::Geospatial
   #
   module Geospatial
-    autoload :GeometryField,      'mongoid/geospatial/geometry_field'
+    autoload :GeometryField, 'mongoid/geospatial/geometry_field'
 
-    autoload :Point,      'mongoid/geospatial/fields/point'
-    autoload :LineString, 'mongoid/geospatial/fields/line_string'
-    autoload :Polygon,    'mongoid/geospatial/fields/polygon'
+    autoload :Point,         'mongoid/geospatial/fields/point'
+    autoload :LineString,    'mongoid/geospatial/fields/line_string'
+    autoload :Polygon,       'mongoid/geospatial/fields/polygon'
 
-    autoload :Box,        'mongoid/geospatial/fields/box'
-    autoload :Circle,     'mongoid/geospatial/fields/circle'
+    autoload :Box,           'mongoid/geospatial/fields/box'
+    autoload :Circle,        'mongoid/geospatial/fields/circle'
 
-    autoload :VERSION,    'mongoid/geospatial/version'
+    autoload :VERSION,       'mongoid/geospatial/version'
 
     extend ActiveSupport::Concern
 
@@ -78,7 +78,8 @@ module Mongoid
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
       #
-      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
+      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+      # #GeospatialIndexing-geoNearCommand
       #
       def spatial_index(name, options = {})
         spatial_fields_indexed << name
@@ -92,7 +93,8 @@ module Mongoid
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
       #
-      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
+      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+      # #GeospatialIndexing-geoNearCommand
       def sphere_index(name, options = {})
         spatial_fields_indexed << name
         index({ name => '2dsphere' }, options)
@@ -105,7 +107,8 @@ module Mongoid
       # @param [String,Symbol] name
       # @param [Hash] options options for spatial_index
       #
-      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing#GeospatialIndexing-geoNearCommand
+      # http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+      # #GeospatialIndexing-geoNearCommand
       def spatial_scope(field, _opts = {})
         singleton_class.class_eval do
           # define_method(:close) do |args|

@@ -29,6 +29,7 @@ module Mongoid
         yield x
         yield y
       end
+
       #
       # Point representation as a Hash
       #
