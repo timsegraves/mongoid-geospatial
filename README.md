@@ -4,11 +4,10 @@ Mongoid Geospatial
 
 A Mongoid Extension that simplifies the use of MongoDB spatial features.
 
-Version 5.* -> Mongoid 5
-Version 4.* -> Mongoid 4
+* Version 5.x -> Mongoid 5
+* Version 4.x -> Mongoid 4
 
-** Gem name: 'mongoid-geospatial' (notice the hyphen) **
-* The name of this gem has changed. *
+** Gem name has changed: 'mongoid-geospatial' (notice the hyphen) **
 Please change the underscore to a hyphen.
 That will require it correctly within bundler:
 `require 'mongoid/geospatial'`
