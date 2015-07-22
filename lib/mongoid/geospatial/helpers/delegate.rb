@@ -18,11 +18,15 @@ Mongoid::Fields.option :delegate do |model, field, options|
     end
 
     define_method "#{x_meth}=" do |arg|
-      self[field.name][0] = arg
+      # hack for mongoid
+      # self[field.name][0] = arg
+      send("#{field.name}=", [arg, self[field.name][1]])
     end
 
     define_method "#{y_meth}=" do |arg|
-      self[field.name][1] = arg
+      # self[field.name][1] = arg
+      # self[field.name] = [self[field.name][0], arg]
+      send("#{field.name}=", [self[field.name][0], arg])
     end
   end
 end
