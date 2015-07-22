@@ -4,17 +4,14 @@ Mongoid Geospatial
 
 A Mongoid Extension that simplifies the use of MongoDB spatial features.
 
-** On beta again **
-
-Removing some trash, improving and adding support for RGeo and GeoRuby.
-Version 3+ is going to be beta testing, when it's ready I'll release v4,
-So the major version stays the same as mongoid.
+Version 5.* -> Mongoid 5
+Version 4.* -> Mongoid 4
 
 ** Gem name: 'mongoid-geospatial' (notice the hyphen) **
-
-The name of this gem has changed.
+* The name of this gem has changed. *
 Please change the underscore to a hyphen.
-If you need to: require 'mongoid/geospatial'
+That will require it correctly within bundler:
+`require 'mongoid/geospatial'`
 
 [![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.png)](http://badge.fury.io/rb/mongoid-geospatial)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid-geospatial.png)](https://codeclimate.com/github/nofxx/mongoid-geospatial)

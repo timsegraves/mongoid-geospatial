@@ -1,7 +1,5 @@
 source 'http://rubygems.org'
 
-gem 'mongoid', '5.0.0.beta'
-
 gemspec # Specify  gem's dependencies in mongoid_geospatial.gemspec
 
 gem 'rake'
