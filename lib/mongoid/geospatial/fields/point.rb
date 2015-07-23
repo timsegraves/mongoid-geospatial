@@ -7,7 +7,9 @@ module Mongoid
       attr_accessor :x, :y, :z
 
       def initialize(x, y, z = nil)
-        @x, @y, @z = x, y, z
+        @x = x
+        @y = y
+        @z = z
       end
 
       # Object -> Database
@@ -80,6 +82,18 @@ module Mongoid
       #
       def to_s
         "#{x}, #{y}"
+      end
+
+      #
+      # Point inverse/reverse
+      #
+      # MongoDB: "x, y"
+      # Reverse: "y, x"
+      #
+      # @return [Array] Point reversed: "y, x"
+      #
+      def reverse
+        [y, x]
       end
 
       #

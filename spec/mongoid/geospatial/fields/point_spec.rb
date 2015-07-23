@@ -35,6 +35,11 @@ describe Mongoid::Geospatial::Point do
     end
   end
 
+  it 'should have #reverse to get lat, lon' do
+    bar = Bar.create!(name: "Moe's", location: [1, 2])
+    expect(bar.location.reverse).to eq([2, 1])
+  end
+
   it 'should set point to nil' do
     bar = Bar.create!(name: "Moe's", location: [1, 1])
     bar.location = nil
