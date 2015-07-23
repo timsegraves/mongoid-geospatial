@@ -1,6 +1,7 @@
 module Mongoid
   module Geospatial
     #
+    #
     # Main Geometry Array
     #
     # All multi point classes inherit from this one:
@@ -8,8 +9,12 @@ module Mongoid
     #
     class GeometryField < Array
       #
-      # Determines the multi point geometry bounding box.
+      #
+      # Determines the 2 points geometry bounding box.
       # Useful to find map boundaries, and fit to screen.
+      # Returns [bottom left, top right]
+      #
+      # @return [Array] containing 2 points
       #
       def bounding_box
         max_x, min_x = -Float::MAX, Float::MAX
@@ -25,8 +30,24 @@ module Mongoid
       alias_method :bbox, :bounding_box
 
       #
+      # Determines the 5 points geometry bounding box.
+      # Useful to use with Mongoid #within_geometry
+      #
+      # Returns a closed ring:
+      # [bottom left, top left, top right, bottom right, bottom left]
+      #
+      # @return [Array] containing 5 points
+      #
+      def geom_box
+        xl, yl = bounding_box
+        [xl, [xl[0], yl[1]], yl, [yl[0], xl[1]], xl]
+      end
+
+      #
       # Determines the center point of a multi point geometry.
       # Geometry may be closed or not.
+      #
+      # @return [Array] containing 1 point [x,y]
       #
       def center_point
         min, max = *bbox
@@ -39,6 +60,7 @@ module Mongoid
       #
       # @param [Numeric] r radius
       # @return [Array]  [point, r] point and radius in mongoid format
+      #
       def radius(r = 1)
         [center, r]
       end
@@ -49,7 +71,7 @@ module Mongoid
       # point.radius(x) ->  [point, x / earth radius]
       #
       # @see Point#radius
-      # @return (Float)
+      # @return [Array]
       #
       def radius_sphere(r = 1, unit = :km)
         radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
@@ -59,6 +81,7 @@ module Mongoid
         #
         # Database -> Object
         #
+        # @return [Object]
         def demongoize(obj)
           obj && new(obj)
         end

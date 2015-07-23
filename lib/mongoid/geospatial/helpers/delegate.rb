@@ -18,7 +18,7 @@ Mongoid::Fields.option :delegate do |model, field, options|
     end
 
     define_method "#{x_meth}=" do |arg|
-      # hack for mongoid
+      # HACK: Mongoid has detecting an Array changed
       # self[field.name][0] = arg
       send("#{field.name}=", [arg, self[field.name][1]])
     end

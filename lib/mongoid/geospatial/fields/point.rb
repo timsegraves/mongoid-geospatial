@@ -4,7 +4,7 @@ module Mongoid
     #
     class Point
       include Enumerable
-      attr_accessor :x, :y
+      attr_accessor :x, :y, :z
 
       def initialize(x, y, z = nil)
         @x, @y, @z = x, y, z
@@ -33,18 +33,29 @@ module Mongoid
       #
       # Point representation as a Hash
       #
-      # @return (Hash)
+      # @return [Hash] with { xl => x, yl => y }
+      #
       def to_hsh(xl = :x, yl = :y)
         { xl => x, yl => y }
       end
       alias_method :to_hash, :to_hsh
 
+      #
       # Helper for [self, radius]
+      #
+      # @return [Array] with [self, radius]
+      #
       def radius(r = 1)
         [mongoize, r]
       end
 
-      # Helper for [self, radius / earth radius]
+      #
+      # Radius Sphere
+      #
+      # Validates that #x & #y are `Numeric`
+      #
+      # @return [Array] with [self, radius / earth radius]
+      #
       def radius_sphere(r = 1, unit = :km)
         radius r.to_f / Mongoid::Geospatial.earth_radius[unit]
       end
@@ -52,7 +63,9 @@ module Mongoid
       #
       # Am I valid?
       #
-      # Validates that x & y are `Numeric`
+      # Validates that #x & #y are `Numeric`
+      #
+      # @return [Boolean] if self #x && #y are valid
       #
       def valid?
         x && y && x.is_a?(Numeric) && y.is_a?(Numeric)
@@ -64,6 +77,7 @@ module Mongoid
       # "x, y"
       #
       # @return [String] Point as comma separated String
+      #
       def to_s
         "#{x}, #{y}"
       end
@@ -155,9 +169,9 @@ module Mongoid
         #
         # @return (Array)
         #
-        def from_array(ary)
-          return nil if ary.empty?
-          ary.flatten[0..1].map(&:to_f)
+        def from_array(array)
+          return nil if array.empty?
+          array.flatten[0..1].map(&:to_f)
         end
 
         #
