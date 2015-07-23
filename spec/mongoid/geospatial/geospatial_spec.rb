@@ -109,8 +109,8 @@ describe Mongoid::Geospatial do
 
     context ':maxDistance' do
       it 'should get 1 item' do
-        query = Alarm.near_sphere(spot: lax.spot)
-                .max_distance(spot: 2465/Mongoid::Geospatial.earth_radius[:mi])
+        spot = 2465 / Mongoid::Geospatial.earth_radius[:mi]
+        query = Alarm.near_sphere(spot: lax.spot).max_distance(spot: spot)
         expect(query.to_a.size).to eq 1
       end
     end
@@ -146,6 +146,5 @@ describe Mongoid::Geospatial do
     #     end
     #   end
     # end
-
   end
 end

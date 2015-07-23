@@ -12,13 +12,11 @@ describe Mongoid::Fields do
 
     it 'should create correct indexes' do
       expect(Alarm.collection.indexes.get(spot: '2dsphere'))
-        .to eq({
-                 '2dsphereIndexVersion' => 2,
-                 'key' => { 'spot' => '2dsphere' },
-                 'name' => 'spot_2dsphere',
-                 'ns' => 'mongoid_geo_test.alarms',
-                 'v' => 1
-               })
+        .to eq('2dsphereIndexVersion' => 2,
+               'key' => { 'spot' => '2dsphere' },
+               'name' => 'spot_2dsphere',
+               'ns' => 'mongoid_geo_test.alarms',
+               'v' => 1)
     end
 
     it 'should set spatial fields' do

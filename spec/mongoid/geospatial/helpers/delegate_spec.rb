@@ -44,10 +44,10 @@ describe Mongoid::Fields do
 
     it 'should not work fine with nils' do
       bus = Bus.create!(name: 'B', location: nil)
-      expect {
+      expect do
         bus.x = 9
         bus.y = 9
-      }.to raise_error(NoMethodError)
+      end.to raise_error(NoMethodError)
     end
 
     it 'should update point x' do
