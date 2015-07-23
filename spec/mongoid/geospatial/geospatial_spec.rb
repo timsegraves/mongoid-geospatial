@@ -56,7 +56,7 @@ describe Mongoid::Geospatial do
       Alarm.create(name: 'lax', spot: [-118.40, 33.94])
     end
 
-    it 'should work with specifying specific center and different spot attribute on collction' do
+    it 'should work with specific center and different spot attribute' do
       expect(Alarm.nearby(lax.spot)).to eq([lax, jfk])
     end
 
@@ -76,17 +76,19 @@ describe Mongoid::Geospatial do
         end
       end
 
-      it "limits fine with 25" do
-        expect(Alarm.near_sphere(spot: [5,5]).limit(25).to_a.size).to eq 25
+      it 'limits fine with 25' do
+        expect(Alarm.near_sphere(spot: [5, 5])
+                .limit(25).to_a.size).to eq 25
       end
 
-      it "limits fine with 25 and skips" do
-        expect(Alarm.near_sphere(spot: [5,5]).skip(25).limit(25).to_a.size).to eq 25
+      it 'limits fine with 25 and skips' do
+        expect(Alarm.near_sphere(spot: [5, 5])
+                .skip(25).limit(25).to_a.size).to eq 25
       end
 
-      it "paginates 50" do
-        page1 = Alarm.near_sphere(spot: [5,5]).limit(25)
-        page2 = Alarm.near_sphere(spot: [5,5]).skip(25).limit(25)
+      it 'paginates 50' do
+        page1 = Alarm.near_sphere(spot: [5, 5]).limit(25)
+        page2 = Alarm.near_sphere(spot: [5, 5]).skip(25).limit(25)
         expect((page1 + page2).uniq.size).to eq(50)
       end
     end
@@ -99,14 +101,14 @@ describe Mongoid::Geospatial do
         end
       end
 
-      it "should filter using extra query option" do
+      it 'should filter using extra query option' do
         query = Alarm.near_sphere(spot: jfk.spot).where(name: jfk.name)
         expect(query.to_a).to eq [jfk]
       end
     end
 
     context ':maxDistance' do
-      it "should get 1 item" do
+      it 'should get 1 item' do
         query = Alarm.near_sphere(spot: lax.spot)
                 .max_distance(spot: 2465/Mongoid::Geospatial.earth_radius[:mi])
         expect(query.to_a.size).to eq 1
@@ -139,7 +141,8 @@ describe Mongoid::Geospatial do
     #   context 'criteria chaining' do
     #     it "should filter by where" do
     #       Bar.where(:name => jfk.name).geo_near(jfk.location).should == [jfk]
-    #       Bar.any_of({:name => jfk.name},{:name => lax.name}).geo_near(jfk.location).should == [jfk,lax]
+    #       Bar.any_of({:name => jfk.name},{:name => lax.name})
+    #         .geo_near(jfk.location).should == [jfk,lax]
     #     end
     #   end
     # end

@@ -170,43 +170,29 @@ describe Mongoid::Geospatial::Point do
       end
 
       it 'returns the documents within a circle' do
-        pending 'Moped'
-        expect(Bar.where(:location.within_circle =>
-                         [elvis.location, 250.0 /
-                           Mongoid::Geospatial::EARTH_RADIUS_KM]).to_a)
-          .to eq([mile1])
-      end
-
-      it 'returns the documents within a circle' do
-        pending 'Moped'
-        expect(Bar.where(:location.within_circle => [elvis.location,
-                                                     500.0 / Mongoid::Geospatial::EARTH_RADIUS_KM])
-                 .to_a).to include(mile3)
+        pending 'Circle'
+        l = [elvis.location, 500.0 / Mongoid::Geospatial::EARTH_RADIUS_KM]
+        expect(Bar.where(:location.within_circle => l).to_a).to include(mile3)
       end
 
       it 'returns the documents within a spherical circle' do
-        pending 'Moped'
+        pending 'Circle'
         expect(Bar.where(:location.within_spherical_circle =>
                          [elvis.location, 0.0005]).to_a).to eq([mile1])
       end
 
-      it 'returns the documents within a spherical circle 2' do
-        pending 'Moped'
-        expect(Bar.where(:location.within_spherical_circle =>
-                         [elvis.location, 0.5]).to_a).to include(mile9)
-      end
-
       it 'returns the documents within a center circle' do
-        pending 'Moped'
+        pending 'Circle'
         expect(Bar.where(:location.within_center_circle =>
                          [elvis.location, 0.0005]).to_a).to eq([mile1])
       end
 
       it 'returns the documents within a box' do
-        pending 'Moped'
-        expect(Bar.within_box(location: [elvis.location,
-                                         elvis.location.map(&:ceil)]).to_a)
-          .to eq([mile3])
+        poly = Mongoid::Geospatial::LineString.new(
+          [elvis.location.map { |c| c + 1 },
+           elvis.location.map { |c| c - 1 }])
+        expect(Bar.where(:location.within_polygon => [poly.geom_box]).to_a)
+          .to include(mile3)
       end
     end
   end

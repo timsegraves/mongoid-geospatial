@@ -47,23 +47,33 @@ describe Mongoid::Geospatial::LineString do
     end
 
     it 'should have a bounding box' do
-      geom = Mongoid::Geospatial::LineString.new [[1, 5], [6, 5], [6, 6], [5, 6]]
-      expect(geom.bbox).to eq([[1, 5], [6, 6]])
+      l = Mongoid::Geospatial::LineString.new [[1, 5], [6, 5], [6, 6], [5, 6]]
+      expect(l.bbox).to eq([[1, 5], [6, 6]])
+    end
+
+    it 'should have a geom box' do
+      l = Mongoid::Geospatial::LineString.new [[1, 1], [5, 5]]
+      expect(l.geom_box).to eq([[1, 1], [1, 5], [5, 5], [5, 1], [1, 1]])
+    end
+
+    it 'should have a geom box' do
+      l = Mongoid::Geospatial::LineString.new [[1, 1], [2, 2], [3, 4], [5, 5]]
+      expect(l.geom_box).to eq([[1, 1], [1, 5], [5, 5], [5, 1], [1, 1]])
     end
 
     it 'should have a center point' do
-      geom = Mongoid::Geospatial::LineString.new [[1, 1], [1, 1], [9, 9], [9, 9]]
-      expect(geom.center).to eq([5.0, 5.0])
+      l = Mongoid::Geospatial::LineString.new [[1, 1], [1, 1], [9, 9], [9, 9]]
+      expect(l.center).to eq([5.0, 5.0])
     end
 
     it 'should have a radius helper' do
-      geom = Mongoid::Geospatial::LineString.new [[1, 1], [1, 1], [9, 9], [9, 9]]
-      expect(geom.radius(10)).to eq([[5.0, 5.0], 10])
+      l = Mongoid::Geospatial::LineString.new [[1, 1], [1, 1], [9, 9], [9, 9]]
+      expect(l.radius(10)).to eq([[5.0, 5.0], 10])
     end
 
     it 'should have a radius sphere' do
-      geom = Mongoid::Geospatial::LineString.new [[1, 1], [1, 1], [9, 9], [9, 9]]
-      expect(geom.radius_sphere(10)[1]).to be_within(0.001).of(0.001569)
+      l = Mongoid::Geospatial::LineString.new [[1, 1], [1, 1], [9, 9], [9, 9]]
+      expect(l.radius_sphere(10)[1]).to be_within(0.001).of(0.001569)
     end
   end
 end

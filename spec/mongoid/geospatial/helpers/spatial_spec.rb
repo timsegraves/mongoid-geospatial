@@ -13,10 +13,10 @@ describe Mongoid::Fields do
     it 'should create correct indexes' do
       expect(Bar.collection.indexes.get(location: '2d'))
         .to eq({
-                 "key" => {"location"=>"2d"},
-                 "name" => "location_2d",
-                 "ns" => "mongoid_geo_test.bars",
-                 "v" => 1
+                 'key' => { 'location' => '2d' },
+                 'name' => 'location_2d',
+                 'ns' => 'mongoid_geo_test.bars',
+                 'v' => 1
                })
     end
 

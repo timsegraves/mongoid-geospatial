@@ -44,18 +44,21 @@ describe Mongoid::Fields do
 
     it 'should not work fine with nils' do
       bus = Bus.create!(name: 'B', location: nil)
-      expect { bus.x = 9; bus.y = 9 }.to raise_error(NoMethodError)
+      expect {
+        bus.x = 9
+        bus.y = 9
+      }.to raise_error(NoMethodError)
     end
 
     it 'should update point x' do
-      bus = Bus.create!(name: "0789", location: [1, 1])
+      bus = Bus.create!(name: '0789', location: [1, 1])
       bus.x = 2
       expect(bus.save).to be_truthy
       expect(Bus.first.location.to_a).to eq([2, 1])
     end
 
     it 'should update point y' do
-      bus = Bus.create!(name: "0987", location: [1, 1])
+      bus = Bus.create!(name: '0987', location: [1, 1])
       bus.y = 2
       expect(bus.save).to be_truthy
       expect(Bus.first.location.to_a).to eq([1.0, 2.0])

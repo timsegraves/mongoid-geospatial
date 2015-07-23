@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Mongoid::Geospatial::Polygon do
-
   it 'should have correct indexes on farm' do
     Farm.create_indexes
     expect(Farm.collection.indexes.get(geom: '2dsphere')).not_to be_nil
