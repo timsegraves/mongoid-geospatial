@@ -91,15 +91,18 @@ describe Mongoid::Geospatial::Point do
     end
 
     it 'should have a radius sphere helper' do
-      expect(bar.location.radius_sphere[1]).to be_within(0.0001).of(0.00015)
+      expect(bar.location.radius_sphere[1])
+        .to be_within(0.0001).of(0.00015)
     end
 
     it 'should have a radius sphere helper in meters' do
-      expect(bar.location.radius_sphere(1000, :m)[1]).to be_within(0.0001).of(0.00015)
+      expect(bar.location.radius_sphere(1000, :m)[1])
+        .to be_within(0.0001).of(0.00015)
     end
 
     it 'should have a radius sphere helper in miles' do
-      expect(bar.location.radius_sphere(1, :mi)[1]).to be_within(0.0001).of(0.00025)
+      expect(bar.location.radius_sphere(1, :mi)[1])
+        .to be_within(0.0001).of(0.00025)
     end
   end
 

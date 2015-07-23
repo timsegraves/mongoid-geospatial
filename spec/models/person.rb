@@ -26,7 +26,8 @@ class Person
   field :employer_id
   field :security_code
   field :blood_alcohol_content, type: Float, default: -> { 0.0 }
-  field :last_drink_taken_at,   type: Date,  default: -> { 1.day.ago.in_time_zone('Alaska') }
+  field :last_drink_taken_at,   type: Date,
+        default: -> { 1.day.ago.in_time_zone('Alaska') }
 
   # Geo
   field :location, type: Point

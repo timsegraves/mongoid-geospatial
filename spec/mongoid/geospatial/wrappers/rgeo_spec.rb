@@ -93,7 +93,8 @@ describe 'RGeo Wrapper' do
         it 'should mongoize array' do
           geom = Farm.create!(area: [[5, 5], [6, 5], [6, 6], [5, 6]]).area
           expect(geom.class).to eql(Mongoid::Geospatial::Polygon)
-          expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalPolygonImpl)
+          expect(geom.to_rgeo.class)
+            .to eql(RGeo::Geographic::SphericalPolygonImpl)
           expect(geom.to_rgeo.to_s)
             .to eq 'POLYGON ((5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0, 5.0 5.0))'
         end
@@ -103,7 +104,8 @@ describe 'RGeo Wrapper' do
         it 'should mongoize array' do
           geom = River.create!(course: [[5, 5], [6, 5], [6, 6], [5, 6]]).course
           expect(geom.class).to eql(Mongoid::Geospatial::LineString)
-          expect(geom.to_rgeo.class).to eql(RGeo::Geographic::SphericalLineStringImpl)
+          expect(geom.to_rgeo.class)
+            .to eql(RGeo::Geographic::SphericalLineStringImpl)
           expect(geom.to_rgeo.to_s)
             .to eq 'LINESTRING (5.0 5.0, 6.0 5.0, 6.0 6.0, 5.0 6.0)'
         end
