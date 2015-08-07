@@ -17,8 +17,10 @@ module Mongoid
       # @return [Array] containing 2 points
       #
       def bounding_box
-        max_x, min_x = -Float::MAX, Float::MAX
-        max_y, min_y = -Float::MAX, Float::MAX
+        max_x = -Float::MAX
+        min_x = Float::MAX
+        max_y = -Float::MAX
+        min_y = Float::MAX
         each do |point|
           max_y = point[1] if point[1] > max_y
           min_y = point[1] if point[1] < min_y
