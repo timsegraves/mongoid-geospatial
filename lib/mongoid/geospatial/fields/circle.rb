@@ -5,8 +5,8 @@ module Mongoid
     class Circle < GeometryField
       attr_accessor :center, :radius
 
-      def point
-        Point.new(self[0])
+      def center
+        Point.new(*self[0])
       end
       alias_method :point, :center
 
