@@ -42,7 +42,7 @@ A `Place` to illustrate `Point`, `Line` and `Polygon`
 
       # define your field, but choose a geometry type:
       field :location, type: Point
-      field :route,    type: Linestring
+      field :route,    type: LineString
       field :area,     type: Polygon
 
       # To query on your points, don't forget to index:
