@@ -236,9 +236,9 @@ Some helper methods are available to them:
 Query
 -----
 
-Before you read about this gem have sure you read this:
+Before you proceed, make sure you have read this:
 
-http://mongoid.org/en/origin/docs/selection.html#standard
+http://mongoid.github.io/old/en/origin/docs/selection.html#standard
 
 All MongoDB queries are handled by Mongoid/Origin.
 
