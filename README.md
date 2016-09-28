@@ -13,10 +13,10 @@ That will require it correctly within bundler:
 `require 'mongoid/geospatial'`
 
 [![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.svg)](http://badge.fury.io/rb/mongoid-geospatial)
-[![Code Climate](https://codeclimate.com/github/nofxx/mongoid-geospatial.svg)](https://codeclimate.com/github/nofxx/mongoid-geospatial)
-[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-geospatial/badge.svg?branch=master)](https://coveralls.io/r/nofxx/mongoid-geospatial?branch=master)
-[![Dependency Status](https://gemnasium.com/nofxx/mongoid-geospatial.svg)](https://gemnasium.com/nofxx/mongoid-geospatial)
-[![Build Status](https://travis-ci.org/nofxx/mongoid-geospatial.svg?branch=master)](https://travis-ci.org/nofxx/mongoid-geospatial)
+[![Code Climate](https://codeclimate.com/github/mongoid/mongoid-geospatial.svg)](https://codeclimate.com/github/mongoid/mongoid-geospatial)
+[![Coverage Status](https://coveralls.io/repos/mongoid/mongoid-geospatial/badge.svg?branch=master)](https://coveralls.io/r/mongoid/mongoid-geospatial?branch=master)
+[![Dependency Status](https://gemnasium.com/mongoid/mongoid-geospatial.svg)](https://gemnasium.com/mongoid/mongoid-geospatial)
+[![Build Status](https://travis-ci.org/mongoid/mongoid-geospatial.svg?branch=master)](https://travis-ci.org/mongoid/mongoid-geospatial)
 
 
 Quick Start

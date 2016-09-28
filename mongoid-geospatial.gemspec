@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['use@git.hub.com']
   gem.summary       = 'Mongoid Extension that simplifies MongoDB Geospatial Operations.'
   gem.description   = 'Mongoid Extension that simplifies MongoDB casting and operations on spatial Ruby objects.'
-  gem.homepage      = 'https://github.com/nofxx/mongoid-geospatial'
+  gem.homepage      = 'https://github.com/mongoid/mongoid-geospatial'
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
