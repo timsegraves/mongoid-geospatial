@@ -47,9 +47,9 @@ A `Place` to illustrate `Point`, `Line` and `Polygon`
 
       # To query on your points, don't forget to index:
       # You may use a method:
-      sphere_index :location  # 2d
+      sphere_index :location  # 2dsphere
       # or
-      spatial_index :location # 2dsphere
+      spatial_index :location # 2d
 
       # Or use a helper directly on the `field`:
       field :location, type: Point, spatial: true  # 2d
