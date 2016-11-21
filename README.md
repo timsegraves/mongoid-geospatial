@@ -390,3 +390,11 @@ Contributing
 * Have mongod running
 * Install dev gems with `bundle install`
 * Run `rake spec`, `spec spec` or `guard`
+
+License
+-------
+
+Copyright (c) 2009-2015 Mongoid Geospatial Authors
+
+MIT License, see [MIT-LICENSE](MIT-LICENSE).
+
