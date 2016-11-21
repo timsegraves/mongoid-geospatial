@@ -27,7 +27,7 @@ class Person
   field :security_code
   field :blood_alcohol_content, type: Float, default: -> { 0.0 }
   field :last_drink_taken_at,   type: Date,
-        default: -> { 1.day.ago.in_time_zone('Alaska') }
+                                default: -> { 1.day.ago.in_time_zone('Alaska') }
 
   # Geo
   field :location, type: Point
@@ -58,7 +58,7 @@ class Person
   accepts_nested_attributes_for :addresses
 
   scope :minor, -> { where(:age.lt => 18) }
-  scope :without_ssn, -> {  without(:ssn) }
+  scope :without_ssn, -> { without(:ssn) }
 
   def score_with_rescoring=(score)
     @rescored = score.to_i + 20

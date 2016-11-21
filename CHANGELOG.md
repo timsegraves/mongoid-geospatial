@@ -1,5 +1,6 @@
 ## 5.1.0 (Next)
 
+* [#52](https://github.com/mongoid/mongoid-geospatial/pull/52): Added Danger and Rubocop, PR and code linters - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ## 5.0.0 (2015/07/23)

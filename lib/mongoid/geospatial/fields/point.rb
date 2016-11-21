@@ -20,8 +20,8 @@ module Mongoid
         return nil unless x && y
         [x, y]
       end
-      alias_method :to_a,  :mongoize
-      alias_method :to_xy, :mongoize
+      alias to_a mongoize
+      alias to_xy mongoize
 
       def [](args)
         mongoize[args]
@@ -40,7 +40,7 @@ module Mongoid
       def to_hsh(xl = :x, yl = :y)
         { xl => x, yl => y }
       end
-      alias_method :to_hash, :to_hsh
+      alias to_hash to_hsh
 
       #
       # Helper for [self, radius]
@@ -144,7 +144,7 @@ module Mongoid
           when NilClass then nil
           else
             return obj.to_xy if obj.respond_to?(:to_xy)
-            fail 'Invalid Point'
+            raise 'Invalid Point'
           end
         end
 
@@ -203,20 +203,20 @@ module Mongoid
         # @return (Array)
         #
         def from_hash(hsh)
-          fail 'Hash must have at least 2 items' if hsh.size < 2
+          raise 'Hash must have at least 2 items' if hsh.size < 2
           [from_hash_x(hsh), from_hash_y(hsh)]
         end
 
         def from_hash_y(hsh)
           v = (Mongoid::Geospatial.lat_symbols & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
-          fail "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect}"
+          raise "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect}"
         end
 
         def from_hash_x(hsh)
           v = (Mongoid::Geospatial.lng_symbols & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
-          fail "Hash must contain #{Mongoid::Geospatial.lng_symbols.inspect}"
+          raise "Hash must contain #{Mongoid::Geospatial.lng_symbols.inspect}"
         end
       end # << self
     end # Point

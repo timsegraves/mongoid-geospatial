@@ -23,7 +23,7 @@ describe Mongoid::Fields do
     end
 
     it 'should work fine indexed' do
-      far  = Alarm.create!(name: 'Far', spot: [7, 7])
+      far = Alarm.create!(name: 'Far', spot: [7, 7])
       expect(far.spot).to be_instance_of(Mongoid::Geospatial::Point)
     end
   end
