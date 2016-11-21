@@ -27,10 +27,10 @@ module Mongoid
 
     # Symbols accepted as 'longitude', 'x'...
     LNG_SYMBOLS = [:x, :lon, :long, :lng, :longitude,
-                   'x', 'lon', 'long', 'lng', 'longitude']
+                   'x', 'lon', 'long', 'lng', 'longitude'].freeze
 
     # Symbols accepted as 'latitude', 'y'...
-    LAT_SYMBOLS = [:y, :lat, :latitude, 'y', 'lat', 'latitude']
+    LAT_SYMBOLS = [:y, :lat, :latitude, 'y', 'lat', 'latitude'].freeze
 
     # For distance spherical calculations
     EARTH_RADIUS_KM = 6371 # taken directly from mongodb
@@ -43,7 +43,7 @@ module Mongoid
       mi: EARTH_RADIUS_KM * 0.621371192,
       ft: EARTH_RADIUS_KM * 5280 * 0.621371192,
       sm: EARTH_RADIUS_KM * 0.53995680345572 # sea mile
-    }
+    }.freeze
 
     mattr_accessor :lng_symbols
     mattr_accessor :lat_symbols

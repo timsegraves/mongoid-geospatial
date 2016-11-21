@@ -198,7 +198,8 @@ describe Mongoid::Geospatial::Point do
       it 'returns the documents within a box' do
         poly = Mongoid::Geospatial::LineString.new(
           [elvis.location.map { |c| c + 1 },
-           elvis.location.map { |c| c - 1 }])
+           elvis.location.map { |c| c - 1 }]
+        )
         expect(Bar.where(:location.within_polygon => [poly.geom_box]).to_a)
           .to include(mile3)
       end

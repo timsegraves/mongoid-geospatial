@@ -29,7 +29,7 @@ module Mongoid
         end
         [[min_x, min_y], [max_x, max_y]]
       end
-      alias_method :bbox, :bounding_box
+      alias bbox bounding_box
 
       #
       # Determines the 5 points geometry bounding box.
@@ -55,7 +55,7 @@ module Mongoid
         min, max = *bbox
         [(min[0] + max[0]) / 2.0, (min[1] + max[1]) / 2.0]
       end
-      alias_method :center, :center_point
+      alias center center_point
 
       #
       # Generates a radius from the point

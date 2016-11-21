@@ -6,7 +6,7 @@ class Farm
   field :name,         type: String
   field :geom,         type: Point,    sphere: true
   field :area,         type: Polygon,  spatial: true
-  field :m2,           type: Fixnum
+  field :m2,           type: Integer
 
   spatial_index :geom
   spatial_index :area
