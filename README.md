@@ -5,7 +5,7 @@ A Mongoid Extension that simplifies the use of MongoDB spatial features.
 
 [![Gem Version](https://badge.fury.io/rb/mongoid-geospatial.svg)](http://badge.fury.io/rb/mongoid-geospatial)
 [![Code Climate](https://codeclimate.com/github/mongoid/mongoid-geospatial.svg)](https://codeclimate.com/github/mongoid/mongoid-geospatial)
-[![Coverage Status](https://coveralls.io/repos/mongoid/mongoid-geospatial/badge.svg?branch=master)](https://coveralls.io/r/mongoid/mongoid-geospatial?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/mongoid/mongoid-geospatial/badge.svg?branch=master)](https://coveralls.io/github/mongoid/mongoid-geospatial?branch=master)
 [![Dependency Status](https://gemnasium.com/mongoid/mongoid-geospatial.svg)](https://gemnasium.com/mongoid/mongoid-geospatial)
 [![Build Status](https://travis-ci.org/mongoid/mongoid-geospatial.svg?branch=master)](https://travis-ci.org/mongoid/mongoid-geospatial)
 
