@@ -12,15 +12,12 @@ A Mongoid Extension that simplifies the use of MongoDB spatial features.
 Quick Start
 -----------
 
-This gem focuses on (making helpers for) MongoDB's spatial features.
-But you may also use an external Geometric/Spatial gem alongside.
+This gem focuses on (making helpers for) MongoDB's spatial features using Mongoid 5 or 6.
 
 ```ruby
 # Gemfile
-gem 'mongoid-geospatial', require: 'mongoid/geospatial'
+gem 'mongoid-geospatial'
 ```
-
-Use version 5.x for Mongoid 5 and version 4.x for Mongoid 4.
 
 A `Place` to illustrate `Point`, `Line` and `Polygon`
 
@@ -60,7 +57,7 @@ rake db:mongoid:create_indexes
 
 Or programatically:
 
-```
+```ruby
 Place.create_indexes
 ```
 
@@ -398,7 +395,7 @@ Contributing
 License
 -------
 
-Copyright (c) 2009-2015 Mongoid Geospatial Authors
+Copyright (c) 2009-2017 Mongoid Geospatial Authors
 
 MIT License, see [MIT-LICENSE](MIT-LICENSE).
 

@@ -1,12 +1,20 @@
 source 'http://rubygems.org'
 
-gem 'mongoid', '>=5.0.0'
+case version = ENV['MONGOID_VERSION'] || '6'
+when 'HEAD'
+  gem 'mongoid', github: 'mongodb/mongoid'
+when /^6/
+  gem 'mongoid', '~> 6.0.0'
+when /^5/
+  gem 'mongoid', '~> 5.0'
+else
+  gem 'mongoid', version
+end
 
-gemspec # Specify  gem's dependencies in mongoid_geospatial.gemspec
-
-gem 'rake'
+gemspec
 
 group :development, :test do
+  gem 'rake'
   gem 'pry'
   gem 'yard'
   gem 'fuubar'
