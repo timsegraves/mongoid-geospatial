@@ -65,8 +65,6 @@ class Person
     self.score_without_rescoring = score
   end
 
-  alias_method_chain :score=, :rescoring
-
   def update_addresses
     addresses.each do |address|
       address.street = 'Updated Address'
