@@ -21,3 +21,12 @@ addons:
       - mongodb-3.2-precise
     packages:
       - mongodb-org-server
+
+env:
+  - MONGOID_VERSION=5
+  - MONGOID_VERSION=6
+  - MONGOID_VERSION=HEAD
+
+matrix:
+  allow_failures:
+    - env: MONGOID_VERSION=HEAD
