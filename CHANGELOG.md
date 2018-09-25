@@ -1,6 +1,6 @@
 ## 5.1.0 (Next)
 
-* [#59](https://github.com/mongoid/mongoid-geospatial/pull/59): Test against Mongoid 5 and 6 - [@dblock](https://github.com/dblock).
+* [#59](https://github.com/mongoid/mongoid-geospatial/pull/59), [#65](https://github.com/mongoid/mongoid-geospatial/pull/65): Test against Mongoid 5, 6 and 7 - [@dblock](https://github.com/dblock).
 * [#52](https://github.com/mongoid/mongoid-geospatial/pull/52): Added Danger and Rubocop, PR and code linters - [@dblock](https://github.com/dblock).
 * Your contribution here.
 

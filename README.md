@@ -12,7 +12,7 @@ A Mongoid Extension that simplifies the use of MongoDB spatial features.
 Quick Start
 -----------
 
-This gem focuses on (making helpers for) MongoDB's spatial features using Mongoid 5 or 6.
+This gem focuses on (making helpers for) MongoDB's spatial features using Mongoid 5, 6 and 7.
 
 ```ruby
 # Gemfile

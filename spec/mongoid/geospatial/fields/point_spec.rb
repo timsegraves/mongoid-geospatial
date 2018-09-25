@@ -83,7 +83,7 @@ describe Mongoid::Geospatial::Point do
     end
 
     it 'should have an ActiveModel symbol accessor' do
-      expect(bar[:location]).to eq([3, 2])
+      expect(bar[:location].to_a).to eq([3, 2])
     end
 
     it 'should have a radius helper' do
