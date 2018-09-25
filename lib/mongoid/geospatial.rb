@@ -120,3 +120,5 @@ module Mongoid
     end
   end
 end
+
+require 'mongoid/geospatial/config'
