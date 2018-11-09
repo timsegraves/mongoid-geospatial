@@ -1,3 +1,7 @@
+## 5.1.1 (Next)
+
+* Your contribution here.
+
 ## 5.1.0 (2018/11/09)
 
 * [#61](https://github.com/mongoid/mongoid-geospatial/pull/64): Add global configuration for switching between LngLat and LatLng - [@dblock](https://github.com/dblock).
