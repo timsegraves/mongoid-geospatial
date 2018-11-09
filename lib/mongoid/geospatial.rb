@@ -38,7 +38,7 @@ module Mongoid
 
     # Earth radius in multiple units
     EARTH_RADIUS = {
-      m:  EARTH_RADIUS_KM * 1000,
+      m: EARTH_RADIUS_KM * 1000,
       km: EARTH_RADIUS_KM,
       mi: EARTH_RADIUS_KM * 0.621371192,
       ft: EARTH_RADIUS_KM * 5280 * 0.621371192,
