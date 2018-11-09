@@ -16,22 +16,22 @@ end
 gemspec
 
 group :development, :test do
-  gem 'rake'
-  gem 'pry'
-  gem 'yard'
   gem 'fuubar'
   gem 'guard'
-  gem 'guard-rubocop'
   gem 'guard-rspec'
+  gem 'guard-rubocop'
+  gem 'pry'
+  gem 'rake'
+  gem 'yard'
 end
 
 group :test do
-  gem 'nokogiri'
-  gem 'dbf'
-  gem 'rgeo'
-  gem 'georuby'
-  gem 'rspec'
   gem 'coveralls', require: false if ENV['CI']
+  gem 'dbf'
+  gem 'georuby'
   gem 'mongoid-danger', '~> 0.1.0', require: false
-  gem 'rubocop', '0.45.0'
+  gem 'nokogiri'
+  gem 'rgeo'
+  gem 'rspec'
+  gem 'rubocop', '0.60.0'
 end

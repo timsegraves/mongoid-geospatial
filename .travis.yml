@@ -7,7 +7,7 @@ cache: bundler
 services: mongodb
 
 rvm:
-  - 2.3.1
+  - 2.5.3
 
 before_install:
   - gem update bundler
