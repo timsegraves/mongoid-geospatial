@@ -33,6 +33,24 @@ describe Mongoid::Geospatial::Point do
       bar.location = '2.99 ,  3.99'
       expect(bar.location.mongoize).to eq([2.99, 3.99])
     end
+
+    it 'should set point from hash' do
+      bar.location = { latitude: 2.99, longitude: 3.99 }
+      expect(bar.location.mongoize).to eq([3.99, 2.99])
+    end
+
+    context 'configured as latlon' do
+      before do
+        Mongoid::Geospatial.configure do |config|
+          config.point.x = Mongoid::Geospatial.lat_symbols
+          config.point.y = Mongoid::Geospatial.lng_symbols
+        end
+      end
+      it 'should set point from hash' do
+        bar.location = { latitude: 2.99, longitude: 3.99 }
+        expect(bar.location.mongoize).to eq([2.99, 3.99])
+      end
+    end
   end
 
   it 'should have #reverse to get lat, lon' do
@@ -83,7 +101,7 @@ describe Mongoid::Geospatial::Point do
     end
 
     it 'should have an ActiveModel symbol accessor' do
-      expect(bar[:location]).to eq([3, 2])
+      expect(bar[:location].to_a).to eq([3, 2])
     end
 
     it 'should have a radius helper' do

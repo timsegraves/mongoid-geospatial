@@ -12,7 +12,7 @@ A Mongoid Extension that simplifies the use of MongoDB spatial features.
 Quick Start
 -----------
 
-This gem focuses on (making helpers for) MongoDB's spatial features using Mongoid 5 or 6.
+This gem focuses on (making helpers for) MongoDB's spatial features using Mongoid 5, 6 and 7.
 
 ```ruby
 # Gemfile
@@ -73,7 +73,7 @@ Currently, MongoDB supports query operations on 2D points only, so that's what t
 * an ordered hash with longitude as the first item and latitude as the second item; this hash does not have include the latitude and longitude keys
 * anything with the a method #to_xy or #to_lng_lat that converts itself to  [long, lat] array
 
-_Note: the convention of having longitude as the first coordinate may vary for other libraries. For instance, Google Maps often refer to "LatLng". Make sure you keep those differences in mind._
+_Note: the convention of having longitude as the first coordinate may vary for other libraries. For instance, Google Maps often refer to "LatLng". Make sure you keep those differences in mind. See below for how to configure this library for LatLng._
 
 We store data in the DB as a [x, y] array then reformat when it is returned to you
 
@@ -328,13 +328,16 @@ With GeoRuby
 Mongoid::Geospatial.with_georuby!
 ```
 
-Defaults (change if you know what you're doing)
+By default the convention of this library is LngLat, configure it for LatLng as follows.
 
 ```ruby
-Mongoid::Geospatial.lng_symbol = :x
-Mongoid::Geospatial.lat_symbol = :y
-Mongoid::Geospatial.earth_radius = EARTH_RADIUS
+Mongoid::Geospatial.configure do |config|
+  config.point.x = Mongoid::Geospatial.lat_symbols
+  config.point.y = Mongoid::Geospatial.lng_symbols
+end
 ```
+
+You will need to manually migrate any existing `Point` data if you change configuration in an existing system.
 
 This Fork
 ---------
@@ -388,9 +391,7 @@ Model.create_indexes
 Contributing
 ------------
 
-* Have mongod running
-* Install dev gems with `bundle install`
-* Run `rake spec`, `spec spec` or `guard`
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 License
 -------

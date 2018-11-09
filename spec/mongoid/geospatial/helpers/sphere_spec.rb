@@ -14,8 +14,7 @@ describe Mongoid::Fields do
       expect(Alarm.collection.indexes.get(spot: '2dsphere'))
         .to include('key' => { 'spot' => '2dsphere' },
                     'name' => 'spot_2dsphere',
-                    'ns' => 'mongoid_geo_test.alarms',
-                    'v' => 1)
+                    'ns' => 'mongoid_geo_test.alarms')
     end
 
     it 'should set spatial fields' do

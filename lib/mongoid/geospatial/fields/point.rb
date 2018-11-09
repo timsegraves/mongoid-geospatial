@@ -208,15 +208,15 @@ module Mongoid
         end
 
         def from_hash_y(hsh)
-          v = (Mongoid::Geospatial.lat_symbols & hsh.keys).first
+          v = (Mongoid::Geospatial::Config::Point.y & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
-          raise "Hash must contain #{Mongoid::Geospatial.lat_symbols.inspect}"
+          raise "Hash must contain #{Mongoid::Geospatial::Config::Point.y.inspect}"
         end
 
         def from_hash_x(hsh)
-          v = (Mongoid::Geospatial.lng_symbols & hsh.keys).first
+          v = (Mongoid::Geospatial::Config::Point.x & hsh.keys).first
           return hsh[v].to_f if !v.nil? && hsh[v]
-          raise "Hash must contain #{Mongoid::Geospatial.lng_symbols.inspect}"
+          raise "Hash must contain #{Mongoid::Geospatial::Config::Point.x.inspect}"
         end
       end # << self
     end # Point
