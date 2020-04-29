@@ -85,7 +85,8 @@ module Mongoid
         #
         # @return [Object]
         def demongoize(obj)
-          obj && new(obj)
+          # NOTE :Temp fix for polygon error
+          obj# && new(obj)
         end
       end
     end
